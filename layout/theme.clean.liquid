@@ -1,0 +1,42 @@
+{% capture content %}
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}">
+  <head></head>
+
+  {% if template contains "index" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "collection" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "blog" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "article" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "contact" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "product" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "gallery" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "banner" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "details" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "faq" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "search" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "cart" %}
+    {% assign feature_image = true %}
+  {% else %}
+    {% assign feature_image = false %}
+  {% endif %}
+
+  
+
+  <body class="{% if template == '404' %}error-404{% else %}{{ template | replace: '.', '-' | handle }}{% endif %}"
+    data-money-format="{{ shop.money_with_currency_format }}" data-shop-url="{{ shop.url }}">
+    {{ content_for_header }}
+    {{ content_for_layout }}
+   </body>
+</html>
+{% endcapture %}

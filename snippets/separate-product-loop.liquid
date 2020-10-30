@@ -1,0 +1,60 @@
+{% assign product_found = false %}
+{% assign skip = false %}
+{% assign collection_group = products | map: 'id' %}
+{% assign collection_group_thumb = collection_group | append : 'thumb' %}
+{% assign collection_group_mobile = collection_group | append : 'mobile' %}
+
+{% if template contains 'collection' %}
+{% assign matrixType = 'collection-matrix' %}
+{% endif %}
+
+
+
+<div class='separate_block Fastglass'>
+  <div class='separate_heading_block'>
+    {% if collection.handle == 'fly-rod-building-kits' %}
+    <h2>{{ 'collections.general.fly-rod-building-kits_Fastglass__heading' | t }}</h2>
+    <h3>{{ 'collections.general.fly-rod-building-kits_Fastglass__subtitle' | t }}</h3>
+    {% elsif collection.handle == 'custom_fly_rods' %}
+    <h2>{{ 'collections.general.custom_fly_rods_Fastglass__heading' | t }}</h2>
+    <h3>{{ 'collections.general.custom_fly_rods_Fastglass__subtitle' | t }}</h3>
+    {% endif %}
+  </div>
+  <div itemtype="http://schema.org/ItemList" class="product-list {{ matrixType }} clearfix equal-columns--clear equal-columns--outside-trim">
+    {% for product in products %}
+    
+    {% for tag in product.tags %}
+    {% if tag == 'FastGlass' %}
+    {% include 'product-thumbnail', sidebar: sidebar %}
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+  </div>
+</div>
+
+<div class='separate_block Carbon_Fiber'>
+  <div class='separate_heading_block'>
+    {% if collection.handle == 'fly-rod-building-kits' %}
+    <h2>{{ 'collections.general.fly-rod-building-kits_Carbon_Fibre__heading' | t }}</h2>
+    <h3>{{ 'collections.general.fly-rod-building-kits_Carbon_Fibre__subtitle' | t }}</h3>
+    {% elsif collection.handle == 'custom_fly_rods' %}
+    <h2>{{ 'collections.general.custom_fly_rods_Carbon_Fibre__heading' | t }}</h2>
+    <h3>{{ 'collections.general.custom_fly_rods_Carbon_Fibre__subtitle' | t }}</h3>
+    {% endif %}
+  </div>
+  <div itemtype="http://schema.org/ItemList" class="product-list {{ matrixType }} clearfix equal-columns--clear equal-columns--outside-trim">
+    {% for product in products %}
+   
+    {% for tag in product.tags %}
+    {% if tag == 'Carbon Fibre' %}
+    {% include 'product-thumbnail', sidebar: sidebar %}
+    {% endif %}
+    {% endfor %}
+
+    {% endfor %}
+
+  </div>
+</div>
+
+

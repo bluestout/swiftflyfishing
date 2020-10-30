@@ -1,0 +1,12 @@
+<script>wsgRunCollection = true;</script>
+{% if wsgCollection.products %}
+	{% for wsgProd in wsgCollection.products %}
+		<script>
+          wsgColItems.push({
+            id: {{wsgProd.id}},
+            prodData: {{ wsgProd | json }},
+            collectionData: {{ wsgProd.collections | json }}
+          })
+        </script>
+	{% endfor %}
+{% endif %}

@@ -1,0 +1,61 @@
+<script>
+  var cookieCurrencyVal = Cookies.get('currency');
+  if(typeof cookieCurrencyVal == "undefined" || cookieCurrencyVal == "null"){
+    
+  var ip = 'check';
+  var countries = [
+    {"name": "USA", "currency": "USD"},
+    {"name": "NZ", "currency": "NZD"},
+    {"name": "CA", "currency": "CAD"},
+    {"name": "GB", "currency": "GBP"},
+    {"name": "AU", "currency": "AUD"}
+  ];
+  var continent =  {"name": "EU", "currency": "EUR"};
+  
+  var access_key = 'b44a57745a2dfba747823355badddfdb'; // api key  
+  
+  $.ajax({
+    url: 'https://api.ipstack.com/' + ip + '?access_key=' + access_key,   
+    dataType: 'jsonp',
+    success: function(response) {
+     // console.log(response);
+
+      var country_code = response.country_code;
+      var continent_code = response.continent_code;
+      var new_currency = 'USD';
+      
+      if(continent_code == continent.name ) {
+        if (country_code == "GB") {
+          new_currency = 'GBP';
+        } else {
+          new_currency = continent.currency;
+        }
+      }
+      for(var i=0; i < countries.length;i++) {
+        if(countries[i].name == country_code) {
+        	 new_currency = countries[i].currency;
+        }
+      }
+
+      {% if settings.show_multiple_currencies %}
+      $('.currencies').each(function () {
+        $(this).val(new_currency).trigger('change');
+        convertCurrencies();
+      });
+     {% endif %}
+      
+       {% if settings.show_multiple_currencies_shopify %}
+       $('.currency-selector__dropdown').each(function () {
+        var cookieTime = 365;
+        Cookies.set('currency', new_currency, { expires: cookieTime });
+        $(this).val(new_currency).trigger('change');
+       });
+       {% endif %}
+      
+      
+      
+    }
+  });
+  }
+</script>
+

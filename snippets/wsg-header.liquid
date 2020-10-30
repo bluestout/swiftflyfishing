@@ -1,0 +1,265 @@
+{{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+{% assign wsgActive = true %}
+{% assign wsgAjax = false %}
+
+<!-- ajax data  -->
+{% if wsgAjax == true %}
+  {% if template != "cart" %}
+    <div>
+      {% for item in cart.items %}
+      <div class="wsg-collections-list-{{item.id}}" style="display:none">
+        {{item.product.collections | json}}
+      </div>
+      <div class="wsg-product-tags-{{item.id}}" style="display:none">
+        {{item.product.tags | json}}
+      </div>
+      {% endfor %}
+    </div>
+    <!-- hidden div to hold ajax load listener -->
+    <div class="wsgAjaxLoad"></div>
+  {% endif %}
+{% endif %}
+
+<!-- product data -->
+{% if template == "product" %}
+  <div class="wsg-collections-list-{{product.id}}" style="display:none">{{product.collections | json}}</div>
+  <div class="wsg-product-tags-{{product.id}}" style="display:none">{{product.tags | json}}</div>
+{% endif %}
+
+<script>
+//==========================================
+//      Set global liquid variables
+//==========================================
+	//general variables
+  	var wsgVersion = 3.0;
+  	var wsgActive = true;
+  	var wsgRunCollection;
+  	var wsgCollectionObserver;
+  	var wsgRunProduct;
+  	var wsgRunCart;
+  	var wsgCartObserver = false;
+    var wsgShopCountryCode = {{shop.address.country_code | json}};
+  	var wsgRunSinglePage;
+  	var wsgRunSignup;
+  //AJAX variables
+  	var wsgRunAjax;
+  	var wsgAjaxCart; 
+    var wsgColItems = [];
+  	var runProxy;
+    var hideDomElements = [".hideWsg"]; 
+  	var wsgData = {{ shop.metafields.wsg_data.discount_rules }}    
+    var wsgProdData = {{product | json}}	
+    //product variables
+  	var wsgCustomerTags = {{ customer.tags | json}}
+    var wsgCollectionsList = {{product.collections | json}} 
+
+    //money formatting
+    var wsgMoneyFormat = "{{ shop.money_format }}";
+    {% if customer.tags != blank %}
+      wsgMoneyFormat = wsgMoneyFormat.replace('<span class=money>', '');
+	    wsgMoneyFormat = wsgMoneyFormat.replace('</span>', '');
+    {% endif %}
+    
+  	{% if product.selected_or_first_available_variant.id %}
+    	var wsgCurrentVariant = {{ product.selected_or_first_available_variant.id }};
+    {% else %}
+    	var wsgCurrentVariant = null;
+    {% endif %}
+  
+    var wsgAjaxSettings = {};
+    //selector for clicks of swatches and stubborn selects 
+    var wsgSwatch = "";
+   
+//Load WSG script
+(function(){
+    var loadWsg = function(url, callback){
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    
+    // If the browser is Internet Explorer.
+    if (script.readyState){ 
+      script.onreadystatechange = function(){
+        if (script.readyState == "loaded" || script.readyState == "complete"){
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    // For any other browser.
+    } else {
+      script.onload = function(){
+        callback();
+      };
+    }
+    
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+    };
+  
+  loadWsg(wsgData.server_link, function(){
+  })
+})();
+
+//init appropriate WSG process
+document.addEventListener("DOMContentLoaded", function(event) {
+  //=== PRODUCT===
+  {% if template == "product" %}
+    wsgRunProduct = true;
+    wsgRunCollection = true;
+  {% endif %}
+  
+	//=== COLLECTION ===
+  {% if template contains "collection" %}
+  	wsgRunCollection = true;
+  	wsgCollectionObserver = false;
+  {% endif %}
+  
+	//=== SEARCH ===
+  {% if template == "search" %}
+  	wsgRunCollection = true;
+  {% endif %}  
+
+	//=== Home ===  
+  {% if template == "index" %}
+  	wsgRunCollection = true;
+  {% endif %}
+  
+	//=== AJAX CART ===
+  {% if wsgAjax == true %}
+      {% if template != "cart" %}
+          wsgRunAjax = true;
+  		  //listeners to update ajax cart
+  		  jQuery(window).on("mouseup", function(){ 
+  			  checkAjaxChange();
+        })
+        jQuery("form").on("keyup", function(){ 
+  			  checkAjaxChange();
+        })
+      {% endif %}
+      //trigger for ajax reload - optional for difficult carts
+      jQuery(".wsgForceAjax").on("click", function(){
+        updateWsgAjax()
+      })
+  {% endif %}
+  
+  //update button classes
+  jQuery(".wsg-button-fix").addClass("btn")  
+  
+  //=========================
+  //         CUSTOM JS
+  //==========================
+  {% if customer.tags != blank %}
+    //fix rebuilt spof inputs
+    if(jQuery(".wsg-proxy-container").length > 0){
+     jQuery('.js-qty__num').each(function(){
+     	jQuery(this).addClass('quantity')  
+     })         
+    }
+    //placeholder here
+    //----------------------------------------------------------
+    //add custom js that only runs for wholesale below this line
+    //----------------------------------------------------------
+    
+  {% endif %}
+  // end custom js
+}) 
+
+function checkAjaxChange(){
+  if(jQuery("#wsgAjaxChange").length == 0){
+    updateWsgAjax();
+  } else {
+    setTimeout(function(){
+      if(jQuery("#wsgAjaxChange").length == 0){
+        updateWsgAjax();
+      }             	
+    },1800) 
+  }
+}
+
+function updateWsgAjax(){
+  setTimeout(function(){
+    jQuery(".wsgAjaxLoad").trigger("click");
+  }, 1000)
+}
+
+{% comment %}
+    //search results data (old method)
+    {% if template contains "search" %}
+      {% paginate search.results by 48 %}
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+              wsgColItems.push({
+                id: {{item.id}},
+                prodData: {{ item | json }},
+                collectionData: {{ item.collections | json }}
+              })
+    	  {% endif %}
+        {% endfor %}
+      {% endpaginate %}
+    {% endif %} 
+  {% endcomment %}
+</script>
+
+<style>
+/*   Signup/login */
+  #wsg-signup select, 
+  #wsg-signup input, 
+  #wsg-signup textarea {
+    height: 46px;
+    border: thin solid #d1d1d1;
+    padding: 6px 10px;
+  }
+  #wsg-signup textarea {
+    min-height: 100px;
+  }
+  .wsg-login-input {
+    height: 46px;
+    border: thin solid #d1d1d1;
+    padding: 6px 10px;
+  }
+  /* login and signup submit button */
+  .wsg-submit-copy {
+    max-width: 33%;
+  }
+  #wsg-signup select {
+
+  }
+/*   Quick Order Form */
+  .wsg-table td {
+   border: none;
+   min-width: 150px;
+  }
+  .wsg-table tr {
+   border-bottom: thin solid #d1d1d1; 
+    border-left: none;
+  }
+  .wsg-table input[type="number"] {
+    border: thin solid #d1d1d1;
+    padding: 5px 15px;
+    min-height: 42px;
+  }
+  /* Submit button */
+  #wsg-cart-update{
+    padding: 8px 10px;
+    min-height: 45px;
+    max-width: 100% !important;
+  }
+  .wsg-table {
+    background: inherit !important;
+  }
+  .wsg-spof-container-main {
+    background: inherit !important;
+  }
+  /* General fixes */
+  .wsg-one-half {
+    
+  }
+  .wsg-button-fix {
+  
+  }
+  {% if customer.tags != blank %}
+  .wsgPriceFix {
+    
+  }
+  {% endif %}
+</style>

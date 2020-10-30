@@ -1,0 +1,90 @@
+<div class="container full-width--true">
+  <div class="heading">
+    <h1 class="text-center">{{ section.settings.title }}</h1>
+    <h6 class="text-center">{{ section.settings.desc }}</h6>
+  </div>
+  <div id='bar'>
+    <img class="bg_image" src="{{ section.settings.bg_image | img_url: '2048x' }}">
+    <div id='slider'>
+      <div class="image-content">
+        <img class="hover_image" src="{{ section.settings.hover_image | img_url: '2048x' }}">
+      </div>
+      <div id="slider-button"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image slider section",
+  "class": "image-slider-section",
+  "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "MEET THE LEGEND"
+      },
+      {
+        "type": "richtext",
+        "id": "desc",
+        "label": "Description"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Bacground image"
+      },
+      {
+        "type": "image_picker",
+        "id": "hover_image",
+        "label": "Hover image"
+      }
+  ],
+  "blocks": [
+      {
+        "type": "label",
+        "name": "Label",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "TItle"
+          },
+          {
+            "type": "text",
+            "id": "left_pos",
+            "label": "Left Position"
+          },
+          {
+            "type": "text",
+            "id": "top_pos",
+            "label": "Top position"
+          },
+          {
+            "type": "select",
+            "id": "direction",
+            "label": "Label directoin",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          }
+        ]
+      }
+  ],
+  "presets": [
+    {
+      "category": "image",
+      "name":"Image slider"
+    }
+  ]
+}
+{% endschema %}
