@@ -4,6 +4,12 @@
     <h6 class="text-center">{{ section.settings.desc }}</h6>
   </div>
   <div id='bar'>
+    {% for block in section.blocks %}
+  <div class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
+        <span class="title">{{block.settings.title}}</span>
+        <div class="pointer"></div>
+      </div>
+    {% endfor %}
     <img class="bg_image" src="{{ section.settings.bg_image | img_url: '2048x' }}">
     <div id='slider'>
       <div class="image-content">

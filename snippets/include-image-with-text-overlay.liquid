@@ -38,6 +38,8 @@
   {% assign button2_link = section.settings.button2_link %}
   {% assign button2_highlight = section.settings.button2_highlight %}
   {% assign mobile_text_color = section.settings.mobile_text_color %}
+  {% assign icon = section.settings.icon %}
+  {% assign btttom_status = section.settings.bottom_status %}
 {% endif %}
 
 {% assign mobile_crop = 'mobile-banner--crop-' | append: mobile_image_crop %}
@@ -89,8 +91,9 @@
     {% endif %}
   {% endunless %}
   {% unless pretext == blank and title == blank and subtitle == blank and button1 == blank and button2 == blank %}
-    <div class="position-{{ text_position }} caption js-caption caption--below-{{ mobile_text_below_image }}">
+    <div class="position-{{ text_position }} caption js-caption caption--below-{{ mobile_text_below_image }} bottom-{{btttom_status}}">
       <div class="caption-content caption-background-{{ caption_background }} caption-transparency-{{ caption_background_transparency }} align-{{ text_align }}">
+        {{ icon }}
         {% if pretext != blank %}
           <div class="pretext">
             {{ pretext }}
