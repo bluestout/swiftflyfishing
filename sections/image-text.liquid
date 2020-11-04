@@ -32,17 +32,18 @@
                   {% endif %}
                 </a>
               </div>
+              <p class="image-caption">{{block.settings.image_caption}}</p>
             </div>
             <div class="featured-link--half block--{{ block.id }}">
               <div class="info text-align--{{section.settings.frontpage_text_align}}">
-                <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title">
+                <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title title-{{block.settings.title_size}}">
                   {{ block.settings.title }}
                 </a>
                 {% if block.settings.text != blank %}
-                  <div class="description">{{ block.settings.text }}</div>
+                  <div class="description grid-{{block.settings.grid_style}}">{{ block.settings.text }}</div>
                 {% endif %}
                 {% if block.settings.button_label != blank %}
-                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button">
+                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button button-black">
                     {{ block.settings.button_label }}
                   </a>
                 {% endif %}
@@ -73,10 +74,6 @@
       color: {{ block.settings.text_color }};
     }
 
-    .block--{{ block.id }} a.button {
-      color: {{ block.settings.text_color }};
-      border-color: {{ block.settings.text_color }};
-    }
 
     .block--{{ block.id }} a.button:hover {
       color: {% if bg_alpha != 0 %}{{ block.settings.bg_color }}{% else %}{{ settings.shop_bg_color }}{% endif %};
@@ -101,19 +98,19 @@
 
       #shopify-section-{{ section.id }} .featured-link--margin {
         {% if section.settings.frontpage_image_position == 'right' %}
-          margin-left: 3%;
+          margin-left: 10px;
         {% else %}
           margin-left: 0;
-          margin-right: 3%;
+          margin-right: 10px;
         {% endif %}
       }
 
       #shopify-section-{{ section.id }} .featured-link--section:nth-child(even) .featured-link--margin {
         {% if section.settings.frontpage_image_position == 'right' %}
           margin-left: 0;
-          margin-right: 3%;
+          margin-right: 10px;
         {% else %}
-          margin-left: 3%;
+          margin-left: 10px;
           margin-right: 0;
         {% endif %}
       }
@@ -239,15 +236,55 @@
         },
         {
           "type": "text",
+          "id": "image_caption",
+          "label": "Image caption",
+          "default": "In PHOTO: Epic Studio ..."
+        },
+        {
+          "type": "text",
           "id": "title",
           "label": "Heading",
           "default": "Your headline"
+        },
+        {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title size",
+          "options": [
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }
+          ]
         },
         {
           "type": "richtext",
           "id": "text",
           "label": "Text",
           "default": "<p>Promotion description appears here.</p>"
+        },
+        {
+          "type": "select",
+          "id": "grid_style",
+          "label": "Grid style",
+          "options": [
+            {
+              "value": "one",
+              "label": "Column one"
+            },
+            {
+              "value": "two",
+              "label": "Column two"
+            }
+          ]
         },
         {
           "type": "text",

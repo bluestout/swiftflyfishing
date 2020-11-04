@@ -7,8 +7,12 @@
 {% if section.settings.wide_display == false %}
 <div class="container">
   <div class="sixteen columns">
+{% else %}
+<div class="fifteen column">
 {% endif %}
-
+{% if section.settings.title != blank %}
+  <h2 class="section-title title-right"><span>{{ section.settings.title | escape }}</span></h2>
+{% endif %}
 {% if section.blocks.size > 0 %}
   <div  id="testimonial-{{section.id}}"
         class="testimonial-slideshow
@@ -36,6 +40,13 @@
             {% endif %}
             <div class="caption position-{{block.settings.text_position}} js-caption">
                 <div class="caption-content testimonial-text {% if image != nil %}testimonial-text-mobile{% endif %} align-{{block.settings.text_align}}">
+                  {% if block.settings.icon != blank %}
+                  {% render 'image-element',
+                    image: block.settings.icon,
+                    alt: block.settings.icon.alt,
+                    additional_classes: 'testimonial-icon'
+                  %}
+                  {% endif %}
                   {% if block.settings.title != blank %}
                     <p class="headline">
                       {{ block.settings.title }}
@@ -43,6 +54,7 @@
                     <div class="feature_divider"></div>
                   {% endif %}
                   <div class="subtitle">
+                    {% include 'icon-pack' with icon: 'quote' %}
                     {{ block.settings.testimonial }}
                     <p>
                       {% if block.settings.name != blank %}
@@ -64,8 +76,11 @@
   </div>
 {% endif %}
 
+
 {% if section.settings.wide_display == false %}
   </div>
+</div>
+{% else %}
 </div>
 {% endif %}
 
@@ -80,6 +95,12 @@
       "id": "wide_display",
       "label": "Wide display",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What People say about us"
     },
     {
       "type": "select",
@@ -121,6 +142,11 @@
       "type": "image",
       "name": "Image",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
         {
           "type": "text",
           "id": "title",

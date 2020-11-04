@@ -1,4 +1,108 @@
+$site-width: 1450px;
+$gutter: 20px;
+
+$grid-small: 480px;
+$grid-medium: 798px;
+$grid-large: 1024px;
+$grid-widescreen: 1400px;
+
+$small: 'small';
+$small-down: 'small-down';
+$small-up: 'small-up';
+$medium: 'medium';
+$medium-down: 'medium-down';
+$medium-up: 'medium-up';
+$large: 'large';
+$large-down: 'large-down';
+$large-up: 'large-up';
+$widescreen-up: 'widescreen-up';
+$widescreen-down: 'widescreen-down';
+$tablet: 'tablet';
+
+// The `$breakpoints` list is used to build our media queries.
+// You can use these in the media-query mixin.
+$breakpoints: (
+  $small-down '(max-width: #{$grid-small})',
+  $small '(min-width: #{$grid-small + 1}) and (max-width: #{$grid-medium})',
+  $small-up '(min-width: #{$grid-small + 1})',
+  $medium-down '(max-width: #{$grid-medium})',
+  $medium '(min-width: #{$grid-medium + 1}) and (max-width: #{$grid-large})',
+  $medium-up '(min-width: #{$grid-medium + 1})',
+  $large-down '(max-width: #{$grid-large})',
+  $large '(min-width: #{$grid-large + 1}) and (max-width: #{$grid-widescreen})',
+  $large-up '(min-width: #{$grid-large + 1})',
+  $widescreen-down '(max-width: #{$grid-widescreen})',
+  $widescreen-up '(min-width: #{$grid-widescreen + 1})',
+  $tablet '(min-width: 768px) and (max-width: 1366px) and (hover: none)'
+);
+
+// Tables
+
+$table-background-color: #f9f9f9;
+$table-border-color: #dcdcdc;
+
+/* #Mixins
+================================================== */
+
+@mixin background-opacity($color, $opacity: 0.5) {
+  background: $color;
+  background: rgba($color, $opacity);
+}
+
+@mixin text-opacity($color, $opacity: 0.5) {
+  color: $color;
+  color: rgba($color, $opacity);
+}
+
+// Clearfix for parents with floated children
+@mixin clearfix() {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  *zoom: 1;
+}
+
+@mixin diagonal-line($line-color: #999, $line-width: 1px, $line-blur: 0px) {
+  $color-start: 50%;
+  $full-color-end: calc(50% + #{$line-width});
+  $color-end: 50%;
+  @if($line-blur == 0 or $line-blur == 0px) {
+    $color-start: 50%;
+  }
+
+  background-image: linear-gradient(to bottom left, transparent $color-start, $line-color 50%, $line-color $full-color-end, transparent $color-end), linear-gradient(to bottom right, transparent $color-start, $line-color 50%, $line-color $full-color-end, transparent $color-end);
+}
+
+// Media query mixin
+@mixin respond-to($media-query) {
+  $breakpoint-found: false;
+
+  @each $breakpoint in $breakpoints {
+    $name: nth($breakpoint, 1);
+    $declaration: nth($breakpoint, 2);
+
+    @if $media-query == $name and $declaration {
+      $breakpoint-found: true;
+
+      @media only screen and #{$declaration} {
+        @content;
+      }
+    }
+  }
+
+  @if $breakpoint-found == false {
+    @warn 'Breakpoint "#{$media-query}" does not exist';
+  }
+}
+
 $font-small: 13px;
+$font-desc: 16px;
+$color-black: #000000;
+$color-white: #FFFFFF;
+$color-red: #ED1C24;
+
 html {
   scroll-behavior: smooth;
 }
@@ -79,6 +183,52 @@ header{
     }
   }
 }
+
+p, a, li{
+  font-size: 16px;
+  color: $color-black;
+}
+
+.button{
+  &.button-black{
+    background: $color-black;
+    border-color: $color-black;
+    color: $color-white;
+  }
+  &.small-button{
+    width: 250px;
+  }
+  &.full-button{
+    max-width: initial;
+  }
+  &.highlight-button{
+    background: transparent;
+    color: black;
+  }
+}
+
+.flickity-enabled {
+  .flickity-page-dots{
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+    .dot{
+      height: 4px!important;
+      width: 4px!important;
+      margin: 0!important;
+      background: black!important;
+      margin-left: 5px!important;
+      border-radius: 50%!important;
+      opacity: 1!important;
+      &.is-selected{
+        width: 6px!important;
+        height: 6px!important;
+        background-color: $color-red!important;
+      }
+    }
+  }
+}
+
 .slideshow-section{
   position: relative;
   .banner {
@@ -286,23 +436,54 @@ header{
   }
 }
 
+.section-title{
+  font-size: 14px;
+  text-align: left;
+  position: relative;
+  width: 100%;
+  &.title-left{
+    span{
+      background: white;
+      z-index: 1000;
+      position: relative;
+      padding-right: 10px;
+    }
+    &::after{
+      content: " ";
+      width: 100%;
+      height: 1px;
+      display: table;
+      position: absolute;
+      right: -9px;
+      border-top: 1px dashed;
+      top: 50%;
+    }
+  }
+
+  &.title-right{
+    text-align: right;
+    span{
+      background: white;
+      z-index: 1000;
+      position: relative;
+      padding-left: 10px;
+    }
+    &::after{
+      content: " ";
+      width: calc(100% - 140px);
+      height: 1px;
+      display: table;
+      position: absolute;
+      left: -9px;
+      border-top: 1px dashed;
+      top: 50%;
+    }
+  }
+  
+}
+
 .logo-bar-section{
   .section{
-    .title{
-      font-size: 14px;
-      text-align: left;
-      position: relative;
-      &::after{
-        content: " ";
-        width: calc(100% - 140px);
-        height: 1px;
-        display: table;
-        position: absolute;
-        right: -9px;
-        border-top: 1px dashed;
-        top: 50%;
-      }
-    }
     .logo-bar{
       .logo-bar__item{
         height: 100px;
@@ -321,6 +502,70 @@ header{
         }
         &.previous{
           display: none;
+        }
+      }
+    }
+  }
+}
+
+.image-with-text-section{
+  margin-bottom: 50px;
+  .featured-link--half{
+    .image-caption{
+      position: absolute;
+      bottom: -15px;
+      left: 20%;
+    }
+    .info{
+      max-width: 600px;
+      .collection_title {
+        &.title-small {
+          font-size: 18px;
+          line-height: 22px;
+        }
+      }
+      .description{
+        display: flex;
+        margin: 30px 0 50px;
+        &.grid-one{
+          flex-wrap: wrap;
+          p{
+            margin: 0;
+          }
+        }
+        p{
+          margin-right: 20px;
+          width: 100%;
+        }
+      }
+    }
+    
+  }
+}
+
+.testimonial-section{
+  .gallery-cell{
+    .caption{
+      .caption-content{
+        max-width: 500px;
+        .testimonial-icon{
+          margin-bottom: 30px;
+        }
+        .subtitle{
+          p{
+            &:first-of-type{
+              display: contents;
+              font-size: 24px;
+              line-height: 29px;
+              margin: 0;
+              max-width: initial;
+            }
+            font-size: 18px;
+            line-height: 27px;
+            margin: 50px auto;
+            margin-bottom: 20px;
+            max-width: 350px;
+          }
         }
       }
     }
