@@ -45,11 +45,6 @@
     },
     {
       "type": "checkbox",
-      "id": "bottom_status",
-      "label": "Bottom caption"
-    },
-    {
-      "type": "checkbox",
       "id": "caption_background",
       "label": "Display solid text background",
       "default": false
@@ -91,8 +86,27 @@
     },
     {
       "type": "select",
+      "id": "caption_position",
+      "label": "Caption position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "select",
       "id": "text_position",
-      "label": "Text position",
+      "label": "caption align",
       "options": [
         {
           "value": "left",

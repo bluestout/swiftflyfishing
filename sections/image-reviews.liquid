@@ -14,46 +14,63 @@
                 clearfix across-{{section.settings.featured_links_per_row}} image-align--{{ section.settings.frontpage_image_position }}
                 full-width--{{ section.settings.frontpage_grid_style }}
                 ">
-      {% if section.blocks.size > 0 %}
-        {% for block in section.blocks %}
-          <section class="featured-link--section featured-link--image section-{{ forloop.index }}" {{ block.shopify_attributes }}>
-            <div class="featured-link--half featured-link--image featured-link--margin image-crop--{{ block.settings.image_crop }}">
-              <div class="featured-link--wrap">
-                <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
-                  {% if block.settings.image %}
-                    {% render 'image-element',
-                            image: block.settings.image,
-                            alt: block.settings.image.alt,
-                            stretch_width: true
-                    %}
-                  {% else %}
-                    {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
-                    {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
-                  {% endif %}
-                </a>
-              </div>
-              {% if block.settings.image_caption != blank %}
-                <p class="image-caption caption-{{block.settings.caption_position}}">{{block.settings.image_caption}}</p>
+      <section class="featured-link--section featured-link--image" {{ section.shopify_attributes }}>
+        <div class="featured-link--half featured-link--image featured-link--margin image-crop--{{ section.settings.image_crop }}">
+          <div class="featured-link--wrap">
+            <a {% if section.settings.link != blank %}href="{{ section.settings.link }}"{% endif %} title="{{ section.settings.title }}">
+              {% if section.settings.image %}
+                {% render 'image-element',
+                        image: section.settings.image,
+                        alt: section.settings.image.alt,
+                        stretch_width: true
+                %}
+              {% else %}
+                {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+                {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
               {% endif %}
-            </div>
-            <div class="featured-link--half block--{{ block.id }}">
-              <div class="info text-align--{{section.settings.frontpage_text_align}}">
-                <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title title-{{block.settings.title_size}}">
-                  {{ block.settings.title }}
-                </a>
-                {% if block.settings.text != blank %}
-                  <div class="description grid-{{block.settings.grid_style}}">{{ block.settings.text }}</div>
-                {% endif %}
-                {% if block.settings.button_label != blank %}
-                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button button-black">
-                    {{ block.settings.button_label }}
+            </a>
+          </div>
+          {% if section.settings.caption != blank %}
+            <p class="caption-label">{{section.settings.caption}}</p>
+          {% endif %}
+          {% if section.settings.image_caption != blank %}
+            <p class="image-caption">{{section.settings.image_caption}}</p>
+          {% endif %}
+          
+        </div>
+        <div class="featured-link--half block--{{ section.id }}">
+          <div class="review-carousel carousel">
+            {% for block in section.blocks %}
+              <div class="gallery-cell">
+                <div class="info text-align--{{section.settings.frontpage_text_align}}">
+                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title title-{{block.settings.title_size}}">
+                    {% if block.settings.quote %}
+                    {% include 'icon-pack' with icon: 'quote' %} 
+                    {% endif %}
+                    {{ block.settings.title }}
                   </a>
-                {% endif %}
+                  {% if block.settings.text != blank %}
+                    <div class="description grid-{{block.settings.grid_style}}">{{ block.settings.text }}</div>
+                  {% endif %}
+                  {% if block.settings.author %}
+                    <strong class="author">{{ block.settings.author }}</strong>
+                  {% endif %}
+                  <div class="review-stars">
+                    {% for item in (1..block.settings.review_star) %}
+                      {% include 'icon-pack' with icon: 'review-star' %}
+                    {% endfor %}
+                  </div>
+                  {% if block.settings.button_label != blank %}
+                    <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button button-black">
+                      {{ block.settings.button_label }}
+                    </a>
+                  {% endif %}
+                </div>
               </div>
-            </div>
-          </section>
-        {% endfor %}
-      {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
     </div>
 {% if section.settings.frontpage_grid_style == false %}
     </div>
@@ -131,8 +148,8 @@
 
 {% schema %}
 {
-  "name": "Image with text",
-  "class": "image-with-text-section",
+  "name": "Image with reviews",
+  "class": "image-with-text-section image-reviews-section",
   "max_blocks": 16,
   "settings": [
     {
@@ -189,68 +206,60 @@
           "label": "Right"
         }
       ]
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1024 x 1024px recommended"
+    },
+    {
+      "type": "select",
+      "id": "image_crop",
+      "label": "Image cropping",
+      "default": "none",
+      "info": "Only applied when text area is taller than image.",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "2000+ 5 star reviews"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image caption",
+      "default": "In PHOTO: Epic Studio ..."
     }
   ],
   "blocks": [
     {
-      "type": "image",
-      "name": "Image with text",
+      "type": "review",
+      "name": "Review",
       "settings": [
         {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "1024 x 1024px recommended"
-        },
-        {
-          "type": "select",
-          "id": "image_crop",
-          "label": "Image cropping",
-          "default": "none",
-          "info": "Only applied when text area is taller than image.",
-          "options": [
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "none",
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "id": "image_caption",
-          "label": "Image caption",
-          "default": "In PHOTO: Epic Studio ..."
-        },
-        {
-          "type": "select",
-          "id": "caption_position",
-          "label": "Caption position",
-          "options": [
-            {
-              "value": "left",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ]
+          "type": "checkbox",
+          "id": "quote",
+          "label": "Quote status"
         },
         {
           "type": "text",
@@ -300,6 +309,20 @@
         },
         {
           "type": "text",
+          "id": "author",
+          "label": "Author"
+        },
+        {
+          "type": "range",
+          "id": "review_star",
+          "label": "Review star",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        },
+        {
+          "type": "text",
           "id": "button_label",
           "label": "Button label",
           "default": "View all"
@@ -327,7 +350,7 @@
     }
   ],
   "presets": [{
-    "name": "Image with text",
+    "name": "Image reviews",
     "category": "Image",
     "settings": {
       "featured_links_per_row": "1",
@@ -335,10 +358,7 @@
     },
     "blocks": [
       {
-        "type": "image"
-      },
-      {
-        "type": "image"
+        "type": "review"
       }
     ]
   }]

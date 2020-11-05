@@ -100,7 +100,7 @@
                     </div>
                   </div>
                 {% endif %}
-                <a class="collection-info__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}" href="{{ collection.url }}">
+                <div class="collection-info__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
                   <span class="title">
                     {% if collection != blank %}
                       {{ collection.title }}
@@ -108,7 +108,11 @@
                       {{ "homepage.onboarding.collection_title" | t }}
                     {% endif %}
                   </span>
-                </a>
+                  {% if block.settings.button_label != blank %}
+                  <a href="{{ collection.url }}" class="button button-white">{{ block.settings.button_label }}</a>
+                  {% endif %}
+                  
+                </div>
               </div>
             </div>
 
@@ -188,6 +192,11 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
         }
       ]
     }
