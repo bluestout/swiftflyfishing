@@ -16,9 +16,6 @@
     <span class="price {% if product.compare_at_price_max > product.price %}sale{% endif %}">
       {% unless product.available == false and settings.display_price == false %}
         <span class="current_price">
-          {% if product.price_varies and product.price_min > 0 %}
-            <small><em>{{ 'products.general.from' | t }}</em></small>
-          {% endif %}
           {% if product.price_min > 0 %}
             <span class="money">{% render 'price-element', price: product.price_min %}</span>
           {% else %}

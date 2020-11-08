@@ -1,5 +1,6 @@
 {% if type == 'block' %}
   {% assign rv_title = block.settings.rv_title %}
+  {% assign rv_text = block.settings.rv_text %}
   {% assign rv_max_display = block.settings.rv_max_display%}
   {% assign rv_products_style = block.settings.rv_products_style %}
   {% assign limit = block.settings.rv_max_display %}
@@ -7,6 +8,7 @@
   {% assign rv_per = block.settings.rv_per %}
 {% else %}
   {% assign rv_title = section.settings.rv_title %}
+  {% assign rv_text = section.settings.rv_text %}
   {% assign rv_max_display = section.settings.rv_max_display%}
   {% assign rv_products_style = section.settings.rv_products_style %}
   {% assign limit = section.settings.rv_max_display %}
@@ -20,6 +22,7 @@
     {% if rv_title != blank %}
       <div class="recently-viewed-products__title {% unless rv_products_style  == 'slider' %}sixteen columns{% endunless %}">
         <h2 class="title center">{{ rv_title }}</h2>
+        {{ rv_text }}
         <div class="feature_divider"></div>
       </div>
     {% endif %}

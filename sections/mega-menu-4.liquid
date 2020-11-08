@@ -13,11 +13,7 @@
           <div class="dropdown_column" {{ block.shopify_attributes }}>
             {% if block.type == 'column' %}
               {% comment %}Richtext{% endcomment %}
-              {% if block.settings.richtext_top %}
-                <div class="mega-menu__richtext">
-                  {{ block.settings.richtext_top }}
-                </div>
-              {% endif %}
+              
 
               {% comment %}Image with caption and link{% endcomment %}
               {% if block.settings.image_top != nil or block.settings.image_caption_top != blank %}
@@ -33,6 +29,12 @@
                       <p class="mega-menu__image-caption">{{ block.settings.image_caption_top }}</p>
                     {% endif %}
                   </a>
+                </div>
+              {% endif %}
+
+              {% if block.settings.richtext_top %}
+                <div class="mega-menu__richtext">
+                  {{ block.settings.richtext_top }}
                 </div>
               {% endif %}
 

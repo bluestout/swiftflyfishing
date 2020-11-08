@@ -38,7 +38,12 @@
 {% endfor %}
 
 <div itemtype="http://schema.org/ItemList" class="product-list {{ matrixType }} clearfix equal-columns--clear equal-columns--outside-trim">
-  {% for product in products limit: forLimit %}
+  {% for item in products limit: forLimit %}
+    {% if type == 'block' %}
+      {% assign product = all_products[item.settings.product] %}
+    {% else %}
+      {% assign product = item %}
+    {% endif %}
     {% if product.id != skip_product.id %}
       {% render 'product-thumbnail',
               product: product,

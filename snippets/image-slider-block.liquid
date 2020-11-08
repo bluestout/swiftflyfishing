@@ -1,0 +1,28 @@
+{% if section.settings.image_slider_bg_image != blank and section.settings.image_slider_hover_image != balnk %}
+  
+{% endif %}
+<div class="container full-width--true image-slider-content">
+  <div class="heading">
+    <h1>{{ section.settings.image_slider_title }}</h1>
+    <h6>{{ section.settings.image_slider_desc }}</h6>
+  </div>
+  <div id='bar'>
+    {% for block in section.blocks %}
+      {% if block.type == 'label' %}
+        <div class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
+          <span class="title">{{block.settings.title}}</span>
+          <div class="pointer"></div>
+        </div>
+      {% endif %}
+      
+    {% endfor %}
+    <img class="bg_image" src="{{ section.settings.image_slider_bg_image | img_url: '2048x' }}">
+    <div id='slider'>
+      <div class="image-content">
+        <img class="hover_image" src="{{ section.settings.image_slider_hover_image | img_url: '2048x' }}">
+      </div>
+      <div id="slider-button"></div>
+      </div>
+    </div>
+  </div>
+</div>
