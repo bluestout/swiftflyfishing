@@ -22,8 +22,12 @@
       </div>
     {% else %}
       <div class="caption captionOverlay--true">
-        <h1 class="headline">{{ blog.title }}</h1>
+        <h2 class="headline">{{ blog.title }}</h2>
         <p class="subtitle">{{ section.settings.subtitle }}</p>
+        {% if section.settings.banner_link != blank and section.settings.banner_button != blank %}
+        <a href="{{section.settings.banner_link}}" class="button button-white small-button">{{section.settings.banner_button}}</a>
+        {% endif %}
+        
       </div>
     {% endif %}
   </header>
@@ -101,6 +105,8 @@
   </script>
 
   <div class="{% if sidebar %}twelve medium-down--one-whole {% else %}sixteen{% endif %} columns equal-columns--outside-trim equal-columns--clear">
+    <h3 class="center">{{ section.settings.content_title }}</h3>
+    <h6 class="text-center">{{section.settings.content_text}}</h6>
     {% for article in blog.articles %}
       {% if section.settings.blog_posts_per_row == 1 %}
         <div class="article-wrap">
@@ -241,6 +247,26 @@
       "id": "subtitle",
       "label": "Subheading",
       "default": "Subheading"
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "Banner link"
+    },
+    {
+      "type": "text",
+      "id": "banner_button",
+      "label": "Banner button"
+    },
+    {
+      "type": "text",
+      "id": "content_title",
+      "label": "Content title"
+    },
+    {
+      "type": "text",
+      "id": "content_text",
+      "label": "Content text"
     },
     {
       "type": "range",

@@ -1,4 +1,13 @@
-<div class="description-block list_style_{{block.settings.list_style}}">
-  <h3>{{title}}</h3>
-  {{ desc }}
-</div>
+{% if style == 'style_1' %}
+  <div class="description-block list_style_{{block.settings.list_style}}">
+    <h3>{{title}}</h3>
+    {{ desc }}
+  </div>
+{% else %}
+  <div class="description-block list_style_{{block.settings.list_style}}">
+    <div class="mark">N<span class="o"></span></div>
+    <h4 class="uppercase">{{title}}</h4>
+    <p class="extra_small">{{sub_title}}</p>
+    {{ desc }}
+  </div>
+{% endif %}

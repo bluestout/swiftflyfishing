@@ -17,7 +17,7 @@
     <div class="section clearfix">
       <div class="paginate">
         {% if paginate.pages > 1 %}
-          {{ paginate | default_pagination | replace: '&raquo;', '<span class="icon-right-arrow"></span>' | replace: '&laquo;', '<span class="icon-left-arrow"></span>' }}
+          {{ paginate | default_pagination | replace: 'Next &raquo;', '<span class="icon-right-arrow"></span>' | replace: '&laquo; Previous', '<span class="icon-left-arrow"></span>' }}
         {% endif %}
       </div>
     </div>

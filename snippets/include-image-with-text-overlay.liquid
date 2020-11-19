@@ -4,7 +4,11 @@
   {% assign image = block.settings.image %}
   {% assign pretext = block.settings.pretext %}
   {% assign title = block.settings.title %}
+  {% assign title_style = block.settings.title_style %}
+  {% assign title_color = block.settings.title_color %}
   {% assign subtitle = block.settings.subtitle %}
+  {% assign subtitle_color = block.settings.subtitle_color %}
+  {% assign author = block.settings.author %}
   {% assign caption_background = block.settings.caption_background %}
   {% assign caption_background_transparency = block.settings.caption_background_transparency %}
   {% assign text_position = block.settings.text_position %}
@@ -18,13 +22,20 @@
   {% assign button2_link = block.settings.button2_link %}
   {% assign button2_highlight = block.settings.button2_highlight %}
   {% assign mobile_text_color = block.settings.mobile_text_color %}
+  {% assign icon = block.settings.icon %}
+  {% assign position = block.settings.caption_position %}
 {% else %}
   {% assign id = section.id %}
   {% assign wide_display = section.settings.wide_display %}
   {% assign image = section.settings.image %}
   {% assign pretext = section.settings.pretext %}
   {% assign title = section.settings.title %}
+  {% assign title = section.settings.title %}
+  {% assign title_style = section.settings.title_style %}
+  {% assign title_color = section.settings.title_color %}
   {% assign subtitle = section.settings.subtitle %}
+  {% assign subtitle_color = section.settings.subtitle_color %}
+  {% assign author = section.settings.author %}
   {% assign caption_background = section.settings.caption_background %}
   {% assign caption_background_transparency = section.settings.caption_background_transparency %}
   {% assign text_position = section.settings.text_position %}
@@ -39,7 +50,7 @@
   {% assign button2_highlight = section.settings.button2_highlight %}
   {% assign mobile_text_color = section.settings.mobile_text_color %}
   {% assign icon = section.settings.icon %}
-  {% assign btttom_status = section.settings.caption_position %}
+  {% assign position = section.settings.caption_position %}
 {% endif %}
 
 {% assign mobile_crop = 'mobile-banner--crop-' | append: mobile_image_crop %}
@@ -91,7 +102,7 @@
     {% endif %}
   {% endunless %}
   {% unless pretext == blank and title == blank and subtitle == blank and button1 == blank and button2 == blank %}
-    <div class="position-{{ text_position }} caption js-caption caption--below-{{ mobile_text_below_image }} caption-{{btttom_status}}">
+    <div class="position-{{ text_position }} caption js-caption caption--below-{{ mobile_text_below_image }} caption-{{position}}">
       <div class="caption-content caption-background-{{ caption_background }} caption-transparency-{{ caption_background_transparency }} align-{{ text_align }}">
         {{ icon }}
         {% if pretext != blank %}
@@ -100,13 +111,18 @@
           </div>
         {% endif %}
         {% if title != blank %}
-          <h1 class="headline">
+          <h1 class="headline style-{{title_style}}" style="color: {{title_color}};">
             {{ title }}
           </h1>
         {% endif %}
         {% if subtitle != blank %}
-          <div class="subtitle">
+          <div class="subtitle" style="color: {{subtitle_color}};">
             {{ subtitle }}
+          </div>
+        {% endif %}
+        {% if author != blank %}
+          <div class="author" style="color: {{subtitle_color}};">
+            {{ author }}
           </div>
         {% endif %}
         {% if button1 != blank %}

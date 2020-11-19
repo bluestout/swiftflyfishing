@@ -26,11 +26,36 @@
       <h1>{{ page.title }}</h1>
       <div class="feature_divider"></div>
     {% endif %}
-    {{ page.content }}
+    <div class="content-text-block">
+      <div class="block-item">
+        <h3 class="uppercase center">{{section.settings.title_1}}</h3>
+        {{ section.settings.text_1 }}
+      </div>
+      <div class="block-item">
+        <h3 class="uppercase center">{{section.settings.title_2}}</h3>
+        {{ section.settings.text_2 }}
+      </div>
+      <div class="block-item">
+        <h3 class="uppercase center">{{section.settings.title_3}}</h3>
+        {{ section.settings.text_3 }}
+      </div>
+    </div>
   </div>
   {% include 'include-custom-contact-form' %}
 </div>
-
+<script type="text/javascript" src="https://d3itxuyrq7vzpz.cloudfront.net/assets/reamaze.js"></script>
+<script type="text/javascript">// <![CDATA[
+var _support = _support || { 'ui': {}, 'user': {} };
+  _support['account'] = 'swiftflyfishing';
+  _support['custom_fields'] = {
+    'Routing': {
+      type: 'dropdown',
+      value: ['Shipping and deliveries','Pre-sales questions','Billing and accounts','Build questions'],
+      placeholder: 'Select Department',
+required: true
+    }
+  };
+// ]]></script>
 {% schema %}
 
 {
@@ -64,6 +89,40 @@
       "id": "subtitle",
       "label": "Subheading",
       "default": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Content page"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "text_1",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "text_2",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "text_3",
+      "label": "Text"
     },
     {
       "type": "header",

@@ -103,6 +103,8 @@
     {% assign feature_image = true %}
   {% elsif template contains "cart" %}
     {% assign feature_image = true %}
+  {% elsif template contains "page" %}
+    {% assign feature_image = true %}
   {% else %}
     {% assign feature_image = false %}
   {% endif %}
@@ -244,6 +246,81 @@
 
     <script>
       {{ settings.custom_scripts }}
+    </script>
+    {% include 'smile-initializer' %}
+    <script async type="text/javascript" data-api-key="" id="stamped-script-widget" src="https://cdn-stamped-io.azureedge.net/files/widget.min.js"></script>
+    {% include 'adolab-get-clicked-seo' %}
+    {% include 'special-offers' %}
+    {% if settings.show_multiple_currencies or settings.show_multiple_currencies_shopify %}   
+      {% include 'ip_stack' %}
+    {% endif %}
+    {%- comment -%}
+      {% include 'wholesale-all-in-one' %}
+    {%- endcomment -%}
+    
+    {% if mlveda_code_flag == true %}
+      {% if template != 'cart' %}
+        {% include 'mlveda-multipricing-updateprice' %}
+      {% else %}
+          <script>mlvedaFlagCalled = true;</script>
+      {% endif %}
+    {% else %}
+      <script>mlvedaFlagCalled = true;</script>
+    {% endif %}
+        
+    <script>
+      if(Storage !== undefined) {
+
+        var defaultLink = "/collections/all";
+
+        {% if template contains 'collection' %}
+          sessionStorage.collection = "{{ collection.url }}";
+        {% endif %}
+
+        {% if template contains 'cart' %}
+          if( !sessionStorage.collection ) {
+            sessionStorage.collection = defaultLink;
+          }
+          document.getElementById("continue-shopping").href = sessionStorage.collection;
+        {% endif %}
+
+      }
+    </script>
+    <script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+    <script>
+      var klaviyo = klaviyo || [];
+      klaviyo.init({
+        account: "ftHUqg",
+        platform: "shopify"
+      });
+      klaviyo.enable("backinstock",{ 
+        trigger: {
+          product_page_text: "Notify Me When Available",
+          product_page_class: "btn",
+          product_page_text_align: "center",
+          product_page_margin: "0px",
+          replace_anchor: false
+        },
+        modal: {
+          headline: "{product_name}",
+          body_content: "Register to receive a notification when this item comes back in stock.",
+          email_field_label: "Email",
+          button_label: "Notify me when available",
+          subscription_success_label: "You're in! We'll let you know when it's back.",
+          footer_content: '',
+          additional_styles: "@import url('https://fonts.googleapis.com/css?family=Helvetica+Neue');",
+          drop_background_color: "#000",
+          background_color: "#fff",
+          text_color: "#222",
+          button_text_color: "#fff",
+          button_background_color: "#03a196",
+          close_button_color: "#ccc",
+          error_background_color: "#fcd6d7",
+          error_text_color: "#C72E2F",
+          success_background_color: "#d3efcd",
+          success_text_color: "#1B9500"
+        }
+      });
     </script>
   </body>
 </html>

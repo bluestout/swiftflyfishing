@@ -21,8 +21,8 @@
   {% unless sidebar %}<div class="container bottom-fix">{% endunless %}
     {% if rv_title != blank %}
       <div class="recently-viewed-products__title {% unless rv_products_style  == 'slider' %}sixteen columns{% endunless %}">
-        <h2 class="title center">{{ rv_title }}</h2>
-        {{ rv_text }}
+        <h3 class="center">{{ rv_title }}</h3>
+        <p class="center">{{ rv_text }}</p>
         <div class="feature_divider"></div>
       </div>
     {% endif %}

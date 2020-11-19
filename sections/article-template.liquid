@@ -17,7 +17,7 @@
             stretch_width: true
     %}
     <div class="caption captionOverlay--true">
-      <h1 class="headline">{{ article.title }}</h1>
+      <h2 class="center downcase color-white">{{ article.title }}</h2>
     </div>
   </header>
 {% endif %}
@@ -91,14 +91,6 @@
           </div>
         {% endif %}
       </div>
-
-      {% unless article.image and section.settings.featured_image == 'banner' %}
-        <h1 class="align_left article_title">
-          {{ article.title }}
-        </h1>
-        <div class="feature_divider"></div>
-      {% endunless %}
-
         <p class="blog_meta">
           {% if section.settings.blog_byline %}
             <span><a href="/search?type=article&q={{ article.author }}">{{ a.author }}{{ 'blogs.article.by_author' | t: author: article.author }}</a></span>
@@ -134,15 +126,7 @@
         </p>
 
         <div class="article_content clearfix">
-          {% if article.image and section.settings.featured_image == 'content' %}
-            <p>
-              {% render 'image-element',
-                      image: article.image,
-                      alt: article.image.alt
-              %}
-            </p>
-          {% endif %}
-
+          
           {{ article.content }}
         </div>
 
@@ -159,7 +143,7 @@
 
           {% if section.settings.display_social_buttons %}
             <div class="blog_share meta">
-              {% render 'social-buttons', context: 'article' %}
+              {% render 'social-icons' %}
             </div>
           {% endif %}
         </div><!--end author_share_wrap-->
@@ -202,33 +186,36 @@
               </div>
             {% endfor %}
           {% endif %}
+            {%- comment -%}
+              {% if comment and comment.created_at %}
+                  {% if article.comments_count == 0 %}
+                    <h4>{{ 'blogs.comments.response_count' | t: count: article.comments.size }}</h4>
+                  {% endif %}
+                  <div id="comment-{{ comment.id }}" class="comment clearfix">
+                    <div class="gravatar two columns alpha center" data-email="{{ comment.email }}">
+                      <img src="//1.gravatar.com/avatar/{{ comment.email | md5 }}?s=160&r=G" alt="{{ comment.author }}" />
+                    </div>
+                    <div class="comment-body eight columns omega">
+                      <h6>{{ comment.author }}</h6>
+                      <p class="meta">
+                        <span class="label">{{ comment.created_at | date: format: "month_day_year" }}</span>
+                      </p>
 
-          {% if comment and comment.created_at %}
-            {% if article.comments_count == 0 %}
-              <h4>{{ 'blogs.comments.response_count' | t: count: article.comments.size }}</h4>
-            {% endif %}
-            <div id="comment-{{ comment.id }}" class="comment clearfix">
-              <div class="gravatar two columns alpha center" data-email="{{ comment.email }}">
-                <img src="//1.gravatar.com/avatar/{{ comment.email | md5 }}?s=160&r=G" alt="{{ comment.author }}" />
-              </div>
-              <div class="comment-body eight columns omega">
-                <h6>{{ comment.author }}</h6>
-                <p class="meta">
-                  <span class="label">{{ comment.created_at | date: format: "month_day_year" }}</span>
-                </p>
+                      {{ comment.content }}
+                    </div>
+                  </div>
+                {% endif %}
+                {% render 'pagination', paginate: paginate %}
+              {%- endcomment -%}
+          
 
-                {{ comment.content }}
-              </div>
-            </div>
-          {% endif %}
-
-          {% render 'pagination', paginate: paginate %}
+          
 
           <div class="clear" id="new-comment"></div>
-          <h4>{{ 'blogs.comments.title' | t }}</h4>
+          <h4 class="comment_title">{{ 'blogs.comments.title' | t }}</h4>
 
           {% if blog.moderated? %}
-            <p><em>{{ 'blogs.comments.moderated' | t }}</em></p>
+            <p class="comment_text"><em>{{ 'blogs.comments.moderated' | t }}</em></p>
           {% endif %}
 
           {% form article %}

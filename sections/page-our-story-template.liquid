@@ -1,0 +1,334 @@
+{% if section.settings.frontpage_grid_style %}
+  <div class="container">
+    <div class="sixteen columns">
+{% endif %}
+
+{% assign text_block_status = true %}
+{% capture text_block_content %}
+<div class="container">
+  <div class="description-content">
+    {% for block in section.blocks %}
+        {% if block.type == 'text-block' %}
+          <div class="one-third column flex">
+            {% include 'description-block' with 
+              title: block.settings.title,
+              sub_title: block.settings.sub_title,
+              desc: block.settings.description,
+              style: 'style_2'
+            %}
+          </div>
+        {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endcapture %}
+
+{% assign content_block_status = true %}
+{% capture content_block %}
+  {% for block in section.blocks %}
+    {% if block.type == 'text-content-block' %}
+      {% include 'include-content-block-item' %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% for block in section.blocks %}
+  <div {{ block.shopify_attributes }} class="block__{{ block.type }} block__{{ block.id }}
+    {% if block.type == "featured_collection" %} featured-collection-section{% endif %}">
+    {% if block.type == 'image-text' %}
+      {% include 'include-image-text' %}
+    {% elsif block.type == "divider" %}
+      {% include 'include-divider', type: 'block' %}
+    {% elsif block.type == 'text-block' and text_block_status %}
+      {{text_block_content}}
+      {% assign text_block_status = false %}
+    {% elsif content_block_status and block.type == 'text-content-block' %}
+      {{ content_block }}
+      {% assign content_block_status = false %}
+    {% endif %}
+
+  </div>
+  
+{% endfor %}
+
+{% if section.settings.frontpage_grid_style %}
+    </div>
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "Our story section",
+  "class": "page-section our-story-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "frontpage_grid_style",
+      "label": "Wide display"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image-text",
+      "name": "Image text",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "layout",
+          "label": "Wide display"
+        },
+        {
+          "type": "select",
+          "id": "frontpage_text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "frontpage_image_position",
+          "label": "Image position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1024 x 1024px recommended"
+        },
+        {
+          "type": "select",
+          "id": "image_crop",
+          "label": "Image cropping",
+          "default": "none",
+          "info": "Only applied when text area is taller than image.",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "overlay_text",
+          "label": "Overlay text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Your headline"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Promotion description appears here.</p>"
+        },
+        {
+          "type": "select",
+          "id": "grid_style",
+          "label": "Grid style",
+          "options": [
+            {
+              "value": "one",
+              "label": "Column one"
+            },
+            {
+              "value": "two",
+              "label": "Column two"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "label": "Text style",
+          "options": [
+            {
+              "value": "list",
+              "label": "List"
+            },
+            {
+              "value": "text",
+              "label": "Text"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "View all"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image_1",
+          "label": "Author image"
+        },
+        {
+          "type": "text",
+          "id": "author_title_1",
+          "label": "Author image"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image_2",
+          "label": "Author image"
+        },
+        {
+          "type": "text",
+          "id": "author_title_2",
+          "label": "Author image"
+        }
+      ]
+    },
+    {
+      "type": "text-content-block",
+      "name": "text content block",
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "label": "Text style",
+          "options": [
+            {
+              "value": "list",
+              "label": "List"
+            },
+            {
+              "value": "text",
+              "label": "Text"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "frontpage_text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": [
+        {
+          "type": "range",
+          "id": "divider_spacing",
+          "min": 0,
+          "max": 30,
+          "step": 5,
+          "unit": "px",
+          "label": "Space",
+          "default": 20
+        },
+        {
+          "type": "checkbox",
+          "id": "divider_border",
+          "label": "Show border",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "text-block",
+      "name": "Text block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "checkbox",
+          "id": "list_style",
+          "label": "List style status"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

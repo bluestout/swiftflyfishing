@@ -35,6 +35,7 @@
       data-products-per-slide="{{ visible_products }}"
       data-products-limit="{{ limit }}"
       data-products-available="{{ products_length }}">
+
   {% for item in products limit: loop_limit %}
     {% if type == 'block' %}
       {% assign product = all_products[item] %}

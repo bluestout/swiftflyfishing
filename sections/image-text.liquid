@@ -42,7 +42,9 @@
                   {{ block.settings.title }}
                 </a>
                 {% if block.settings.text != blank %}
-                  <div class="description grid-{{block.settings.grid_style}}">{{ block.settings.text }}</div>
+                  <div class="description grid-{{block.settings.grid_style}}">
+                    {{ block.settings.text | replace: '<p></p>', '</div><div>' | prepend: '<div>' | append: '</div>' }}
+                  </div>
                 {% endif %}
                 {% if block.settings.button_label != blank %}
                   <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button button-black">
