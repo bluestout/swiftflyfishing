@@ -29,7 +29,8 @@
           <div class="description grid-{{block.settings.grid_style}} text-{{block.settings.text_style}}">
             {% if block.settings.grid_style != 'one' %}
             {{ block.settings.text | replace: '<p></p>', '</div><div>' | prepend: '<div>' | append: '</div>' }}
-            
+            {% else %}
+              {{block.settings.text}}
             {% endif %}
             
           </div>

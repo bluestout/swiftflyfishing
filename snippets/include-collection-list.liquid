@@ -14,10 +14,10 @@
 <div class="container">
   {% if section.blocks.size > 0 %}
     {% if section.settings.title != blank %}
-      <div class="sixteen columns center">
-        <h2 class="title">
+      <div class="sixteen columns heading-title">
+        <h5 class="uppercase medium-down--show hide">
           {{ section.settings.title }}
-        </h2>
+        </h5>
         <div class="feature_divider"></div>
       </div>
     {% endif %}
@@ -40,7 +40,7 @@
                 {% assign collection_image_alt = collection.products.first.featured_image.alt | escape %}
               {% endif %}
 
-              <div class="
+              <div class="gallery-cell 
               {% if collections_per_row == 2 %}
                 eight columns {% cycle 'alpha', 'omega' %}
               {% elsif collections_per_row == 3 %}
@@ -51,14 +51,7 @@
                 one-fifth column {% cycle 'alpha', '', '', '', 'omega' %}
               {% endif %}
               {% if section.settings.collection_count == blank and section.settings.frontpage_collections_title == blank %}blank{% endif %}
-              thumbnail {% cycle 'even', 'odd' %}
-              {% if settings.mobile_products_per_row == '1' %}
-                medium-down--one-half
-                small-down--one-whole
-              {% else %}
-                medium-down--one-half
-                small-down--one-half
-              {% endif %}" {{ block.shopify_attributes }}>
+              thumbnail {% cycle 'even', 'odd' %}" {{ block.shopify_attributes }}>
 
                 <div class="product-wrap">
                   {% if collection_image != nil %}
@@ -106,7 +99,7 @@
                     </div>
                   {% endif %}
                   {% if block.settings.description_status and block.settings.description != blank %}
-                    <div class="collection-description__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
+                    <div class="collection-description__caption medium-down--hide {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
                       {{ block.settings.description }}
                     </div>
                   {% else %}
@@ -121,7 +114,10 @@
                       {% if block.settings.button_label != blank %}
                       <a href="{{ collection.url }}" class="button button-white">{{ block.settings.button_label }}</a>
                       {% endif %}
-                      
+                    </div>
+                    <div class="hide medium-down--show bottom_links">
+                      <p>{{collection.title}}</p>
+                      <a href="{{collection.url}}">view</a>
                     </div>
                   {% endif %}
                   
@@ -138,7 +134,7 @@
                     {% if block.settings.button_label != blank %}
                     <a href="{{ collection.url }}" class="button button-white">{{ block.settings.button_label }}</a>
                     {% endif %}
-                    
+                    {{ block.settings.description }}
                   </div>
                 {% endif %}
                   

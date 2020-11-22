@@ -561,7 +561,7 @@ $(function() {
           });
         }
 
-        cart_items_html += '<strong class="right price">';
+        cart_items_html += '<strong class="right price"><span class="quantity">'+item.quantity+'</span> X ';
 
         $.ajax({
           dataType: "json",
@@ -617,12 +617,7 @@ $(function() {
         if (item.price > item.final_price) {
           cart_items_html += discountMessage;
         }
-
-        cart_items_html += '<div class="left product-quantity-box">';
-        cart_items_html += '<span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>';
-        cart_items_html += '<input type="number" min="0" class="quantity" name="updates[]" id="updates_' + item.id + '" value="' + item.quantity + '" data-cart-quantity-input="mini-cart" />';
-        cart_items_html += '<span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>';
-        cart_items_html += '</div></div></div>';
+        cart_items_html += '</div></div>';
         cart_items_html += '<a href="/cart/change?line=' + line_id + '&amp;quantity=0" class="js-cart-remove-btn cart__remove-btn" data-line-id="' + line_id + '" data-remove-item="mini-cart"><span class="remove-icon"></span></a>';
 
       });
@@ -1187,12 +1182,35 @@ $(document).ready(function () {
     wrapAround: true,
     pageDots: false,
     initialIndex: 1,
-    cellAlign: 'left',
+    cellAlign: 'center',
     accessibility: true, //true by default
     autoPlay: false, // advance cells every 3 seconds
     arrowShape: arrow
   });
+  if ($(window).innerWidth() < 800) {
+    $('.collection-list-section .list-collections').flickity({
+      wrapAround: true,
+      pageDots: true,
+      initialIndex: 1,
+      cellAlign: 'left',
+      accessibility: true, //true by default
+      autoPlay: false, // advance cells every 3 seconds
+      arrowShape: arrow
+    });
+
+    $('.description-content').flickity({
+      wrapAround: true,
+      pageDots: true,
+      initialIndex: 1,
+      cellAlign: 'left',
+      accessibility: true, //true by default
+      autoPlay: false, // advance cells every 3 seconds
+      arrowShape: arrow
+    });
+
+  }
   
+
   $(".review-carousel").flickity({
     wrapAround: true,
     pageDots: true,
@@ -1242,7 +1260,20 @@ $(document).ready(function () {
       $(this).parent().addClass('active');
     }
   })
+  console.log(Shopify.theme_settings.cart_action);
+  if(Shopify.theme_settings.cart_action != 'redirect_cart') {
+    $('.mini_cart').on('click', function (e) {
+      e.preventDefault();
+      $('.mini-cart-content').addClass('active');
+      $('body').addClass('blocked-scroll');
+    });
+  }
 
+  $('.mini-cart-content .close').on('click', function (e) {
+    e.preventDefault();
+    $('.mini-cart-content').removeClass('active');
+    $('body').removeClass('blocked-scroll');
+  })
 });
 
 $(window).on('load', function () {

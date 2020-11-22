@@ -573,7 +573,6 @@ body.blocked-scroll {
   width: 100%;
   top: 0;
   left: 0;
-  pointer-events: none;
 }
 
 body.blocked-overflow {
@@ -679,6 +678,7 @@ img[data-sizes="100vw"] {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
+  width: 100%;
 }
 
 .image-element__wrap img {
@@ -2656,7 +2656,7 @@ html.touchevents .cart .cart-container {
   border-top: 0;
   border-right: 0;
   width: 100%;
-  max-width: 320px;
+  max-width: 400px;
   @include respond-to('medium-up'){
     max-width: 420px;
   }
@@ -8718,7 +8718,7 @@ $promoBannerHeight: 30px;
   }
 }
 
-$topMenuHeight: 40px;
+$topMenuHeight: 80px;
 
 {% if settings.header_background == false %}
 
@@ -8762,7 +8762,7 @@ $topMenuHeight: 40px;
     }
     //page banner is visible
     .page-banner {
-      margin-top: $topMenuHeight;
+
     }
     .page-banner + #pagecontent {
       padding-bottom: 0;
@@ -8787,9 +8787,7 @@ $topMenuHeight: 40px;
     #pagecontent {
       padding-bottom: calc(#{$topMenuHeight} + #{$promoBannerHeight});
     }
-    .page-banner {
-      margin-top: calc(#{$topMenuHeight} + #{$promoBannerHeight});
-    }
+
     .page-banner + #pagecontent {
       padding-bottom: 0;
     }
@@ -9786,23 +9784,23 @@ html.remodal-is-locked {
       float: right;
     }
 
-    #header .top-bar a.mobile_logo {
-      margin: auto;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      font-size: 18px;
-      line-height: 34px;
-      z-index: 5;
-      width: 50%;
-      height: auto;
-      color: {{ settings.logo_color }};
-      @include flexbox();
-      @include align-items(center);
-      @include justify-content(center);
-    }
+    // #header .top-bar a.mobile_logo {
+    //   margin: auto;
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   bottom: 0;
+    //   right: 0;
+    //   font-size: 18px;
+    //   line-height: 34px;
+    //   z-index: 5;
+    //   width: 50%;
+    //   height: auto;
+    //   color: {{ settings.logo_color }};
+    //   @include flexbox();
+    //   @include align-items(center);
+    //   @include justify-content(center);
+    // }
 
     #header a.mobile_logo img {
       width: auto;

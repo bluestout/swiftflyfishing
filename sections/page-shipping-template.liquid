@@ -1,0 +1,284 @@
+{% if section.settings.banner_status and section.settings.image %}
+  <header class="banner center page-banner dark-overlay-{{ section.settings.image_darken }}">
+    {% render 'image-element',
+            image: section.settings.image,
+            alt: section.settings.image.alt,
+            stretch_width: true,
+            progressive: true
+    %}
+    <div class="caption captionOverlay--true">
+      <h1 class="headline">{{ page.title }}</h1>
+    </div>    
+  </header>
+{% else %}
+  <div class="header">
+    <h2 class="uppercase center">{{section.settings.title}}</h2>
+  </div>
+{% endif %}
+
+{% assign page_contents = page.content | split: '<!--splite-->' %}
+<script>console.log({{page_contents | json}})</script>
+{% for block in section.blocks %}
+  <div {{ block.shopify_attributes }} class="block__{{ block.type }} block__{{ block.id }}
+    {% if block.type == "featured_collection" %} featured-collection-section{% endif %}">
+    {% if block.type == 'image-text' %}
+      <div class="image-with-text-section featured_collections clearfix across-1 image-align--{{ block.settings.frontpage_image_position }}">
+        <section class="featured-link--section featured-link--image section-{{ forloop.index }}">
+          <div class="featured-link--half featured-link--image {% if block.settings.layout == false %}featured-link--margin{% endif %} image-crop--{{ block.settings.image_crop }}">
+            <div class="featured-link--wrap">
+              <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
+                {% if block.settings.image %}
+                  {% include 'image-element', image: block.settings.image, alt: block.settings.image.alt, additional_classes: "medium-down--hide" %}
+                  {% include 'image-element', image: block.settings.mobile_image, alt: block.settings.mobile_image.alt, additional_classes: "hide medium-down--show" %}
+                {% else %}
+                  {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+                  {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
+                {% endif %}
+                {% if block.settings.overlay_title != blank %}
+                  <h1 class="title">{{block.settings.overlay_title}}</h1>
+                {% endif %}
+                
+              </a>
+            </div>
+          </div>
+          <div class="featured-link--half">
+            <div class="info text-align--{{block.settings.frontpage_text_align}}">
+              {% assign num = forloop.index %}
+              {% if block.settings.toggle_list %}
+                <ul class="toggle-list">
+                  {% assign page_str = page_contents[num] | replace: '<h2>', '</div></li><li><a class="toggle_btn">' | replace: '</h2>', '</a><div class="toggle_content">' %}
+                  {% assign page_content = page_str | remove_first: '</div></li>' %}
+                  {{ page_content }}
+                </ul>
+              {% else %}
+                {{ page_contents[num] }}
+              {% endif %}
+              
+            </div>
+          </div>
+        </section>
+      </div>
+    {% elsif block.type == 'image-overlay' %}
+      <section id="banner-{{block.id}}" class="banner full-width--true">
+        {% if block.settings.image != nil %}
+          {% render 'image-element',
+                  image: block.settings.image,
+                  alt: image.alt,
+                  stretch_width: true,
+                  additional_classes: "medium-down--hide"
+          %}
+          {% render 'image-element',
+                  image: block.settings.mobile_image,
+                  alt: image.alt,
+                  stretch_width: true,
+                  additional_classes: "hide medium-down--show"
+          %}
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg placeholder-svg--banner' }}
+        {% endif %}
+          <div class="position-center caption js-caption caption--below-true caption-center">
+            <div class="caption-content">
+              <div class="icons">
+                  {{ block.settings.icon_1 }}
+                  {{ block.settings.icon_2 }}
+                  {{ block.settings.icon_3 }}
+                  {{ block.settings.icon_4 }}
+              </div>
+              <div class="info">
+                <div class="description">
+                  {% assign num = forloop.index %}
+                  {{ page_contents[num] }}
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+    {% elsif block.type == "divider" %}
+      {% include 'include-divider', type: 'block' %}
+    {% endif %}
+  </div>
+{% endfor %}
+{% schema %}
+{
+  "name": "Page section",
+  "class": "page-section shipping-template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "banner_status",
+      "label": "Banner status"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_darken",
+      "label": "Image darken status"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "TItle",
+      "default": "World Shipping"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image-text",
+      "name": "Image text",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "layout",
+          "label": "Wide display"
+        },
+        {
+          "type": "select",
+          "id": "frontpage_text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "frontpage_image_position",
+          "label": "Image position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1024 x 1024px recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "select",
+          "id": "image_crop",
+          "label": "Image cropping",
+          "default": "none",
+          "info": "Only applied when text area is taller than image.",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "toggle_list",
+          "label": "Toggle list"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": [
+        {
+          "type": "range",
+          "id": "divider_spacing",
+          "min": 0,
+          "max": 30,
+          "step": 5,
+          "unit": "px",
+          "label": "Space",
+          "default": 20
+        },
+        {
+          "type": "checkbox",
+          "id": "divider_border",
+          "label": "Show border",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "image-overlay",
+      "name": "Image overlay",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "html",
+          "id": "icon_1",
+          "label": "Icon"
+        },
+        {
+          "type": "html",
+          "id": "icon_2",
+          "label": "Icon"
+        },
+        {
+          "type": "html",
+          "id": "icon_3",
+          "label": "Icon"
+        },
+        {
+          "type": "html",
+          "id": "icon_4",
+          "label": "Icon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

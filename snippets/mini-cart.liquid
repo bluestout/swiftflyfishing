@@ -1,7 +1,7 @@
-<div class="tos_warning mini-cart cart_content animated fadeInLeft">
+<div class="tos_warning mini-cart-content cart_content animated fadeInRight">
   <div class="header">
     <a href="/cart">{{'cart.general.title' | t }}</a>
-    <a class="close">{% include 'icon.close' %} close</a>
+    <a class="close">{% render 'icon-pack' with icon: 'close' %} close</a>
   </div>
   <div class="content">
     <div class="js-empty-cart__message {% if cart.item_count > 0 %}hidden{% endif %}">
@@ -62,6 +62,7 @@
               </div>
   
               <strong class="left price">
+                  <span class="quantity">{{item.quantity}}</span> X 
                 {% if item.price > 0 %}
                   <span class="money {% if item.price < item.variant.compare_at_price or item.line_level_discount_allocations.size > 0 %}sale{% endif %}">
                     {% render 'price-element', price: item.final_price %}
@@ -83,13 +84,6 @@
                   </p>
                 {% endfor %}
               {% endif %}
-  
-              <div class="left product-quantity-box">
-                <span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
-                <input type="number" min="0" size="2" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" data-cart-quantity-input="mini-cart" {% if settings.limit_quantity and item.variant.inventory_management != blank and item.variant.inventory_quantity > 0 and item.variant.inventory_policy == "deny" %}max="{{ item.variant.inventory_quantity }}"{% endif %}/>
-                <span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
-              </div>
-  
             </div>
   
             <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0" class="cart__remove-btn" data-line-id="{{ forloop.index }}" data-remove-item="mini-cart"><span class="remove-icon"></span></a>
@@ -99,7 +93,13 @@
       </ul>
   
       <ul class="sub_total_content">
-  
+        <li class="item-review">
+          {% assign product = cart.items | last %}
+          <script>console.log({{cart.items | last | json}})</script>
+           <div class='stamped-reviews-widget-desktop_visible visible-none'>
+             <div id="stamped-reviews-widget" data-widget-type="full-page" data-product-image="false" data-take="1" data-limit-words="50" data-fill-empty="false" data-random="false"></div>
+           </div>
+        </li>
         <li class="cart_discounts js-cart_discounts sale">
           {% if cart.cart_level_discount_applications != blank %}
             {% for discount_application in cart.cart_level_discount_applications %}
@@ -144,16 +144,10 @@
             </p>
           {% endif %}
   
-          {% if settings.cart_message != blank %}
-            <div class="cart_text">
-              {{ settings.cart_message }}
-            </div>
-          {% endif %}
-  
           {% if settings.go_to_checkout %}
-            <button type="submit" name="checkout" class="action_button add_to_cart">{% if settings.show_lock_icon %}<span class="icon-lock"></span>{% endif %}{{ 'layout.general.checkout' | t }}</button>
+            <button type="submit" name="checkout" class="button button-black full-button action_button add_to_cart">{% if settings.show_lock_icon %}<span class="icon-lock"></span>{% endif %}{{ 'layout.general.checkout' | t }}</button>
           {% else %}
-            <button type="submit" class="action_button add_to_cart">{% if settings.show_lock_icon and settings.go_to_checkout %}<span class="icon-lock"></span>{% endif %}{{ 'layout.general.go_to_cart' | t }} </button>
+            <button type="submit" class="button button-black full-button action_button add_to_cart">{% if settings.show_lock_icon and settings.go_to_checkout %}<span class="icon-lock"></span>{% endif %}{{ 'layout.general.go_to_cart' | t }} </button>
           {% endif %}
         </li>
       </ul>

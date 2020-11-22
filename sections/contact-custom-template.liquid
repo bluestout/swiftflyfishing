@@ -9,7 +9,15 @@
             image: section.settings.image,
             alt: section.settings.image.alt,
             stretch_width: true,
-            progressive: true
+            progressive: true,
+            additional_classes: "medium-down--hide"
+    %}
+    {% render 'image-element',
+            image: section.settings.mobile_image,
+            alt: section.settings.image.alt,
+            stretch_width: true,
+            progressive: true,
+            additional_classes: "hide medium-down--show"
     %}
     <div class="caption captionOverlay--true">
       <h1 class="headline">{{ section.settings.title }}</h1>
@@ -71,6 +79,12 @@ required: true
       "id": "image",
       "label": "Image",
       "info": "1800 x 800px recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Image",
+      "info": "480 x 240px recommended"
     },
     {
       "type": "checkbox",

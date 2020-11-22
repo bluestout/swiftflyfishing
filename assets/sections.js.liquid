@@ -1080,7 +1080,7 @@ var productPage = {
       adaptiveHeight: true,
       dragThreshold: 10,
       imagesLoaded: true,
-      pageDots: false,
+      pageDots: true,
       prevNextButtons: $productGallery.data('media-count') > 1 || $slides.length > 1 ? true : false,
       autoPlay: slideshowSpeed * 1000,
       fade: slideshowAnimation === 'fade' ? true : false,
@@ -1898,19 +1898,19 @@ var header = {
 
       //Toggle mini-cart with menu icon
       if(Shopify.theme_settings.cart_action != 'redirect_cart') {
-        $(".mini_cart").on("click", function(e) {
-          var $cart_container = $(this).parent();
-          if($cart_container.hasClass('active_link')) {
-            closeMiniCart();
-            $('body').removeClass('blocked-scroll');
-          } else {
-            openMiniCart($cart_container);
-            $('body').addClass('blocked-scroll');
-          }
-          if (is_touch_device() || Shopify.media_queries.medium.matches) {
-            e.preventDefault();
-          }
-        });
+        // $(".mini_cart").on("click", function(e) {
+        //   var $cart_container = $('#mini-cart');
+        //   if($cart_container.hasClass('active_link')) {
+        //     closeMiniCart();
+        //     $('body').removeClass('blocked-scroll');
+        //   } else {
+        //     openMiniCart($cart_container);
+        //     $('body').addClass('blocked-scroll');
+        //   }
+        //   if (is_touch_device() || Shopify.media_queries.medium.matches) {
+        //     e.preventDefault();
+        //   }
+        // });
       }
 
 

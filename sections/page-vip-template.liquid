@@ -1,3 +1,29 @@
+{% if section.settings.title != blank %}
+  {% assign title = section.settings.title %}
+{% else %}
+  {% assign title = page.title %}
+{% endif %}
+{% if section.settings.banner_status and section.settings.image %}
+  <header class="banner center page-banner dark-overlay-{{ section.settings.image_darken }}">
+    {% render 'image-element',
+            image: section.settings.image,
+            alt: section.settings.image.alt,
+            stretch_width: true,
+            progressive: true
+    %}
+    <div class="caption captionOverlay--true">
+      
+      <h1 class="headline">{{ title }}</h1>
+      {{ section.settings.sub_text }}
+    </div>    
+  </header>
+{% else %}
+  <div class="header">
+    <h2 class="uppercase center">{{title}}</h2>
+    {{ section.settings.sub_text }}
+  </div>
+{% endif %}
+
 {% if section.settings.frontpage_grid_style %}
   <div class="container">
     <div class="sixteen columns">
@@ -25,11 +51,19 @@
 
 {% assign content_block_status = true %}
 {% capture content_block %}
+  {% unless section.settings.content_block_style %}
+      <div class="container">
+        <div class="text-content-field column-{{section.settings.grid_range}}">
+  {% endunless %}
   {% for block in section.blocks %}
     {% if block.type == 'text-content-block' %}
         {% include 'include-content-block-item' %}
     {% endif %}
   {% endfor %}
+  {% unless section.settings.content_block_style %}
+      </div>
+    </div>
+  {% endunless %}
 {% endcapture %}
 
 {% for block in section.blocks %}
@@ -43,30 +77,60 @@
       {{text_block_content}}
       {% assign text_block_status = false %}
     {% elsif content_block_status and block.type == 'text-content-block' %}
-      <div class="text-content-field column-{{section.settings.grid_range}}">
-        {{ content_block }}
-      </div>
-      
+      {{ content_block }}
       {% assign content_block_status = false %}
     {% endif %}
-
   </div>
   
 {% endfor %}
-
+<div class="container">
+  <div class="page-content">
+    <div class="privy-embed-form" data-campaign="934586"></div>
+    <p class="center">*Your information is confidential and will not be shared with any third party. 
+      You can unsubscribe at any time.</p>
+  </div>
+</div>
 {% if section.settings.frontpage_grid_style %}
     </div>
   </div>
 {% endif %}
 {% schema %}
 {
-  "name": "Our story section",
-  "class": "page-section our-story-section",
+  "name": "VIP club section",
+  "class": "page-section vip-section",
   "settings": [
     {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
       "type": "checkbox",
-      "id": "frontpage_grid_style",
-      "label": "Wide display"
+      "id": "banner_status",
+      "label": "Banner status"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_darken",
+      "label": "Image darken status"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "TItle"
+    },
+    {
+      "type": "richtext",
+      "id": "sub_text",
+      "label": "Sub title"
+    },
+    {
+      "type": "header",
+      "content": "text content block"
     },
     {
       "type": "range",
@@ -75,7 +139,7 @@
       "min": 1,
       "max": 5,
       "step": 1,
-      "default": 2
+      "default": 3
     }
   ],
   "blocks": [
@@ -238,6 +302,30 @@
       "name": "text content block",
       "settings": [
         {
+          "type": "checkbox",
+          "id": "layout",
+          "label": "Wide display"
+        },
+        {
+          "type": "range",
+          "id": "margin_width",
+          "label": "Margin width",
+          "unit": "px",
+          "min": 0,
+          "max": 40,
+          "step": 5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "per_row",
+          "label": "Item per row",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 2
+        },
+        {
           "type": "html",
           "id": "icon",
           "label": "Icon"
@@ -253,9 +341,14 @@
           "label": "Text"
         },
         {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
           "type": "select",
           "id": "text_style",
-          "label": "Text style",
+          "label": "Content style",
           "options": [
             {
               "value": "list",
@@ -264,6 +357,10 @@
             {
               "value": "text",
               "label": "Text"
+            },
+            {
+              "value": "image",
+              "label": "Image"
             }
           ]
         },
@@ -290,6 +387,11 @@
           "type": "color",
           "id": "bg_color",
           "label": "Background color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
         }
       ]
     },

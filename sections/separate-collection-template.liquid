@@ -23,9 +23,16 @@
               image: image,
               alt: collection.title,
               stretch_width: true,
-              progressive: true
+              progressive: true,
+              additional_classes: 'medium-down--hide'
       %}
-
+      {% render 'image-element',
+              image: mobile_image,
+              alt: collection.title,
+              stretch_width: true,
+              progressive: true,
+              additional_classes: 'hide medium-down--show'
+      %}
       {% if section.settings.display_collection_title %}
         <div class="caption captionOverlay--true">
           <h2 class="color-white">{{ collection.title }}</h2>
@@ -130,14 +137,20 @@
         </div>
       {% endif %}
     </div>
-    <div class="sidebar"></div>
+    <div class="hide medium-down--show">
+      <a class="button full-button button-blue sidebar-toggle-button">Filter</a>
+    </div>
+    
+    <div class="sidebar animated fadeInRight">
+      {% include 'sidebar' %}
+    </div>
     <div class="content">
       <div class="sixteen columns">
         {% include 'image-slider-block' %}
         <div class="description-content">
           {% for block in section.blocks %}
             {% if block.type == 'text-block' %}
-              <div class="one-half column flex">
+              <div class="one-fourth medium-down--one-half column flex">
                 {% include 'description-block' with 
                   title: block.settings.title,
                   sub_title: block.settings.sub_title,
@@ -149,26 +162,33 @@
             
           {% endfor %}
         </div>
-        
-        <div class="discription-slider-content sixteen columns">
-          <div class="description-slider">
-            {% for block in section.blocks %}
-              {% if block.type == 'text-carousel' %}
-                <div class="one-half column description-item">
-                  <h3>{{block.settings.title}}</h3>
-                  {{ block.settings.text }}
-                  {% if block.settings.image %}
-                    {% include 'image-element' with
-                      image: block.settings.image,
-                      alt: block.settings.title,
-                      max_height: 1024
-                    %}
-                  {% endif %}
+        <ul class="toggle-list">
+          <li>
+            <a class="toggle_btn">Read more</a>
+            <div class="toggle_content">
+              <div class="discription-slider-content sixteen columns">
+                <div class="description-slider">
+                  {% for block in section.blocks %}
+                    {% if block.type == 'text-carousel' %}
+                      <div class="one-half column description-item">
+                        <h3>{{block.settings.title}}</h3>
+                        {{ block.settings.text }}
+                        {% if block.settings.image %}
+                          {% include 'image-element' with
+                            image: block.settings.image,
+                            alt: block.settings.title,
+                            max_height: 1024
+                          %}
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                 </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-        </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        
         
         {% if collection.products.size == 0 %}
           <div class="section clearfix collection-matrix">
@@ -242,6 +262,11 @@
       "id": "image",
       "label": "Image",
       "info": "1800 x 1000px recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
     },
     {
       "type": "header",

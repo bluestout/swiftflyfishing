@@ -105,6 +105,10 @@
     {% assign feature_image = true %}
   {% elsif template contains "page" %}
     {% assign feature_image = true %}
+  {% elsif template contains "login" %}
+    {% assign feature_image = true %}
+  {% elsif template contains "register" %}
+    {% assign feature_image = true %}
   {% else %}
     {% assign feature_image = false %}
   {% endif %}
@@ -136,7 +140,10 @@
         {%- endif -%}"
         data-shop-currency="{{ shop.currency }}"
         data-shop-url="{{ shop.url }}">
-
+    {% if template contains '404' %}
+      {% render 'socialshopwave-helper' %}
+    {% endif %}
+    
     {% section 'header' %}
 
     <div class="mega-menu-container">

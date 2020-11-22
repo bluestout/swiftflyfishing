@@ -8,9 +8,10 @@
       "page": "Page {{ page_number }}"
     },
     "404": {
-      "title": "Page Not Found",
-      "subtext": "We're sorry, but the page you requested could not be found.",
-      "continue_shopping_html": "Try searching or <a href=\"\/collections\/all\">continue shopping &rarr;<\/a>"
+      "title": "404",
+      "sub_title": "Whoops!",
+      "subtext_html": "We couldn't find the page you are looking for!</br>Checkout our top products",
+      "continue_shopping_html": ""
     },
     "password_page": {
       "opening_soon": "Opening Soon",
@@ -255,11 +256,11 @@
       "returning_customers": "Returning Customers",
       "new_customers": "New Customers",
       "forgot_password": "Forgot your password?",
-      "sign_up_html": "Sign up &rarr;",
+      "sign_up_html": "Sign up",
       "new_customer_label": "New Customer?",
       "sign_in": "Login",
       "cancel": "Return to Store",
-      "guest_title_html": "Continue as a Guest &rarr;",
+      "guest_title_html": "Continue as a Guest",
       "first_name": "First Name",
       "last_name": "Last Name",
       "email": "Email",
@@ -308,7 +309,7 @@
       "sign_up": "Sign Up",
       "cancel": "Return to Store",
       "returning_customer_label": "Returning Customer?",
-      "sign_in_html": "Login &rarr;",
+      "sign_in_html": "Login",
       "first_name": "First Name",
       "last_name": "Last Name",
       "email": "Email",

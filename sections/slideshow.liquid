@@ -59,6 +59,9 @@
               </a>
             {% endif %}
           {% endunless %}
+          <div class="icon">
+            {{ block.settings.icon }}
+          </div>
           {% unless block.settings.pretext == blank and block.settings.title == blank and block.settings.subtitle == blank and block.settings.button1 == blank and block.settings.button2 == blank %}
             <div class="caption position-{{block.settings.text_position}} js-caption caption--below-{{ section.settings.mobile_text_below_image }}">
                 <div class="caption-content
@@ -97,9 +100,7 @@
                 </div>
               </div>
           {% endunless %}
-          <div class="icon">
-            {{ block.settings.icon }}
-          </div>
+          
         </div>
     {% endfor %}
   </section>

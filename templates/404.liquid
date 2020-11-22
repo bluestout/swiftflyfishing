@@ -1,26 +1,32 @@
 <a name="pagecontent" id="pagecontent"></a>
-
-<div class="sixteen columns clearfix collection_nav">
-  <h1 class="collection_title">{{ 'general.404.title' | t }}</h1>
-</div>
-
-<div class="sixteen columns">
-  <div class="section clearfix">
-    <p class="quote">
-      {{ 'general.404.subtext' | t }}
-    </p>
+<div class="not-found-section">
+  <div class="sixteen columns clearfix collection_nav">
+    <h1 class="collection_title center">{{ 'general.404.title' | t }}</h1>
+  </div>
+  
+  <div class="sixteen columns">
+    <div class="section clearfix">
+      <p class="center"><strong>{{ 'general.404.sub_title' | t }}</strong></p>
+      <p class="quote">
+        {{ 'general.404.subtext_html' | t }}
+      </p>
+    </div>
+  </div>
+  
+  <div class="section clearfix search_page">
+    <div class="sixteen columns center">
+      <p class="extra_padding">
+        {{ 'general.404.continue_shopping_html' | t }}
+      </p>
+    </div>
+    <div class="six columns offset-by-five center">
+      <a class="button button-small button-black" href="/collections">View studio Built</a>
+    </div>
   </div>
 </div>
 
-<div class="section clearfix search_page">
-  <div class="sixteen columns center">
-    <p class="extra_padding">
-      {{ 'general.404.continue_shopping_html' | t }}
-    </p>
-  </div>
-  <div class="six columns offset-by-five">
-    <form class="search" action="{{ routes.search_url }}">
-      <input type="text" name="q" class="search_box" placeholder="{{ 'general.search.placeholder' | t }}"  value="{{ search.terms }}" />
-    </form>
-  </div>
+<div class="instagram-section">
+  <div class="ssw-html-widget ssw-instagram-widget" data-module="service" data-gallery_id="1" data-name="instagramPhotos">
+    <div class="ssw-page-loading"><span class="ssw-spin ssw-loader"></span></div>
+   </div>
 </div>

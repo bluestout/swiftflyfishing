@@ -2,6 +2,7 @@
   {% assign id = block.id %}
   {% assign wide_display = block.settings.wide_display %}
   {% assign image = block.settings.image %}
+  {% assign mobile_image = block.settings.mobile_image %}
   {% assign pretext = block.settings.pretext %}
   {% assign title = block.settings.title %}
   {% assign title_style = block.settings.title_style %}
@@ -24,10 +25,12 @@
   {% assign mobile_text_color = block.settings.mobile_text_color %}
   {% assign icon = block.settings.icon %}
   {% assign position = block.settings.caption_position %}
+  {% assign display_status = block.settings.display_status %}
 {% else %}
   {% assign id = section.id %}
   {% assign wide_display = section.settings.wide_display %}
   {% assign image = section.settings.image %}
+  {% assign mobile_image = section.settings.mobile_image %}
   {% assign pretext = section.settings.pretext %}
   {% assign title = section.settings.title %}
   {% assign title = section.settings.title %}
@@ -51,6 +54,7 @@
   {% assign mobile_text_color = section.settings.mobile_text_color %}
   {% assign icon = section.settings.icon %}
   {% assign position = section.settings.caption_position %}
+  {% assign display_status = section.settings.display_status %}
 {% endif %}
 
 {% assign mobile_crop = 'mobile-banner--crop-' | append: mobile_image_crop %}
@@ -72,19 +76,35 @@
   }
 {% endstyle %}
 
+{% if display_status != 'both' %}
+  {% if display_status == 'desktop' %}
+    {% assign cls = 'medium-down--hide' %}
+  {% endif %}
+  {% if display_status == 'mobile' %}
+    {% assign cls = 'hide medium-diown--show' %}
+  {% endif %}
+{% else %}
+  {% assign cls = '' %}
+{% endif %}
+
 
 {% if wide_display == false %}
 <div class="container">
   <div class="sixteen columns">
 {% endif %}
-
-<section id="banner-{{id}}" class="banner full-width--{{ wide_display }}">
+<section id="banner-{{id}}" class="banner {{cls}} gallery-cell full-width--{{ wide_display }}">
   {% if image != nil %}
     {% render 'image-element',
             image: image,
             alt: image.alt,
             stretch_width: true,
-            additional_classes: mobile_crop
+            additional_classes: 'small-down--hide'
+    %}
+    {% render 'image-element',
+            image: mobile_image,
+            alt: image.alt,
+            stretch_width: true,
+            additional_classes: 'hide small-down--show'
     %}
   {% else %}
     {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg placeholder-svg--banner' }}
