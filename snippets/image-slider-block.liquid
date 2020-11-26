@@ -25,4 +25,16 @@
       </div>
     </div>
   </div>
+  <div class="list medium-down--show hide">
+    <ul>
+      {% for block in section.blocks %}
+        {% if block.type == 'label' %}
+        <li class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
+          <span class="uppercase">{{block.settings.title}}</span>
+        </li>
+        {% endif %}
+        
+      {% endfor %}
+    </ul>
+  </div>
 </div>

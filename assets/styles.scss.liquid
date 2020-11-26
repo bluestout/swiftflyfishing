@@ -1310,6 +1310,21 @@ $breakpoint-has-push: ();
   margin: 0 auto 15px;
   clear: both;
   padding-top: 4px;
+  &.red_dot{
+    &::before{
+      content: " ";
+      width: 10px;
+      height: 10px;
+      display: table;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      background-color: #ED1C24;
+      @include respond-to("medium-down"){
+        margin: auto;
+        margin-bottom: 20px;
+      }
+    }
+  }
   a {
     font-weight: inherit;
     color: {{ settings.headline_color }};
@@ -3877,18 +3892,6 @@ button.shopify-payment-button__button.shopify-payment-button__button--unbranded 
   }
 }
 
-a.button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-.action_button:hover,
-input.action_button[type="submit"]:hover,
-input.action_button[type="button"]:hover,
-input.action_button[type="button"]:hover,
-button.shopify-payment-button__button.shopify-payment-button__button--unbranded:hover {
-  background-color: {{ settings.btn_hover_color }};
-  border: 1px solid {{ settings.btn_hover_color }};
-}
 
 a.button:active,
   button:active,
@@ -8752,7 +8755,7 @@ $topMenuHeight: 80px;
 
 {% endif %}
 
-@include respond-to('medium-down'){
+@include respond-to('large-down'){
 
   .mobile_nav-fixed--true,
   .mobile_nav-fixed--false {
@@ -8780,13 +8783,14 @@ $topMenuHeight: 80px;
   .page-banner .under-menu:nth-child(1) {
     margin-top: 0;
   }
-
+  #pagecontent {
+    padding-bottom: calc(#{$topMenuHeight} + #{$promoBannerHeight});
+    display: block;
+  }
   //recalculate values if promo banner is visible
   .promo-banner--show.mobile_nav-fixed--true,
   .promo-banner--show.mobile_nav-fixed--false {
-    #pagecontent {
-      padding-bottom: calc(#{$topMenuHeight} + #{$promoBannerHeight});
-    }
+    
 
     .page-banner + #pagecontent {
       padding-bottom: 0;
@@ -11195,9 +11199,6 @@ $product-media-bg-color: {{ settings.shop_bg_color }};
     letter-spacing: {{ settings.slideshow_headline_letter_spacing }}px;
     line-height: 1.4em;
     margin-bottom: 15px;
-    {% if settings.slideshow_headline_shadow != blank %}
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-    {% endif %}
 
     @include respond-to('small-down') {
       font-size: 2.6em;
@@ -11577,7 +11578,6 @@ input[type="button"].highlight-false--dark {
 }
 
 .account-sidebar {
-  border-right: 1px solid {{ settings.headline_border_color }};
   box-sizing: border-box;
   padding-right: 10px;
   @include overflow-wrap(anywhere);
@@ -11614,35 +11614,6 @@ input[type="button"].highlight-false--dark {
   padding-bottom: 0;
 }
 
-.action_edit {
-  background-color: {{ settings.btn_color }};
-  border-color: {{ settings.btn_color }};
-  a {
-    color: {{ settings.btn_text_color }};
-  }
-  &:hover {
-    background-color: {{ settings.btn_color }};
-    border-color: {{ settings.btn_color }};
-    a {
-      color: {{ settings.btn_text_color }};
-    }
-  }
-}
-
-.action_delete {
-  background-color: {{ settings.btn_text_color }};
-  border-color: {{ settings.btn_color }};
-  a {
-    color: {{ settings.btn_color }};
-  }
-  &:hover {
-    background-color: {{ settings.btn_color }};
-    border-color: {{ settings.btn_color }};
-    a {
-      color: {{ settings.btn_text_color }};
-    }
-  }
-}
 
 /* #Policy pages
 ================================================== */
@@ -11922,6 +11893,21 @@ input[type="button"].highlight-false--dark {
     margin-bottom: 15px;
     display: block;
     color: $image-with-text-color;
+    &.red_dot{
+      &::before{
+        content: " ";
+        width: 10px;
+        height: 10px;
+        display: table;
+        margin-bottom: 20px;
+        border-radius: 50%;
+        background-color: #ED1C24;
+        @include respond-to("medium-down"){
+          margin: auto;
+          margin-bottom: 20px;
+        }
+      }
+    }
   }
   .description {
     position: relative;

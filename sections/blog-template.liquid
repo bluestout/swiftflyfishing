@@ -40,8 +40,8 @@
 
 <a name="pagecontent" id="pagecontent"></a>
 
-<div class="container main content">
-
+<div class="main content">
+  <div class="container">
 {% paginate blog.articles by section.settings.blog_posts_per_page %}
   <div class="blog-header clearfix">
     {% unless section.settings.image != nil %}
@@ -105,8 +105,8 @@
   </script>
 
   <div class="{% if sidebar %}twelve medium-down--one-whole {% else %}sixteen{% endif %} columns equal-columns--outside-trim equal-columns--clear">
-    <h3 class="center">{{ section.settings.content_title }}</h3>
-    <h6 class="text-center">{{section.settings.content_text}}</h6>
+    <h3 class="center uppercase">{{ section.settings.content_title }}</h3>
+    <h5 class="text-center">{{section.settings.content_text}}</h5>
     {% for article in blog.articles %}
       {% if section.settings.blog_posts_per_row == 1 %}
         <div class="article-wrap">
@@ -151,7 +151,7 @@
       {% endif %}
 
 
-        <h2 class="article__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        <h2 class="article__title"><a href="{{ article.url }}">{{ article.title | truncate: 70, '...' }}</a></h2>
 
         <p class="blog_meta">
           {% if section.settings.blog_author %}
@@ -187,7 +187,7 @@
         {% endif %}
 
         {% if article.excerpt != blank %}
-          <div class="excerpt"> {{ article.excerpt }}</div>
+          <div class="excerpt"> {{ article.excerpt | strip_html | truncate: 150, '...' }}</div>
         {% endif %}
         {% if section.settings.read_more_link %}
           <a href="{{ article.url }}" title="{{ article.title | escape }}" class="{% if settings.read_more_style == 'button' %}action_button continue-button read-more-button{% else %}read-more-link{% endif %}">{{ 'blogs.general.continue_reading_html' | t }}</a>
@@ -215,7 +215,7 @@
     {% render 'pagination', paginate: paginate %}
   </div>
 {% endpaginate %}
-
+</div>
 </div>
 
 {% schema %}

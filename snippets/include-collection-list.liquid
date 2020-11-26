@@ -134,7 +134,10 @@
                     {% if block.settings.button_label != blank %}
                     <a href="{{ collection.url }}" class="button button-white">{{ block.settings.button_label }}</a>
                     {% endif %}
-                    {{ block.settings.description }}
+                    <div class="hide medium-down--show">
+                      {{ block.settings.description }}
+                    </div>
+                    
                   </div>
                 {% endif %}
                   

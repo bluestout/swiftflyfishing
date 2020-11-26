@@ -13,6 +13,12 @@
 {% else %}
   <div class="header">
     <h2 class="uppercase center">{{section.settings.title}}</h2>
+    {% render 'image-element',
+            image: section.settings.image,
+            alt: section.settings.image.alt,
+            stretch_width: true,
+            progressive: true
+    %}
   </div>
 {% endif %}
 

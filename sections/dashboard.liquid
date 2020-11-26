@@ -1,0 +1,161 @@
+{% assign heading_title = 'customer.account.title' | t %}
+
+<header class="banner center page-banner dark-overlay-{{ section.settings.image_darken }}">
+  {% render 'image-element',
+          image: section.settings.feature_image,
+          alt: section.settings.feature_image.alt,
+          stretch_width: true,
+          progressive: true,
+          additional_classes: "medium-down--hide"
+  %}
+  {% render 'image-element',
+          image: section.settings.mobile_feature_image,
+          alt: section.settings.mobile_feature_image.alt,
+          stretch_width: true,
+          progressive: true,
+          additional_classes: "hide medium-down--show"
+  %}
+  <div class="caption captionOverlay--true">
+    <h1 class="headline">{{ heading_title }}</h1>
+  </div>    
+</header>
+
+{% paginate customer.orders by 20 %}
+  <div class="feature_divider"></div>
+
+  <div class="container">
+    <aside class="five columns account-sidebar">
+      <ul class="select-box-menu">
+        <li class="uppercase active">{{ 'customer.menu.dashboard' | t | link_to : "/account" }}</li>
+        <li class="uppercase">{{ 'customer.menu.account_detail' | t | link_to: "/account/addresses#" }}</li>
+        <li class="uppercase"><a href="#swym-wishlist" class="swym-wishlist"> {{ 'customer.menu.wishlist' | t }}</a></li>
+        <li class="uppercase">{{ 'customer.menu.rewards' | t | link_to: "pages/gathred" }}</li>
+        <li class="uppercase">{{ 'customer.menu.log_out' | t | link_to: "/account/logout" }}</li>
+      </ul>
+    </aside>
+
+    <main class="eleven columns account-main">
+        <h4 class="uppercase heading-title">
+          {{ 'customer.orders.title' | t }}
+        </h4>
+  
+        {% if customer.orders.size != 0 %}
+          <table id="customer-orders" class="collapsible-table">
+            <thead>
+              <tr>
+                <th class="uppercase">{{ 'customer.orders.order_number' | t }}</th>
+                <th class="uppercase">{{ 'customer.orders.date' | t }}</th>
+                <th class="uppercase">{{ 'customer.orders.payment_status' | t }}</th>
+                <th class="uppercase">{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th class="uppercase">{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              {% for order in customer.orders %}
+                <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+                  <td data-label="{{ 'customer.orders.order_number' | t }}">{{ order.name | link_to: order.customer_url }}</td>
+                  <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | date: format: "month_day_year" }}</td>
+                  <td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                  <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
+                  <td data-label="{{ 'customer.orders.total' | t }}">
+                    <span class="money">{% render 'price-element', price: order.total_price %}</span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>{{ 'customer.orders.none' | t }}</p>
+        {% endif %}
+  
+        {% render 'pagination', paginate: paginate %}
+        <div class="account-info">
+          <div class="column one-half medium-down--one-whole">
+              <h4 class="name uppercase">Details</h4>
+              <p class="name note">
+                {{ customer.name }}
+              </p>
+              <p class="email note">
+                {{ customer.email }}
+              </p>
+          </div>
+          
+          <div class="column one-half medium-down--one-whole">
+            <h4 class="uppercase">addresses</h4>
+      
+            <div class="address note">
+              {% if customer.default_address != nil %}
+                <p>{{ customer.default_address.address1 }}</p>
+      
+                {% if customer.default_address.address2 != "" %}
+                  <p>{{ customer.default_address.address2 }}</p>
+                {% endif %}
+      
+                <p>{{ customer.default_address.city }}{% if customer.default_address.province_code %}, {{ customer.default_address.province_code }}{% endif %} {{ customer.default_address.zip}}</p>
+      
+                <p>{{ customer.default_address.country }}</p>
+      
+                <p>{{ customer.default_address.phone }}</p>
+              {% else %}
+                <p>{{ 'customer.addresses.no_addresses' | t }}</p>
+              {% endif %}
+      
+              <p>
+                <a href="{{ routes.account_addresses_url }}">
+                  {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+                </a>
+              </p>
+            </div>
+          </div>
+          
+        </div>
+    </main>
+  </div>
+{% endpaginate %}
+
+
+
+{% schema %}
+{
+    "name": "dashboard section",
+    "class": "account-section",
+    "settings": [
+        {
+          "type": "image_picker",
+          "id": "feature_image",
+          "label": "Feature image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_feature_image",
+          "label": "Mobile feature image"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color",
+          "default": "#030303"
+      },
+      {
+        "type": "select",
+        "id": "pos",
+        "label": "Hero banner title postion",
+        "options": [
+            {
+                "value": "left",
+                "label": "Left"
+            },
+            {
+                "value": "right",
+                "label": "Right"
+            },
+            {
+                "value": "center",
+                "label": "Center"
+            }
+        ]
+      }
+    ]
+}
+{% endschema %}

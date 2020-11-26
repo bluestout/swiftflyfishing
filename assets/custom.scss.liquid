@@ -20,7 +20,7 @@ $widescreen-down: 'widescreen-down';
 $tablet: 'tablet';
 
 // The `$breakpoints` list is used to build our media queries.
-// You can use these in the media-query mixin.
+// You can use these in the respond-to mixin.
 $breakpoints: (
   $small-down '(max-width: #{$grid-small})',
   $small '(min-width: #{$grid-small + 1}) and (max-width: #{$grid-medium})',
@@ -100,14 +100,14 @@ $table-border-color: #dcdcdc;
 }
 
 // Media query mixin
-@mixin respond-to($media-query) {
+@mixin respond-to($respond-to) {
   $breakpoint-found: false;
 
   @each $breakpoint in $breakpoints {
     $name: nth($breakpoint, 1);
     $declaration: nth($breakpoint, 2);
 
-    @if $media-query == $name and $declaration {
+    @if $respond-to == $name and $declaration {
       $breakpoint-found: true;
 
       @media only screen and #{$declaration} {
@@ -117,7 +117,7 @@ $table-border-color: #dcdcdc;
   }
 
   @if $breakpoint-found == false {
-    @warn 'Breakpoint "#{$media-query}" does not exist';
+    @warn 'Breakpoint "#{$respond-to}" does not exist';
   }
 }
 
@@ -154,6 +154,12 @@ html {
     letter-spacing: normal;
   }
 }
+.promo-banner p{
+  color: white;
+  @include respond-to("medium-down"){
+    font-size: 11px;
+  }
+}
 .uppercase{
   text-transform: uppercase;
 }
@@ -187,7 +193,9 @@ html {
     stroke: $color-blue;
   }
 }
-
+.border-brown{
+  border-color: $color-brown!important  ;
+}
 .color-brown {
   color: $color-brown;
   & path{
@@ -195,6 +203,28 @@ html {
   }
 }
 
+.red_dot-true{
+  &::before{
+    content: " ";
+    width: 10px;
+    height: 10px;
+    display: table;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background-color: $color-red;
+    @include respond-to("medium-down"){
+      margin-bottom: 20px;
+    }
+  }
+}
+.dark_bg{
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(63,63,68,0.15);
+  top: 0;
+}
 .extra_small{
   font-size: 11px;
   @include font-MontRegular();
@@ -210,12 +240,19 @@ h2{
   @include font-MontBold();
   font-size: $font-large; // 32
   line-height: 44px;
+  margin: 15px 0;
+  @include respond-to("medium-down"){
+    font-size: $font-small;
+    line-height: 20px;
+    margin-bottom: 0;
+  }
 }
 
 h3{
   @include font-MontBold();
   font-size: $font-medium; // 24
   line-height: 29px;
+  margin: 15px 0;
   @include respond-to("medium-down"){
     font-size: 16px;
     line-height: 22px;
@@ -227,12 +264,18 @@ h4{
   @include font-MontSBold();
   font-size: $font-small; // 18
   line-height: 22px;
+  margin: 15px 0;
+  @include respond-to("medium-down"){
+    font-size: $font-desc;
+    line-height: 18px;
+  }
 }
 
 h5{
   @include font-MontSBold();
   font-size: $font-desc; // 14
   line-height: 18px;
+  margin: 10px 0;
 }
 
 strong, b {
@@ -270,10 +313,7 @@ a.button, .button, button, input[type="submit"], input[type="reset"], input[type
     width: 100%;
     max-width: initial;
   }
-  &:hover{
-    background-color: $color-red;
-    border-color: $color-red;
-  }
+
   &.button-black{
     background: $color-black;
     border-color: $color-black;
@@ -305,6 +345,14 @@ a.button, .button, button, input[type="submit"], input[type="reset"], input[type
   &.highlight-button{
     background: transparent;
     color: black;
+  }
+  &.highlight-false{
+    color: white;
+    &:hover{
+      border-width: 2px;
+      background: transparent;
+      color: white;
+    }
   }
 }
 
@@ -584,6 +632,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
       max-width: 600px;
       text-align: center;
       margin: auto;
+      text-transform: unset;
       @include font-LatoRegular();
       font-size: $font-medium;
       line-height: 30px;
@@ -648,10 +697,12 @@ header{
       }
       .mobile_logo{
         max-width: 58px;
-        margin: 15px 0;
-        margin-bottom: 10px;
+        margin: 10px 0;
+        margin-bottom: 5px;
         img{
-
+          width: auto;
+          max-width: 150px;
+          max-height: 41px;
         }
       }
       .top-bar--right{
@@ -937,6 +988,10 @@ header{
           svg{
             width: 20px;
             height: 30px;
+            margin-right: 10px;
+          }
+          span{
+            color: white;
           }
         }
       }
@@ -958,21 +1013,12 @@ header{
 
 .image-slider-content{
   .heading{
-    margin-bottom: 50px;
-  }
-  h1{
+    margin-bottom: 100px;
     @include respond-to("medium-down"){
-      font-size: $font-medium;
-      margin: 0;
-      line-height: 30px;
+      margin-bottom: 20px;
     }
   }
-  h6{
-    @include respond-to("medium-down"){
-      font-size: $font-desc;
-      margin: 10px 0;
-    }
-  }
+  
   #bar{
     width: calc(100% - 50px);
     margin-right: 0;
@@ -983,7 +1029,7 @@ header{
     padding-top: 3.7%;
     margin-bottom: 100px;
     @include respond-to("small-down"){
-      margin: 20px 0;
+      margin: 20px auto;
       overflow: hidden;
     }
     .label-indicator{
@@ -1137,13 +1183,31 @@ header{
       }
     }
   }
+  .list{
+    width: calc(100% - 50px);
+    margin: auto;
+    ul{
+      list-style: none;
+      padding-left: 20px;
+      li{
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        &::before{
+          content: " ";
+          margin-right: 10px;
+          width: 10px;
+          height: 10px;
+          display: table;
+          border-radius: 50%;
+          background: black;
+        }
+      }
+    }
+  }
 }
 
 .image-with-text-overlay-section, .block__image_with_text_overlay{
-  margin-bottom: 50px;
-  @include respond-to("medium-down"){
-    margin-bottom: 0%;
-  }
   .banner{
     .caption{
       margin: 0 50px;
@@ -1224,6 +1288,7 @@ header{
   }
   &.title-left{
     span{
+      text-transform: uppercase;
       background: white;
       z-index: 1000;
       position: relative;
@@ -1247,6 +1312,7 @@ header{
   &.title-right{
     text-align: right;
     span{
+      text-transform: uppercase;
       background: white;
       z-index: 1000;
       position: relative;
@@ -1303,6 +1369,10 @@ header{
 }
 
 .image-with-text-section{
+  margin-bottom: 40px;
+  @include respond-to("medium-down"){
+    margin-bottom: 0;
+  }
   .featured-link--half{ 
     position: relative;
     a{
@@ -1324,10 +1394,37 @@ header{
       @include respond-to("medium-down"){
         font-size: 20px;
         text-align: center;
+        width: 100%;
+        max-width: 300px;
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
     .image-element__wrap{
       max-width: initial!important;
+    }
+    .video_btn{
+      position: absolute;
+      top: 50%;
+      left: -35px;
+      transform: translateY(-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      @include respond-to("medium-down"){
+        left: 50%;
+        top: auto;
+        bottom: 0;
+        transform: translate(-50%, 50%);
+      }
+      &:hover{
+        background: $color-red;
+      }
     }
     .image-caption{
       position: absolute;
@@ -1392,6 +1489,25 @@ header{
       }
       .collection_title {
         text-transform: unset;
+        font-size: 24px;
+        @include respond-to("medium-down"){
+          font-size: 18px;
+        }
+        &.red_dot{
+          &::before{
+            content: " ";
+            width: 10px;
+            height: 10px;
+            display: table;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            background-color: $color-red;
+            @include respond-to("medium-down"){
+              margin-bottom: 20px;
+            }
+          }
+        }
+        
         @include respond-to("medium-down"){
           text-align: center;
         }
@@ -1491,6 +1607,7 @@ header{
         justify-content: space-evenly;
         .image-item{
           width: 50%;
+          max-width: 180px;
           .image-element__wrap{
             padding: 20px;
             width: 100%;
@@ -1527,6 +1644,15 @@ header{
       }
     }
     
+  }
+  #video-popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 1200px;
+    width: 100%;
+    z-index: 1000;
   }
 }
 
@@ -1606,9 +1732,23 @@ header{
     }
   }
 }
-
+.collection {
+  .list-collection-wrapper{
+    .list-collections{
+      .flickity-button{
+        display: block!important;
+      }
+      .flickity-page-dots{
+        position: initial!important;
+      }
+    }
+  }
+}
 .list-collection-wrapper{
   .list-collections{
+    @include respond-to("medium-down"){
+      overflow: initial;
+    }
     .thumbnail {
       @include respond-to("medium-down"){
         margin-right: 5px;
@@ -1664,6 +1804,13 @@ header{
           p{
             max-width: 70%;
             text-align: left;
+            @include font-LatoBold();
+            font-size: $font-body;
+          }
+          a{
+            @include font-MontBold();
+            font-size: $font-body;
+            text-transform: uppercase;
           }
         }
       }
@@ -1696,7 +1843,12 @@ header{
     }
     .flickity-page-dots{
       @include respond-to("small-down"){
-        display: none!important;
+        position: absolute;
+        top: -23px;
+        transform: none;
+        height: 10px;
+        z-index: 1000;
+        right: 0;
       }
     }
   }
@@ -1763,6 +1915,9 @@ header{
     justify-content: space-around;
     padding: 30px 10px 20px;
     margin: 0;
+    @include respond-to("medium-down"){
+      padding: 20px;
+    }
     li{
       display: flex;
       align-items: center;
@@ -1915,6 +2070,7 @@ header{
         @include respond-to("medium-down"){
           flex-wrap: nowrap;
           width: 100%;
+          padding: 0 5px;
         }
         svg{
           margin-right: 10px;
@@ -1935,6 +2091,10 @@ header{
     max-width: 285px;
     width: 100%;
     padding-right: 10px;
+    position: sticky;
+    top: 50px;
+    display: table;
+    float: left;
     @include respond-to("medium-down"){
       display: none;
       position: fixed;
@@ -1946,6 +2106,9 @@ header{
       padding: 20px 30px;
       height: 100%;
       max-width: 300px;
+      &.active{
+        display: block;
+      }
     }
     .sidebar-wrap{
       border: none!important; 
@@ -2005,7 +2168,9 @@ header{
         margin-bottom: 100px;
         @include respond-to("medium-down"){
           margin-bottom: 10px;
-          padding: 0 20px;
+          padding: 20px;
+          padding-bottom: 1px;
+          background: rgba(216, 216, 216, 0.15);
         }
         h1{
           text-align: left;
@@ -2032,15 +2197,39 @@ header{
       }
       #bar{
         .label-indicator{
+          pointer-events: none;
           @include respond-to("medium-down"){
             display: none;
           }
           
         }
         #slider{
+          pointer-events: none;
           max-width: calc(100% - 20px);
         }
         
+      }
+      .list{
+        width: calc(100% - 50px);
+        margin: auto;
+        ul{
+          list-style: none;
+          padding-left: 20px;
+          li{
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            &::before{
+              content: " ";
+              margin-right: 10px;
+              width: 10px;
+              height: 10px;
+              display: table;
+              border-radius: 50%;
+              background: black;
+            }
+          }
+        }
       }
     }
     .description-content {
@@ -2280,6 +2469,7 @@ header{
     width: 100%;
     @include respond-to("medium-down"){
       flex-wrap: wrap;
+      padding: 0 20px;
     }
     .image{
       .gallery-wrap{
@@ -2388,6 +2578,10 @@ header{
     .info{
       position: sticky;
       top: 50px;
+      padding: 0 50px;
+      @include respond-to("medium-down"){
+        padding: 0;
+      }
       .price-info{
         display: flex;
         flex-wrap: wrap;
@@ -2467,6 +2661,11 @@ header{
   }
   .product-details__blocks{
     .block__related_products{
+      .related-products__title{
+        h3{
+          text-transform: uppercase;
+        }
+      }
       .related-products{
         padding-top: 0;
         .products-slider{
@@ -2481,6 +2680,9 @@ header{
     }
     .block__image_with_text_overlay{
       width: 100%;
+      @include respond-to("medium-down"){
+        margin-bottom: 20px;
+      }
       .image-text-overlay-slider{
         .banner{
           margin-bottom: 50px;
@@ -2608,6 +2810,34 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    .progress-content{
+      width: 100%;
+      padding: 15px 0;
+      .progress-bar{
+        position: relative;
+        background: $color-black;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 30px;
+        .progress{
+          display: table;
+          position: absolute;
+          height: 100%;
+          top: 0;
+          background: #AB987A;
+          border-radius: 30px;
+        }
+        span{
+          letter-spacing: 1px;
+          font-size: 11px;
+          color: white;
+          line-height: 20px;
+          z-index: 1;
+          position: relative;
+        }
+      }
+    }
     a{
       @include font-LatoBold();
       text-transform: capitalize;
@@ -2634,7 +2864,6 @@ header{
         li{
           border: none;
           .cart__remove-btn{
-            padding-top: 5px;
             align-items: end;
           }
         }
@@ -2848,6 +3077,7 @@ header{
         }
       }
       .subtitle{
+        text-transform: unset;
         font-size: $font-medium;
         @include font-LatoRegular();
         @include respond-to("medium-down"){
@@ -2866,15 +3096,23 @@ header{
   .main{
     width: 100%;
     margin: 0;
-
+    h5{
+      margin-bottom: 50px;
+    }
   }
   .article{
     padding: 0 20px;
     margin-bottom: 20px;
     .image-element__wrap{
+      max-height: 240px;
       margin: 0 -20px;
       width: calc(100% + 40px);
       max-width: initial;
+      @include respond-to("medium-down"){
+        width: calc(100% + 80px);
+        margin: 0 -40px;
+        margin-bottom: 20px;
+      }
     }
     .article__title{
       line-height: 22px;
@@ -3015,6 +3253,11 @@ header{
         flex-wrap: wrap;
         justify-content: center;
       }
+      .icon-slash{
+        font-size: $font-desc;
+        @include font-LatoRegular();
+        line-height: 22px;
+      }
       .breadcrumb_text {
         @include respond-to("medium-down"){
           display: none;
@@ -3047,6 +3290,7 @@ header{
     .blog_meta{
       @include respond-to("medium-down"){
         text-align: center;
+        margin-bottom: 10px;
       }
       span{
         color: $color-midgrey;
@@ -3068,6 +3312,9 @@ header{
         margin: 10px -20px;
         max-width: initial;
         width: calc(100% + 40px);
+      }
+      ul{
+        padding: 0;
       }
     }
     .author_share_wrap{
@@ -3101,6 +3348,21 @@ header{
 }
 
 .contact-section{
+  .banner {
+    .caption {
+      position: initial;
+      .headline{
+        @include respond-to("medium-down"){
+          font-size: 20px;
+          @include font-MontBold();
+          top: 50%;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
+  }
   .content-text-block{
     display: flex;
     @include respond-to("medium-down"){
@@ -3144,6 +3406,10 @@ header{
       line-height: 18px;
       letter-spacing: 1.5px;
     }
+    .rmz-embed-container{
+      max-width: 640px;
+      margin: auto;
+    }
   }
 }
 
@@ -3169,6 +3435,29 @@ header{
       }
     }
   }
+  .block__image-text{
+    .headline {
+      &.red_dot-true {
+        @include respond-to("medium-down"){
+          &::before{
+            margin-left: 0!important;
+          }
+        }
+      }
+    }
+    .info{
+      .author-images{
+        justify-content: end;
+        .image-item{
+          width: 100%;
+          max-width: 400px;
+          p{
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
   .block__image-overlay{
     .banner{
       .caption {
@@ -3179,6 +3468,13 @@ header{
           .headline{
             font-size: $font-large;
             line-height: 48px;
+            &.red_dot-true {
+              @include respond-to("medium-down"){
+                &::before{
+                  margin-left: 0!important;
+                }
+              }
+            }
           }
         }
       }
@@ -3207,6 +3503,17 @@ header{
       }
     }
   }
+  .page-content{
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 100px;
+    
+    h2{
+      @include font-LatoRegular();
+      font-size: 24px;
+      text-transform: capitalize;
+    }
+  }
 }
 .page-divider {
   @include respond-to("medium-down"){
@@ -3214,20 +3521,53 @@ header{
   }
 }
 .instagram-section{
+  padding: 50px 20px;
+  background: rgba(216, 216, 216, 0.1);
   .ssw-html-widget{
-    .ssw-instagram-masonry{
+    .ssw-instagram-listing-title{
+      font-size: $font-medium;
+      @include font-LatoBold();
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      @include respond-to("medium-down"){
+        font-size: $font-small;
+        line-height: 22px;
+      }
+    }
+    .ssw-ig-stories{
+      display: none;
+    }
+    .ssw-instagram-listing{
       .ssw-instagram-items{
         display: block;
         & > div{
-          &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7){
+          display: none!important;
+          &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4){
+            display: block!important;
+          }
+          &:nth-child(5) {
+            display: block!important;
             @include respond-to("medium-down"){
-              display: none;
+              display: none!important;
             }
-            
+          }
+          .ssw-instagram-inner{
+            box-shadow: none;
+            .ssw-instagram-media{
+              padding: 0;
+            }
           }
         }
       }
+      .ssw-instagram-load-more {
+        display: none!important;
+      }
     }
+  }
+}
+.search_page{
+  @include respond-to("medium-down"){
+    padding-bottom: 0;
   }
 }
 .team-section{
@@ -3250,6 +3590,13 @@ header{
           .team-member__overlay{
             @include respond-to("medium-down"){
               display: block;
+              background-color: white;
+              p{
+                color: $color-black;
+              }
+              a{
+                color: $color-red;
+              }
             }
           }
         }
@@ -3291,7 +3638,7 @@ header{
           left: 10px;
           @include respond-to("medium-down"){
             bottom: auto;
-            top: 300px;
+            top: 270px;
             width: calc(100% - 20px);
             text-align: left;
             display: flex;
@@ -3312,15 +3659,36 @@ header{
 .our-story-section{
   
   .image-with-text-section{
+    @include respond-to("medium-down"){
+      margin: 0;
+    }
     .info{
       @include respond-to("medium-down"){
         padding: 40px 20px;
+        margin-top: 0;
       }
       .collection_title{
         @include respond-to("medium-down"){
           text-align: left;
           text-transform: uppercase;
           padding: 0 10px;
+          &::before{
+            content: " ";
+            width: 10px;
+            height: 10px;
+            display: table;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            background-color: $color-red;
+          }
+        }
+        &.red_dot-true{
+          @include respond-to("medium-down"){
+            &::before{
+              margin-left: 0!important;
+            }
+            
+          }
         }
       }
       .description{
@@ -3329,6 +3697,22 @@ header{
           padding: 0 10px;
           @include respond-to("medium-down"){
             text-align: left!important;
+          }
+          strong{
+            font-size: 14px!important;
+            text-transform: unset!important;
+          }
+        }
+      }
+    }
+    &.image-align--right{
+      .featured-link--section{
+        @include respond-to("medium-down"){
+          flex-direction: column-reverse!important;
+        }
+        .info{
+          @include respond-to("medium-down"){
+            padding-top: 0;
           }
         }
       }
@@ -3347,6 +3731,12 @@ header{
 }
 
 .shipping-template{
+  .header{
+    .image-element__wrap{
+      max-width: 1000px;
+      margin: 50px auto;
+    }
+  }
   .block__image-overlay{
     .caption{
       .caption-content{
@@ -3389,6 +3779,19 @@ header{
                 font-size: 24px;
                 line-height: 28px;
                 text-transform: uppercase;
+                &::before{
+                  content: " ";
+                  width: 10px;
+                  height: 10px;
+                  display: table;
+                  margin-bottom: 20px;
+                  border-radius: 50%;
+                  background-color: $color-red;
+                  @include respond-to("medium-down"){
+                    margin: auto;
+                    margin-bottom: 20px;
+                  }
+                }
                 @include respond-to("medium-down"){
                   font-size: 18px ;
                 }
@@ -3451,10 +3854,32 @@ header{
   .block__text-content-block{
     .text-content-field{
       .content_block_item{
+        align-items: end;
         .collection_title{
+          min-height: 130px;
           font-size: $font-small;
+          &::before{
+            content: " ";
+            width: 10px;
+            height: 10px;
+            display: table;
+            margin: auto;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            background-color: $color-red;
+            @include respond-to("medium-down"){
+              margin: auto;
+              margin-bottom: 20px;
+            }
+          }
         }
       }
+    }
+  }
+  .page-content{
+    p{
+      max-width: 300px;
+      margin: auto;
     }
   }
 }
@@ -3525,7 +3950,11 @@ header{
     }
   }
 }
-
+.featured-link--half{
+  @include respond-to("medium-down"){
+    width: 100%;
+  }
+}
 #shopify-section-page-rewards-template, #shopify-section-page-affiliate-template{
   .block__image-text{
     .image-with-text-section{
@@ -3549,5 +3978,280 @@ header{
     .content_block_item{
       margin-bottom: 10px;
     }
+  }
+}
+
+.account-section{
+  .page-banner{
+    .caption{
+      @include respond-to("medium-down"){
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        background: transparent;
+        h1{
+          color: white;
+          @include font-MontBold();
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  .container{
+    margin-top: 50px;
+    @include respond-to("medium-down"){
+      margin-top: 0;
+    }
+    .account-sidebar {
+      .select-box-menu{
+        list-style: none;
+        padding: 0;
+        @include respond-to('medium-down'){
+          background-color: $color-white;
+          width: 100%;
+          position: relative;
+          padding-top: 65px!important;
+          display: table;
+          margin-top: -30px;
+          margin: -30px -20px 20px;
+          width: calc(100% + 40px);
+          .active{
+              position: absolute;
+              top: 0;
+              width: 100%;
+          }
+        }
+        li{
+          @include respond-to('medium-down'){
+            display: none;
+            padding: 0 10px;
+            margin: 0;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid $color-lightgrey;
+        }
+        a{
+  
+            @include respond-to('medium-down'){
+              font-size: $font-desc;
+              padding: 10px;
+              display: block;
+              font-size: 14px;
+              margin: 10px;
+              text-align: left;
+              color: $color-black;
+              @include font-LatoRegular();
+            }
+          }
+          &.show{
+            &::after{
+                transform: rotate(-135deg) translate(50%, 50%);
+                top: 50%;
+            }
+          }
+          &.active{
+            @include respond-to("medium-down"){
+              background-color: $color-blue;
+              display: block!important;
+              &::after{
+                  content: " ";
+                  position: absolute;
+                  top: 50%;
+                  right: 20px;
+                  font-family: monospace;
+                  transform: rotate(45deg) translate(-50%, -50%);
+                  color: $color-white;
+                  width: 8px;
+                  height: 8px;
+                  border: 2px solid $color-white;
+                  border-top: 0;
+                  border-left: 0;
+              }
+            }
+            a{
+              @include font-LatoBold();
+              @include respond-to("medium-down"){
+                color: white;
+                @include font-LatoRegular();
+              }
+            }
+          }
+        }
+      }
+    }
+    .account-main{
+      padding-bottom: 50px;
+      border: none;
+      h4{
+        border-bottom: 1px solid #F4F4F4;
+        padding-bottom: 10px;
+        @include respond-to("medium-down"){
+          font-size: $font-small;
+          @include font-MontSBold();
+          margin-bottom: 20px;
+        }
+        &.heading-title{
+          margin-bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          @include font-MontSBold();
+          text-transform: uppercase;
+        }
+      }
+      .heading{
+        border-bottom: 1px solid #F4F4F4;
+        align-items: center;
+        margin-bottom: 20px;
+        cursor: pointer;
+        &::after{
+          content: "---";
+          letter-spacing: -2px;
+          font-family: auto;
+          font-size: 20px;
+        }
+        &.active{
+          &::after{
+            content: "+";
+            letter-spacing: 0;
+          }
+        }
+        h4{
+          border-bottom: none;
+          margin-bottom: 0;
+        }
+        .errors{
+          margin: auto;
+          margin-right: 50px;
+          p{
+            margin-bottom: 0;
+            color: $color-red;
+          }
+        }
+      }
+      max-width: 1200px;
+      table{
+        tr{
+          border-top: none!important;
+          @include respond-to("medium-down"){
+            border: none!important;
+            border-bottom: 1px solid #F4F4F4!important;
+            padding-bottom: 20px!important;
+          }
+          th{
+            @include font-MontSBold();
+            font-size: $font-desc;
+          }
+          td, th  {
+            background-color: white!important;
+            border: none!important;
+            @include respond-to("medium-down"){
+              text-align: right;
+              &::before{
+                text-align: left;
+              }
+              &::after{
+                border: none!important;
+                background: white!important;
+              }
+            }
+          }
+        }
+      }
+      .address_actions{
+          span a{
+            color: $color-red;
+          }
+      }
+      .action_delete{
+        margin-left: 10px;
+      }
+      #order-details{
+        td, th{
+          text-align: center;
+          &:last-child{
+            text-align: right;
+          }
+        }
+        thead{
+          tr{
+            border-bottom-color: #F4F4F4;
+            th{
+              text-transform: uppercase;
+            
+            }
+          }
+        }
+        tbody{
+          tr{
+            border-bottom-color: #F4F4F4;
+            &:last-child{
+              border-bottom: none!important;
+            }
+            
+            td{
+              &[data-label="Product"]{
+                max-width: 200px;
+                height: 120px;
+                padding: 20px;
+                @include respond-to("medium-down"){
+                  max-width: 100%;
+                  padding: 10px 0;
+                  height: 80px;
+                  &::after, &::before{
+                    content: none;
+                  }
+                }
+
+              }
+              .order-details__product{
+                display: flex;
+                align-items: center;
+                @include respond-to("medium-down"){
+                  width: 100%;
+                }
+                .image-element__wrap{
+                  max-width: 70px;
+                  width: 100%;
+                  margin-right: 10px;
+                }
+                a{
+                  width: 100%;
+                  @include respond-to("medium-down"){
+                    text-align: left;
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+        tfoot{
+          tr{
+            border: none!important;
+            td{
+              text-align: right;
+              height: 55px;
+              background-color: #F5F5F5!important;
+              @include respond-to("medium-down"){
+                &::after{
+                  background: #F5F5F5!important;
+                }
+              }
+              strong{
+                text-transform: uppercase;
+                @include font-MontSBold();
+                font-size: 14px;
+              }
+              
+            }
+          }
+        }
+      }
+      #address_tables{
+        margin-top: 10px;
+      }
+    }
+    
   }
 }

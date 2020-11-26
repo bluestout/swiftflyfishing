@@ -1628,6 +1628,12 @@
         "content": "Mini cart"
       },
       {
+        "type": "text",
+        "id": "cart_limit",
+        "label": "Free Shipping limit",
+        "default": "300000"
+      },
+      {
         "type": "checkbox",
         "id": "go_to_checkout",
         "label": "Mini cart checkout",

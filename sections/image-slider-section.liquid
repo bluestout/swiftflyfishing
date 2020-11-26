@@ -1,11 +1,11 @@
 <div class="container full-width--true image-slider-content">
   <div class="heading">
-    <h1 class="text-center">{{ section.settings.title }}</h1>
-    <h6 class="text-center">{{ section.settings.desc }}</h6>
+    <h2 class="text-center">{{ section.settings.title }}</h2>
+    <h4 class="text-center">{{ section.settings.desc | strip_html }}</h4>
   </div>
   <div id='bar'>
     {% for block in section.blocks %}
-  <div class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
+      <div class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
         <span class="title">{{block.settings.title}}</span>
         <div class="pointer"></div>
       </div>
@@ -16,8 +16,16 @@
         <img class="hover_image" src="{{ section.settings.hover_image | img_url: '2048x' }}">
       </div>
       <div id="slider-button"></div>
-      </div>
     </div>
+  </div>
+  <div class="list medium-down--show hide">
+    <ul>
+      {% for block in section.blocks %}
+        <li class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
+          <span class="uppercase">{{block.settings.title}}</span>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 

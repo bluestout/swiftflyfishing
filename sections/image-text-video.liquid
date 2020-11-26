@@ -25,13 +25,13 @@
                             image: block.settings.image,
                             alt: block.settings.image.alt,
                             stretch_width: true,
-                            additional_classes: 'medium-down--hide'
+                            additional_classes: 'mediumn-down--hide'
                     %}
                     {% render 'image-element',
                       image: block.settings.mobile_image,
                       alt: block.settings.mobile_image.alt,
                       stretch_width: true,
-                      additional_classes: 'hide medium-down--show'
+                      additional_classes: 'hide mediumn-down--show'
                     %}
                   {% else %}
                     {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
@@ -39,6 +39,7 @@
                   {% endif %}
                 </a>
               </div>
+              <a href="#video-popup" class="modal_btn video_btn">{% include 'icon-pack' with icon: 'play' %}</a>
               {% if block.settings.image_caption != blank %}
                 <p class="image-caption caption-{{block.settings.caption_position}}">{{block.settings.image_caption}}</p>
               {% endif %}
@@ -58,6 +59,11 @@
                     {{ block.settings.button_label }}
                   </a>
                 {% endif %}
+              </div>
+            </div>
+            <div id="video-popup" class="modal">
+              <div class="modal-content">
+                {% include 'include-video-popup' with type: "block" %}
               </div>
             </div>
           </section>
@@ -133,8 +139,8 @@
 
 {% schema %}
 {
-  "name": "Image with text",
-  "class": "image-with-text-section",
+  "name": "Image with text(VIDEO)",
+  "class": "image-with-text-section video-popup",
   "max_blocks": 16,
   "settings": [
     {
@@ -339,21 +345,39 @@
           "type": "color",
           "id": "text_color",
           "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "video"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_status",
+          "label": "Show video"
+        },
+        {
+          "type": "video_url",
+          "id": "iframe_video",
+          "label": "Video link",
+          "accept": ["youtube", "vimeo"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        },
+        {
+          "type": "text",
+          "id": "html5_video",
+          "label": "HTML5 MP4/OGV File URL"
         }
       ]
     }
   ],
   "presets": [{
-    "name": "Image with text",
-    "category": "Image",
+    "name": "Image with text(video popup)",
+    "category": "Video",
     "settings": {
       "featured_links_per_row": "1",
       "frontpage_text_align": "left"
     },
     "blocks": [
-      {
-        "type": "image"
-      },
       {
         "type": "image"
       }

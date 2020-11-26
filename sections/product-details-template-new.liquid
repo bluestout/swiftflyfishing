@@ -10,7 +10,7 @@
 {% include 'wcp_variant' with current_variant %}
 <a name="pagecontent" id="pagecontent"></a>
 
-<div class="container main content product-name--{{ product.handle }}">
+<div class="main content product-name--{{ product.handle }}">
   <div class="sixteen columns">
     {% if collection.previous_product or collection.next_product or section.settings.product_breadcrumb %}
       <div class="clearfix breadcrumb-collection">
@@ -326,7 +326,7 @@
                 </div>
                 <div class="featured-link--half">
                   <div class="info text-align--{{block.settings.frontpage_text_align}}">
-                    <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title">
+                    <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="{%if block.settings.red_dot_status %}red_dot {% endif %}collection_title">
                       {{ block.settings.title }}
                     </a>
                     {% if block.settings.text != blank %}
@@ -1138,6 +1138,11 @@
           "id": "title",
           "label": "Heading",
           "default": "Your headline"
+        },
+        {
+          "type": "checkbox",
+          "id": "red_dot_status",
+          "label": "Red dot status"
         },
         {
           "type": "richtext",

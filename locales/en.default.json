@@ -208,6 +208,14 @@
       "view_addresses": "View Addresses",
       "return": "Return to Account Details"
     },
+    "menu": {
+      "dashboard": "dashboard",
+      "order_history": "order history",
+      "account_detail": "account detail",
+      "wishlist": "wishlist",
+      "rewards": "rewards",
+      "log_out": "log out"
+    },
     "orders": {
       "title": "Order History",
       "order_number": "Order",
@@ -286,8 +294,8 @@
     },
     "order": {
       "title": "Order {{ name }}",
-      "date": "Placed on {{ date }}",
-      "cancelled": "Order Cancelled on {{ date }}",
+      "date": "Date",
+      "cancelled": "Return Cancel",
       "cancelled_reason": "Reason: {{ reason }}",
       "billing_address": "Billing Address",
       "payment_status": "Payment Status",
@@ -299,10 +307,11 @@
       "product": "Product",
       "sku": "SKU",
       "price": "Price",
-      "quantity": "Quantity",
+      "quantity": "QTY",
       "total": "Total",
       "fulfilled_at": "Fulfilled {{ date }}",
-      "subtotal": "Subtotal"
+      "subtotal": "Subtotal",
+      "returned": "Request Return"
     },
     "register": {
       "title": "Create Account",

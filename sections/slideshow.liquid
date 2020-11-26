@@ -61,6 +61,7 @@
           {% endunless %}
           <div class="icon">
             {{ block.settings.icon }}
+            <span class="hide small-down--show">{{block.settings.icon_title}}</span>
           </div>
           {% unless block.settings.pretext == blank and block.settings.title == blank and block.settings.subtitle == blank and block.settings.button1 == blank and block.settings.button2 == blank %}
             <div class="caption position-{{block.settings.text_position}} js-caption caption--below-{{ section.settings.mobile_text_below_image }}">
@@ -267,6 +268,12 @@
           "type": "html",
           "id": "icon",
           "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_title",
+          "label": "Icon title",
+          "default": "Lifetime Warranty"
         },
         {
           "type": "select",

@@ -4,35 +4,30 @@
 - Uses blocks
 {% endcomment %}
 
-
-
 {% assign sidebar = false %}
 {% include 'wcp_discount' with product %} 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {% include 'wcp_variant' with current_variant %}
 <a name="pagecontent" id="pagecontent"></a>
 
-{% assign on_sale = false %}
-{% if current_variant.compare_at_price > current_variant.price %}
-{% assign on_sale = true %}
-{% endif %}
-
-
-<div class="container main content product-name--{{ product.handle }}">
+<div class="main content product-name--{{ product.handle }}">
   <div class="sixteen columns">
     {% if collection.previous_product or collection.next_product or section.settings.product_breadcrumb %}
       <div class="clearfix breadcrumb-collection">
         {% if collection.previous_product or collection.next_product %}
-          <div class="nav_arrows breadcrumb_text">
-            {% if collection.previous_product %}
-              <a href="{{ collection.previous_product }}" title="{{ 'products.general.previous_product_html' | t }}" class="breadcrumb_link"><span class="icon-left-arrow"> {{ 'products.general.previous_product_html' | t }}</span></a>
-            {% endif %}
-            {% if collection.previous_product and collection.next_product %}<span class="breadcrumb-divider"> | </span>{% endif %}
+          {% if section.settings.product_narow %}
+            <div class="nav_arrows breadcrumb_text">
+              {% if collection.previous_product %}
+                <a href="{{ collection.previous_product }}" title="{{ 'products.general.previous_product_html' | t }}" class="breadcrumb_link"><span class="icon-left-arrow"> {{ 'products.general.previous_product_html' | t }}</span></a>
+              {% endif %}
+              {% if collection.previous_product and collection.next_product %}<span class="breadcrumb-divider"> | </span>{% endif %}
 
-            {% if collection.next_product %}
-              <a href="{{collection.next_product}}" title="{{ 'products.general.next_product_html' | t }}" class="breadcrumb_link">{{ 'products.general.next_product_html' | t }} <span class="icon-right-arrow"></span></a>
-            {% endif %}
-          </div>
+              {% if collection.next_product %}
+                <a href="{{collection.next_product}}" title="{{ 'products.general.next_product_html' | t }}" class="breadcrumb_link">{{ 'products.general.next_product_html' | t }} <span class="icon-right-arrow"></span></a>
+              {% endif %}
+            </div>
+          {% endif %} 
+         
         {% endif %}
 
         {% if section.settings.product_breadcrumb %}
@@ -80,17 +75,17 @@
             data-free-text="{{ settings.free_price_text }}">
         <div class="section product_section clearfix js-product_section {% if section.settings.product_images_position == 'right' %}align_right--images{% endif %}" itemscope itemtype="http://schema.org/Product" data-rv-handle="{{ product.handle }}">
 
-          <div class="nine columns medium-down--one-whole {% if section.settings.product_images_position == 'left' %}alpha{% else %}omega{% endif %}">
-            {% include 'product-images' %}
+          <div class="nine columns image medium-down--one-whole {% if section.settings.product_images_position == 'left' %}alpha{% else %}omega{% endif %}">
+            {% include 'product-images' %} 
             
              <!-- Product review carousel-->
-          {{enable_shopify_review}}
-            <div class='stamped-reviews-widget-desktop_visible'>
-              <div id="stamped-reviews-widget" class="mobile-hidden" data-widget-type="carousel" data-fill-empty="true" data-random="false" data-per-slide="1" data-title="" data-auto-play="true" data-auto-play-speed="15000" data-min-rating="5" data-product-ids="{{product.id}}"></div>
+            {{enable_shopify_review}}
+            <div class='stamped-reviews-widget-desktop_visible visible-none'>
+              <div id="stamped-reviews-widget" data-widget-type="full-page" data-product-image="false" data-take="5" data-limit-words="50" data-fill-empty="false" data-random="false"></div>
             </div>
           </div>
 
-          <div class="seven columns medium-down--one-whole {% if section.settings.product_images_position == 'left' %}omega{% else %}alpha{% endif %}">
+          <div class="seven columns info medium-down--one-whole {% if section.settings.product_images_position == 'left' %}omega{% else %}alpha{% endif %}">
 
             {% assign collection_handles = product.collections | map: 'handle' %}
             {% assign variant = product.selected_or_first_available_variant %}
@@ -118,16 +113,50 @@
                 <span itemprop="sku">{{ variant.sku }}</span>
               </p>
             {% endif %}
-            <h1 class="product_name" itemprop="name">{{ product.title }}</h1>
-            {% comment %}
-            {% if section.settings.enable_shopify_product_badges and settings.enable_shopify_review_comments %}
-              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
-            {% endif %}
-            {% endcomment %}
-           
-              {% if section.settings.enable_shopify_product_badges and settings.enable_shopify_review_comments %}
-    	        <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;">{{ product.metafields.stamped.badge }}</span>
-	          {% endif %}
+            <h3 class="product_name uppercase" itemprop="name">{{ product.title }}</h3>
+            <div class="price-info">
+              {% if collection_handles contains 'coming-soon' %}
+                <p class="modal_price">{{ 'collections.general.coming_soon' | t }}</p>
+              {% else %}
+                <p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer" data-prod-type='{{product.type}}'>
+                  <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+                  <meta itemprop="seller" content="{{ shop.name | escape }}" />
+                  <link itemprop="availability" href="http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}">
+                  <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+
+                  <span class="sold_out">{% if variant.available == false %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+                  <span itemprop="price" content="{{ wcp_v_price | money_without_currency | remove: "," }}" class="{% if wcp_v_compare_at_price > wcp_v_price %}sale{% endif %}">
+                    <span class="current_price {% if product.available == false %}hidden{% endif %}">
+                      {% if wcp_price > 0 %}
+                        <span class="money">{{ wcp_price | money }}</span>
+                      {% else %}
+                        {{ settings.free_price_text }}
+                      {% endif %}
+                    </span>
+                  </span>
+                  <span class="was_price">
+                    {% if wcp_v_price < wcp_v_compare_at_price and variant.available %}
+                      {{ wcp_v_compare_at_price | money }}
+                    {% endif %}
+                  </span>
+
+                  {% if section.settings.display_savings %}
+                    <span class="sale savings">
+                      {% if wcp_v_price < wcp_v_compare_at_price and variant.available %}
+                      {{ 'products.product.savings' | t }}  {{ wcp_v_compare_at_price | minus: wcp_v_price | times: 100 | divided_by: wcp_v_compare_at_price }}% (<span class="money">{{ wcp_v_compare_at_price | minus: wcp_vprice | money }}</span>)
+                      {% endif %}
+                    </span>
+                  {% endif %}
+                </p>
+                {% if section.settings.enable_shopify_product_badges and settings.enable_shopify_review_comments %}
+                  <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;" onclick="$('.tabs li:nth-child(3) a').click()">{{ product.metafields.stamped.badge }}</span>
+                {% endif %}
+                <div class='custom_text'>Or, fish now pay later with up to 4 payments of  {{ wcp_v_price  | divided_by: 4 | money }} with Splitit.<br> Available at checkout. Interest free.</div>
+                {% include 'product-notify-me' %}
+              {% endif %}
+              
+            </div>
+              
             <div class="feature_divider"></div>
 
             {% assign product_tags = product.tags | join: ' ' %}
@@ -142,43 +171,7 @@
               <a href="javascript:;" class="size_chart" data-fancybox data-src="#size-chart{{product.id}}" data-type="inline" data-no-instant>{{ 'products.product.size_chart' | t }} <span class="icon-right-arrow"></span></a>
             {% endif %}
 
-            {% if collection_handles contains 'coming-soon' %}
-              <p class="modal_price">{{ 'collections.general.coming_soon' | t }}</p>
-            {% else %}
-              <p class="modal_price {% if on_sale %} hide_custom_text{% endif %}" itemprop="offers" itemscope itemtype="http://schema.org/Offer" data-prod-type='{{product.type}}'>
-                <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
-                <meta itemprop="seller" content="{{ shop.name | escape }}" />
-                <link itemprop="availability" href="http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}">
-                <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
-
-                <span class="sold_out">{% if variant.available == false %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
-                <span itemprop="price" content="{{ wcp_v_price | money_without_currency | remove: "," }}" class="{% if wcp_v_compare_at_price > wcp_v_price %}sale{% endif %}">
-                  <span class="current_price {% if product.available == false %}hidden{% endif %}">
-                    {% if wcp_price > 0 %}
-                      <span class="money">{{ wcp_price | money }}</span>
-                    {% else %}
-                      {{ settings.free_price_text }}
-                    {% endif %}
-                  </span>
-                </span>
-                <span class="was_price">
-                  {% if wcp_v_price < wcp_v_compare_at_price and variant.available %}
-                    {{ wcp_v_compare_at_price | money }}
-                  {% endif %}
-                </span>
-
-                {% if section.settings.display_savings %}
-                <span class="sale savings">
-                  {% if wcp_v_price < wcp_v_compare_at_price and variant.available %}
-                  {{ 'products.product.savings' | t }}  {{ wcp_v_compare_at_price | minus: wcp_v_price | times: 100 | divided_by: wcp_v_compare_at_price }}% (<span class="money">{{ wcp_v_compare_at_price | minus: wcp_vprice | money }}</span>)
-                  {% endif %}
-                </span>
-                {% endif %}
-            </p>
-                <div class='custom_text'>Or, fish now pay later with up to 4 payments of  {{ wcp_v_price  | divided_by: 4 | money }} with Splitit.<br> Available at checkout. Interest free.</div>
-
-              {% include 'product-notify-me' %}
-            {% endif %}
+            
 
             {% if section.settings.product_description_position == "top" %}
               {% if product.description != blank %}
@@ -192,92 +185,53 @@
               {% include 'product-form' with 'product' %}
             {% endunless %}
 
-            
-            
-            <ul class="tabs">
-              <li><a class="active" href="#tab1">Description</a></li>
-              <li><a href="#tab2">Specs</a></li>
-              <li><a href="#tab3">Reviews</a></li>
-              <li><a href="#tab4">Benefits</a></li>
-            </ul>
-
-            <ul class="tabs-content">
-              <li class="active" id="tab1">
-                {% if product.description contains "split" %}
-                  {% assign description_parts = product.description | split: '<!-- split -->' %}
-                  	{{ description_parts[0] }}
-                  {% else %}
-                {% endif %}
-              </li>
-              <li id="tab2">
-                {% if product.description contains "split" %}
-                  {% assign description_parts = product.description | split: '<!-- split -->' %}
-                  	{{ description_parts[1] }}
-                  {% else %}
-                {% endif %}
-              </li>  
-              <li id="tab3">{{enable_shopify_review}}
-
-                <div id="stamped-main-widget" 
-                     data-widget-style="standard"
-                     data-product-id="{{ product.id }}" 
-                     data-name="{{ product.title | escape }}" 
-                     data-url="{{ shop.url }}{{ product.url }}" 
-                     data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
-                     data-description="{{ product.description | escape }}" 
-                     data-product-sku="{{product.handle}}"> 
-                
-                </div>
-
-              </li>
-              <li id="tab4">
-                {% if product.description contains "split" %}
-                	{% assign description_parts = product.description | split: '<!-- split -->' %}
-                		{{ description_parts[2] }}
-                	{% else %}
-                {% endif %}
-              </li> 
-            </ul>        
-            
-            {% comment %}
-            <ul class="tabs-content">
-              <li class="active" id="tab1">{{product.description | split: "--specs--" | first }} </li>
-              <li id="tab2">{{product.description | split: "--specs--" | last }}</li>  
-              <li id="tab3">{{enable_shopify_review}}
-
-                <div id="stamped-main-widget" 
-                     data-widget-style="standard"
-                     data-product-id="{{ product.id }}" 
-                     data-name="{{ product.title | escape }}" 
-                     data-url="{{ shop.url }}{{ product.url }}" 
-                     data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
-                     data-description="{{ product.description | escape }}" 
-                     data-product-sku="{{product.handle}}"> 
-                  {{ product.metafields.stamped.reviews }} 
-                </div>
-
-              </li>
-              <li id="tab4">4</li> 
-            </ul>
-            {% endcomment %}
-            
-            {% comment %}
-                {% if section.settings.product_description_position == "bottom" %}
-                  {% if product.description != blank %}
-                  <div class="description bottom" itemprop="description">
-                    {{ product.description | split: '<!-- split -->' | first }}
+            {% if product.description != blank %}
+              <ul class="toggle-list">
+                <li>
+                  <a class="toggle_btn">Description</a>
+                  <div class="toggle_content">
+                    {% if product.description contains "split" %}
+                      {% assign description_parts = product.description | split: '<!-- split -->' %}
+                      {{ description_parts[0] }}
+                    {% else %}
+                      {{product.description}}
+                    {% endif %}
                   </div>
+                </li>
+                {% if product.description contains "split" %}
+                  {% assign description_parts = product.description | split: '<!-- split -->' %}
+                  
+                  {% if description_parts[1] != blank %}
+                    <li>
+                      <a class="toggle_btn">Specs</a>
+                        <div class="toggle_content">
+                          {{ description_parts[1] }}
+                        </div>
+                    </li> 
                   {% endif %}
                 {% endif %}
-            {% endcomment %}
+
+                {% if product.description contains "split" %}
+                  {% assign description_parts = product.description | split: '<!-- split -->' %}
+                  
+                  {% if description_parts[2] != blank %}
+                  <li>
+                    <a class="toggle_btn">Benefits</a>
+                    <div class="toggle_content">
+                      {{ description_parts[2] }}
+                    </div>
+                  </li> 
+                  {% endif %}
+                {% endif %}       
+                
+              </ul>    
+            {% endif %}    
+            
+
 
             {% if section.settings.enable_reviews_in_description %}
               {% include 'include-reviews', type: 'block' %}
             {% endif %}
-
-            <div class='stamped-reviews-widget-mobile_visible'>
-              <div id="stamped-reviews-widget" class="mobile-hidden" data-widget-type="carousel" data-fill-empty="true" data-random="false" data-per-slide="1" data-title="" data-auto-play="true" data-auto-play-speed="15000" data-min-rating="5" data-product-ids="{{product.id}}"></div>
-            </div>
 
             {% if section.settings.display_collections or section.settings.display_tags or section.settings.display_type %}
               <div class="product_links">
@@ -316,34 +270,26 @@
                 {% endif %}
               </div>
             {% endif %}
-
-            <div class="meta">
-              {% if section.settings.display_social_buttons %}
-                {% include "social-buttons" with "product" %}
-              {% endif %}
-            </div>
           </div>
         </div>
-
-        
-        {% comment %}
-        {% if product.description contains "<!-- split -->"  %}
-          <br class="clear" />
-          <div class="section clearfix">
-            <div class="description">
-              {{ product.description | split: '<!-- split -->' | last }}
-            </div>
-          </div>
-        {% endif %}
-        {% endcomment %}
       </div>
     </div>
   </div>
-</div>
+</div><!-- closes <div class="container main content"> -->
+
+  {% assign overlay_status = true %}
+  {% assign collection_list_status = true %}
+  {% assign image_status = true %}
+  {% capture image-overly-slider %}
+  {% for block in section.blocks %}
+    {% if block.type == "image_with_text_overlay" %}
+        {% include 'include-image-with-text-overlay', type: 'block' %}
+    {% endif %}
+  {% endfor %}
+  {% endcapture %}
   <div class="product-details__blocks clearfix">
     {% if section.blocks.size > 0 %}
       {% for block in section.blocks %}
-
         <div {{ block.shopify_attributes }} class="block__{{ block.type }} block__{{ block.id }}
         {% if block.type == "featured_collection" %}
           featured-collection-section
@@ -425,8 +371,7 @@
                 }
               </style>
             {% endif %}
-		  
-
+		 
           {% elsif block.type == 'map' %}
             <!-- Map -->
             {% include 'include-map', type: 'block' %}
@@ -438,7 +383,11 @@
           {% elsif block.type == 'quote' %}
             <!-- Quote -->
             {% include 'include-quote', type: 'block' %}
-
+          {% elsif block.type == 'collection' %}
+              {% if collection_list_status %}
+                {% include 'include-collection-list' %}
+                {% assign collection_list_status = false %}
+              {% endif %}
           {% elsif block.type == "rich_text_and_image" %}
             <!-- Rich text and image -->
             {% include 'include-featured-text', type: 'block' %}
@@ -457,15 +406,21 @@
             <!-- Featured collection -->
             {% include 'include-featured-collection', type: 'block' %}
 
-          {% elsif block.type == "image_with_text_overlay" %}
-            <!-- Image with text overlay -->
-            {% include 'include-image-with-text-overlay', type: 'block' %}
+          {% elsif block.type == "image_with_text_overlay"  %}
+          {% if overlay_status %}
+            <div class="image-text-overlay-slider">
+              {{image-overly-slider}}
+            </div>
+            {% assign overlay_status = false %}
+          {% endif %}
           
-            {% elsif block.type == "zoorix"  %}
+          {% elsif block.type == "image" and image_status %}
+            {% include 'include-gallery-block' %}
+            {% assign image_status = false %}
+          {% elsif block.type == "zoorix"  %}
           <div class="zoorix">
             {% render 'zoorix-product-bottom' %} 
           </div>
-          
           {% elsif block.type == "recently_viewed_products" %}
             <!-- Recently Viewed Products -->
             {% include 'include-recently-viewed', type: 'block' %}
@@ -477,15 +432,12 @@
           {% elsif block.type == "custom_html" %}
             <!--Custom HTML -->
             {% include 'include-custom-html', type: 'block' %}
-
           {% endif %}
         </div>
+        
       {% endfor %}
     {% endif %}
   </div>
-
-    </div><!-- closes <div class="container main content"> -->
-
 
 </div>
 </div>
@@ -597,6 +549,11 @@
     },
     {
       "type": "checkbox",
+      "id": "product_narow",
+      "label": "Product nav arrow"
+    },
+    {
+      "type": "checkbox",
       "id": "display_vendor",
       "label": "Show vendor"
     },
@@ -674,7 +631,7 @@
       "label": "Show reviews in product description area",
       "default": false
     },
-{
+    {
         "type": "header",
         "content": "Product Inscription",
         "info": "Some additional text strings are available in the Themes Language Settings."
@@ -732,9 +689,137 @@
         "label": "Empty Field Error",
         "default": "The inscription field is empty. Please add inscription text, or remove the option before adding to cart...",
         "info": "Message that shows when the inscription field is still empty when the user adds to cart."
+      },
+      {
+        "type": "header",
+        "content": "collection list"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Collection list"
+      },
+      {
+        "type": "checkbox",
+        "id": "align_height",
+        "label": "Align height of collection images"
+      },
+      {
+        "type": "range",
+        "id": "collection_height",
+        "label": "Collection image height",
+        "min": 150,
+        "max": 500,
+        "step": 10,
+        "default": 200,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "frontpage_collections_per_row",
+        "label": "Collections per row",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "header",
+        "content": "image-gallery"
+      },
+      {
+        "type": "checkbox",
+        "id": "galllery_wide_display",
+        "label": "Wide display"
+      },
+      {
+        "type": "text",
+        "id": "galllery_title",
+        "label": "Heading",
+        "default": "Gallery"
+      },
+      {
+        "type": "select",
+        "id": "gallery_type",
+        "label": "Gallery style",
+        "options": [
+          {
+            "value": "classic",
+            "label": "Classic"
+          },
+          {
+            "value": "horizontal",
+            "label": "Horizontal masonry"
+          },
+          {
+            "value": "masonry",
+            "label": "Vertical masonry"
+          }
+        ],
+        "default": "classic"
+      },
+      {
+        "type": "range",
+        "id": "gallery_grid-size",
+        "label": "Number of columns",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4,
+        "info": "Vertical masonry and classic only"
+      },
+      {
+        "type": "checkbox",
+        "id": "gallery_enable_lightbox",
+        "label": "Enable lightbox",
+        "default": true
       }
   ],
   "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "800 x 800px recommended"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "feature_collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "description_status",
+          "label": "Description status"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        }
+      ]
+    },
     {
       "type": "blog_posts",
       "name": "Blog posts",
@@ -893,6 +978,12 @@
         {
           "type": "paragraph",
           "content": "Reviews app must be enabled [(?)](https://help.outofthesandbox.com/hc/en-us/articles/360008549274#section2)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product Reviews"
         }
       ]
     },
@@ -1093,22 +1184,63 @@
           "info": "1800 x 1000px recommended"
         },
         {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
           "type": "richtext",
           "id": "pretext",
-          "label": "Preheading",
-          "default": "<p>This is</p>"
+          "label": "Preheading"
         },
         {
           "type": "text",
           "id": "title",
-          "label": "Heading",
-          "default": "Your headline"
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "title_style",
+          "label": "Heading style",
+          "options": [
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Heading color"
         },
         {
           "type": "richtext",
           "id": "subtitle",
-          "label": "Text",
-          "default": "<p>Customize this section</p>"
+          "label": "Text"
+        },
+        {
+          "type": "color",
+          "id": "subtitle_color",
+          "label": "Text color"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author"
         },
         {
           "type": "checkbox",
@@ -1122,9 +1254,58 @@
           "label": "Enable background transparency"
         },
         {
+          "type": "text",
+          "id": "button1",
+          "label": "First button label"
+        },
+        {
+          "type": "url",
+          "id": "button1_link",
+          "label": "First button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button1_highlight",
+          "label": "Highlight first button"
+        },
+        {
+          "type": "text",
+          "id": "button2",
+          "label": "Second button label"
+        },
+        {
+          "type": "url",
+          "id": "button2_link",
+          "label": "Second button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button2_highlight",
+          "label": "Highlight second button"
+        },
+        {
+          "type": "select",
+          "id": "caption_position",
+          "label": "Caption position",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
           "type": "select",
           "id": "text_position",
-          "label": "Text position",
+          "label": "caption align",
           "options": [
             {
               "value": "left",
@@ -1160,35 +1341,42 @@
           ]
         },
         {
-          "type": "text",
-          "id": "button1",
-          "label": "First button label",
-          "default": "Button"
+          "type": "header",
+          "content": "Mobile"
         },
         {
-          "type": "url",
-          "id": "button1_link",
-          "label": "First link"
+          "type": "select",
+          "id": "mobile_image_crop",
+          "label": "Image cropping",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
         },
         {
           "type": "checkbox",
-          "id": "button1_highlight",
-          "label": "Highlight first button"
+          "id": "mobile_text_below_image",
+          "label": "Show text below image",
+          "default": true
         },
         {
-          "type": "text",
-          "id": "button2",
-          "label": "Second button label"
-        },
-        {
-          "type": "url",
-          "id": "button2_link",
-          "label": "Second link"
-        },
-        {
-          "type": "checkbox",
-          "id": "button2_highlight",
-          "label": "Highlight second button"
+          "type": "color",
+          "id": "mobile_text_color",
+          "label": "Text"
         }
       ]
     },
@@ -1294,6 +1482,13 @@
       ]
     },
     {
+      "type": "zoorix",
+      "name": "Zoorix",
+      "settings": [
+        
+      ]
+    },
+    {
       "type": "quote",
       "name": "Quote",
       "settings": [
@@ -1323,6 +1518,12 @@
           "id": "rv_title",
           "label": "Heading",
           "default": "Recently viewed products"
+        },
+        {
+          "type": "text",
+          "id": "rv_text",
+          "label": "Sub heading",
+          "default": "Combine Items And Save On Shipping!"
         },
         {
           "type": "radio",
@@ -1360,17 +1561,22 @@
         }
       ]
     },
- {
-      "type": "zoorix",
-      "name": "Zoorix",
-      "settings": [
-        
-      ]
-    },
     {
       "type": "related_products",
       "name": "Related products",
       "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Made to Go Together"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub title",
+          "default": "Combine Items And Save On Shipping!"
+        },
         {
           "type": "radio",
           "id": "related_products_style",

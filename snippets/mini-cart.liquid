@@ -2,6 +2,14 @@
   <div class="header">
     <a href="/cart">{{'cart.general.title' | t }}</a>
     <a class="close">{% render 'icon-pack' with icon: 'close' %} close</a>
+    <div class="progress-content {% if cart.item_count < 1 %}hidden{% endif %}">
+      {% assign left_price = settings.cart_limit | minus: cart.total_price %}
+      {% assign progress = cart.total_price | times: 100 | divided_by: settings.cart_limit %}
+      <div class="progress-bar" data-limit="{{settings.cart_limit}}">
+        <div class="progress" style="width: {{progress}}%;"></div>
+        <span>Only {{ left_price | money }} away from FREE shipping!</span>
+      </div>
+    </div>
   </div>
   <div class="content">
     <div class="js-empty-cart__message {% if cart.item_count > 0 %}hidden{% endif %}">
@@ -15,9 +23,6 @@
           data-shop-currency="{{ shop.currency }}"
           data-shop-name="{{ shop.name | escape }}"
           data-cart-form="mini-cart">
-      <a class="cart_content__continue-shopping secondary_button">
-        {{ 'cart.general.continue_shopping_link_html' | t }}
-      </a>
       <ul class="cart_items js-cart_items">
         {% assign total_saving = 0 %}
         {% for item in cart.items %}

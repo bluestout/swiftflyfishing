@@ -140,9 +140,9 @@
         {%- endif -%}"
         data-shop-currency="{{ shop.currency }}"
         data-shop-url="{{ shop.url }}">
-    {% if template contains '404' %}
+
       {% render 'socialshopwave-helper' %}
-    {% endif %}
+
     
     {% section 'header' %}
 
@@ -170,7 +170,7 @@
     </div>
 
     {% unless feature_image %}
-      <div class="container main content">
+      <div class="main">
     {% endunless %}
 
       {{ content_for_layout }}
@@ -178,10 +178,11 @@
 
     {% unless template contains 'index' or settings.secondary_newsletter_banner == false %}
       {% section 'newsletter' %}
+      {% section 'icon-bar-section' %}
     {% endunless %}
 
     {% section 'footer' %}
-
+    <div class="dark_bg"></div>
     {% if settings.size_chart != blank and template contains 'product' %}
       {% render 'popup-size-chart' %}
     {% endif %}
