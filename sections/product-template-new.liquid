@@ -185,6 +185,17 @@
               {% include 'product-form' with 'product' %}
             {% endunless %}
 
+            <div class="icon-tags">
+              <p class="icon-tag">
+                {% include 'icon-pack' with icon: 'guarantee' %}
+                30 Day Love it or Return it Guarantee
+              </p>
+              <p class="icon-tag">
+                {% include 'icon-pack' with icon: 'warranty' %}
+                Lifetime Warranty
+              </p>
+            </div>
+            
             {% if product.description != blank %}
               <ul class="toggle-list">
                 <li>

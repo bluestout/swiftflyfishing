@@ -184,7 +184,16 @@
             {% unless collection_handles contains 'coming-soon' %}
               {% include 'product-form' with 'product' %}
             {% endunless %}
-
+            <div class="icon-tags">
+              <p class="icon-tag">
+                {% include 'icon-pack' with icon: 'guarantee' %}
+                30 Day Love it or Return it Guarantee
+              </p>
+              <p class="icon-tag">
+                {% include 'icon-pack' with icon: 'warranty' %}
+                Lifetime Warranty
+              </p>
+            </div>
             <ul class="toggle-list">
               <li>
                 <a class="toggle_btn">Description</a>
@@ -326,7 +335,7 @@
                 </div>
                 <div class="featured-link--half">
                   <div class="info text-align--{{block.settings.frontpage_text_align}}">
-                    <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="{%if block.settings.red_dot_status %}red_dot {% endif %}collection_title">
+                    <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="{%if block.settings.red_dot_status %}red_dot {% endif %}collection_title uppercase">
                       {{ block.settings.title }}
                     </a>
                     {% if block.settings.text != blank %}

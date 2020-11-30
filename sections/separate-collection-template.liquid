@@ -11,33 +11,7 @@
   {% endif %}
 
   <header class="banner center page-banner dark-overlay-{{ section.settings.image_darken }} full-width--{{ section.settings.wide_display }}">
-      {% if section.settings.image %}
-        {% assign image = section.settings.image %}
-      {%- elsif collection.image -%}
-        {% assign image = collection.image %}
-      {%- else %}
-        {% assign image = collection.products.first.featured_image %}
-      {% endif %}
-
-      {% render 'image-element',
-              image: image,
-              alt: collection.title,
-              stretch_width: true,
-              progressive: true,
-              additional_classes: 'medium-down--hide'
-      %}
-      {% render 'image-element',
-              image: mobile_image,
-              alt: collection.title,
-              stretch_width: true,
-              progressive: true,
-              additional_classes: 'hide medium-down--show'
-      %}
-      {% if section.settings.display_collection_title %}
-        <div class="caption captionOverlay--true">
-          <h2 class="color-white">{{ collection.title }}</h2>
-        </div>
-      {% endif %}
+            
     <div class="icons-bar flex">
       {% if section.settings.icon_1 != blank and section.settings.icon_title_1 != blank %}
         <div class="icon-item flex color-white">
@@ -57,16 +31,60 @@
           <span class="color-white">{{section.settings.icon_title_3}}</span>
         </div>
       {% endif %}
-    </div>
-  </header>
+    </div>    
+    {% if section.settings.image %}
+          {% assign image = section.settings.image %}
+          {% assign mobile_image = section.settings.mobile_image %}
+        {%- elsif collection.image -%}
+          {% assign image = collection.image %}
+          {% assign mobile_image = collection.image %}
+        {%- else %}
+          {% assign image = collection.products.first.featured_image %}
+          {% assign mobile_image =  collection.products.first.featured_image%}
+        {% endif %}
 
+      {% render 'image-element',
+              image: image,
+              alt: collection.title,
+              stretch_width: true,
+              progressive: true,
+              additional_classes: 'medium-down--hide'
+      %}
+      {% render 'image-element',
+              image: mobile_image,
+              alt: collection.title,
+              stretch_width: true,
+              progressive: true,
+              additional_classes: 'hide medium-down--show'
+      %}
+      {% if section.settings.display_caption %}
+        <div class="caption captionOverlay--true">
+          {% if section.settings.display_collection_title %}
+            <h2 class="color-white uppercase">{{ collection.title }}</h2>
+            {% if section.settings.description %}
+              {% assign description = section.settings.description %}
+            {% else %}
+              {% assign description = collection.description %}
+            {% endif %}
+            <h3 class="color-white text-center">{{description}}</h3>
+          {% endif %}
+          {% if section.settings.display_video %}
+            <a href="#video-popup" class="modal_btn video_btn">{% include 'icon-pack' with icon: 'play' %}</a>
+            
+          {% endif %}
+        </div>
+      {% endif %}
+  </header>
+  <div id="video-popup" class="modal">
+    <div class="modal-content">
+      {% include 'include-video-popup' %}
+    </div>
+  </div>
   {% if section.settings.wide_display == false %}
     </div>
   </div>
   {% endif %}
 {% endif %}
-
-<a name="pagecontent" id="pagecontent"></a>
 
 <div class="container">
   {% paginate collection.products by section.settings.pagination_limit %}
@@ -267,6 +285,47 @@
       "type": "image_picker",
       "id": "mobile_image",
       "label": "Mobile image"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_caption",
+      "label": "Display caption"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_collection_title",
+      "label": "Display collection title"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_video",
+      "label": "Display video"
+    },
+    {
+      "type": "header",
+      "content": "video"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_status",
+      "label": "Show video"
+    },
+    {
+      "type": "video_url",
+      "id": "iframe_video",
+      "label": "Video link",
+      "accept": ["youtube", "vimeo"],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    },
+    {
+      "type": "text",
+      "id": "html5_video",
+      "label": "HTML5 MP4/OGV File URL"
     },
     {
       "type": "header",

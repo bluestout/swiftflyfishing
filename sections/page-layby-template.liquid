@@ -9,7 +9,7 @@
   <div class="description-content">
     {% for block in section.blocks %}
         {% if block.type == 'text-block' %}
-          <div class="one-third column flex">
+          <div class="one-third gallery-cell flex">
             {% include 'description-block' with 
               title: block.settings.title,
               sub_title: block.settings.sub_title,
@@ -45,7 +45,7 @@
 {% schema %}
 {
   "name": "Page section",
-  "class": "page-section",
+  "class": "page-section layby-section",
   "settings": [
     {
       "type": "checkbox",
