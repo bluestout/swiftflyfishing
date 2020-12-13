@@ -83,6 +83,7 @@
             <div class='stamped-reviews-widget-desktop_visible visible-none'>
               <div id="stamped-reviews-widget" data-widget-type="full-page" data-product-image="false" data-take="5" data-limit-words="50" data-fill-empty="false" data-random="false"></div>
             </div>
+            <h4 class="uppercase text-center" onclick="$('.tabs li:nth-child(3) a').click()">MORE REVIEWS</h4>
           </div>
 
           <div class="seven columns info medium-down--one-whole {% if section.settings.product_images_position == 'left' %}omega{% else %}alpha{% endif %}">
@@ -802,6 +803,11 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
         },
         {
           "type": "checkbox",

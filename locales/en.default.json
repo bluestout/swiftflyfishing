@@ -10,7 +10,7 @@
     "404": {
       "title": "404",
       "sub_title": "Whoops!",
-      "subtext_html": "We couldn't find the page you are looking for!</br>Checkout our top products",
+      "subtext_html": "We couldn't find the page you are looking for!<\/br>Checkout our top products",
       "continue_shopping_html": ""
     },
     "password_page": {
@@ -39,7 +39,7 @@
       "email": "Email",
       "subscriber_first_name": "First Name",
       "subscriber_last_name": "Last Name",
-      "success_text": "Thank you for joining our mailing list!",
+      "success_text": "Thank you for joining our club!",
       "placeholder": "Enter your email address...",
       "submit": "Sign Up"
     },
@@ -314,11 +314,11 @@
       "returned": "Request Return"
     },
     "register": {
-      "title": "Create Account",
-      "sign_up": "Sign Up",
+      "title": "Create an Account",
+      "sign_up": "JOIN THE VIP LIST",
       "cancel": "Return to Store",
       "returning_customer_label": "Returning Customer?",
-      "sign_in_html": "Login",
+      "sign_in_html": "Sign in",
       "first_name": "First Name",
       "last_name": "Last Name",
       "email": "Email",

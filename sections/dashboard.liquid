@@ -16,7 +16,7 @@
           additional_classes: "hide medium-down--show"
   %}
   <div class="caption captionOverlay--true">
-    <h1 class="headline">{{ heading_title }}</h1>
+    <h1 class="headline uppercase">{{ heading_title }}</h1>
   </div>    
 </header>
 
@@ -28,8 +28,7 @@
       <ul class="select-box-menu">
         <li class="uppercase active">{{ 'customer.menu.dashboard' | t | link_to : "/account" }}</li>
         <li class="uppercase">{{ 'customer.menu.account_detail' | t | link_to: "/account/addresses#" }}</li>
-        <li class="uppercase"><a href="#swym-wishlist" class="swym-wishlist"> {{ 'customer.menu.wishlist' | t }}</a></li>
-        <li class="uppercase">{{ 'customer.menu.rewards' | t | link_to: "pages/gathred" }}</li>
+        <li class="uppercase">{{ 'customer.menu.rewards' | t | link_to: "pages/swift-rewards" }}</li>
         <li class="uppercase">{{ 'customer.menu.log_out' | t | link_to: "/account/logout" }}</li>
       </ul>
     </aside>

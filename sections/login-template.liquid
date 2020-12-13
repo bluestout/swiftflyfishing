@@ -16,7 +16,7 @@
       {% form 'customer_login' %}
         {{ form.errors | default_errors }}
   
-        <label for="customer_email" class="login">{{ 'customer.login.email' | t }}</label>
+        <label for="customer_email" class="login">{{ 'customer.login.email' | t }}<span>*</span></label>
         <input type="email" value="" name="customer[email]" id="customer_email" class="large" size="30"  autocorrect="off" autocapitalize="off" tabindex="1" />
   
         {% if form.password_needed %}
@@ -26,7 +26,7 @@
           {% endcomment %}
   
           <small class="right"><em><a href="#" onclick="showRecoverPasswordForm()">{{ 'customer.login.forgot_password' | t }}</a></em></small>
-          <label for="customer_password" class="login">{{ 'customer.login.password' | t }}</label>
+          <label for="customer_password" class="login">{{ 'customer.login.password' | t }}<span>*</span></label>
           <input type="password" value="" name="customer[password]" id="customer_password" class="large password" size="16" tabindex="2" />
   
         {% endif %}

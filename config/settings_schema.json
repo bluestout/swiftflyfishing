@@ -708,6 +708,112 @@
     "settings": [
       {
         "type": "header",
+        "content": "General font size"
+      },
+      {
+        "type": "font_picker",
+        "id": "heading_title_font",
+        "label": "Heading title font",
+        "default": "open_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "h1_font_size",
+        "label": "h1 size",
+        "min": 20,
+        "max": 40,
+        "default": 36,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "h2_font_size",
+        "label": "h2 size",
+        "min": 10,
+        "max": 40,
+        "default": 32,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "h3_font_size",
+        "label": "h3 size",
+        "min": 10,
+        "max": 40,
+        "default": 24,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "h4_font_size",
+        "label": "h4 size",
+        "min": 10,
+        "max": 40,
+        "default": 18,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "h5_font_size",
+        "label": "h5 size",
+        "min": 10,
+        "max": 40,
+        "default": 14,
+        "unit": "px"
+      },
+      {
+        "type": "font_picker",
+        "id": "paragraph_font",
+        "label": "Paragraph font",
+        "default": "open_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "p_font_size",
+        "label": "description size",
+        "min": 10,
+        "max": 40,
+        "default": 14,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "general font size",
+        "min": 10,
+        "max": 40,
+        "default": 16,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "link_font_size",
+        "label": "link font size",
+        "min": 10,
+        "max": 40,
+        "default": 13,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "span_font_size",
+        "label": "small font size",
+        "min": 10,
+        "max": 40,
+        "default": 11,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "price_font_size",
+        "label": "Price font size",
+        "min": 10,
+        "max": 40,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "header",
         "content": "Logo"
       },
       {

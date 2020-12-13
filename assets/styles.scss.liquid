@@ -3316,7 +3316,7 @@ ul.toggle_list li ul {
   }
 
   label {
-    text-transform: none;
+    text-transform: capitalize;
     font-weight: normal;
     font-size: inherit;
   }
@@ -6836,6 +6836,8 @@ header.secondary_logo--true:not(.feature_image) {
 
   .disclosure-list__item {
     display: block;
+    padding-right: 0;
+    text-align: left;
   }
 
   button.disclosure__button {
@@ -11792,11 +11794,10 @@ input[type="button"].highlight-false--dark {
 
 .image-with-text .featured-link--half a[href] img {
   box-shadow: #000 0em 0em 0em;
-  transition: opacity 0.2s linear;
 }
 
 .image-with-text .featured-link--half:hover a[href] img.lazyloaded {
-  opacity: 0.8;
+
 }
 
 .standard--width .image-with-text .featured-link--image,

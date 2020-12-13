@@ -76,9 +76,9 @@
     </a>
     <a href="{{ routes.root_url }}" title="{{ shop.name | escape }}" class="mobile_logo logo">
       {% if section.settings.logo_mobile != nil %}
-        <img src="{{ section.settings.logo_mobile | img_url: '410x' }}" alt="{{ shop.name | escape }}" class="lazyload" />
+        {% include 'icon-pack' with icon: 'mobile-logo' %}
       {% elsif section.settings.logo != nil %}
-        <img src="{{ section.settings.logo | img_url: '410x' }}" alt="{{ shop.name | escape }}" />
+        {% include 'icon-pack' with icon: 'mobile-logo' %}
       {% else %}
         {{ shop.name }}
       {% endif %}
@@ -207,10 +207,10 @@
           <div class="header__logo {% if section.settings.logo_home == blank and section.settings.logo == blank %}logo--text{% else %}logo--image{% endif %}">
             <a href="{{ routes.root_url }}" title="{{ shop.name }}">
               {% if section.settings.logo_home != nil %}
-                <img src="{{ section.settings.logo_home | img_url: '410x' }}" class="secondary_logo" alt="{{ shop.name | escape }}" />
+                {% include 'icon-pack' with icon: 'logo' %}
               {% endif %}
               {% if section.settings.logo != nil %}
-                <img src="{{ section.settings.logo | img_url: '410x' }}" class="primary_logo lazyload" alt="{{ shop.name | escape }}" />
+                {% include 'icon-pack' with icon: 'logo' %}
               {% else %}
                 <span class="header__logo-text">{{ shop.name }}</span>
               {% endif %}

@@ -739,7 +739,7 @@ var searchAutocomplete = {
 var collectionSidebarFilter = {
   init: function(){
 
-    $('.filter-active-tag input:checked').parents('.filter-active-tag').siblings('.filter-all-tags').hide();
+    $('.filter-active-tag input:checked').parents('.filter-active-tag').siblings('.filter-all-tags').css('opacity', 0.4);
     $('.toggle-all--true .toggle_list .filter-active-tag input:checked').parents('ul.toggle_list').prev().click();
 
     //checks if there is an active filter, and if so, to keep the tag filter dropdown open

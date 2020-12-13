@@ -55,32 +55,32 @@ $table-border-color: #dcdcdc;
 }
 
 @mixin font-MontRegular() {
-  font-family: Montserrat, sans-serif;
+  font-family: {{settings.heading_title_font.family}}, {{settings.heading_title_font.fallback_families}};
   font-weight: 400;
 }
 
 @mixin font-MontBold() {
-  font-family: Montserrat, sans-serif; //{{ settings.regular__font.family }}, {{ settings.regular__font.fallback_families }};
-  font-weight: 700; //{{ settings.regular__font.weight }};
+  font-family: {{settings.heading_title_font.family}}, {{settings.heading_title_font.fallback_families}};
+  font-weight: 700;
 }
 
 @mixin font-MontSBold() {
-  font-family: Montserrat, sans-serif; //{{ settings.regular__font.family }}, {{ settings.regular__font.fallback_families }};
-  font-weight: 600; //{{ settings.regular__font.weight }};
+  font-family: {{settings.heading_title_font.family}}, {{settings.heading_title_font.fallback_families}};
+  font-weight: 600;
 }
 
 @mixin font-LatoBold() {
-  font-family: Lato, sans-serif;
+  font-family: {{settings.paragraph_font.family}}, {{settings.paragraph_font.fallback_families}};
   font-weight: 700;
 }
 
 @mixin font-LatoRegular() {
-  font-family: Lato, sans-serif;
+  font-family: {{settings.paragraph_font.family}}, {{settings.paragraph_font.fallback_families}};
   font-weight: 400;
 }
 
 @mixin font-LatoLight() {
-  font-family: Lato, sans-serif;
+  font-family: {{settings.paragraph_font.family}}, {{settings.paragraph_font.fallback_families}};
   font-weight: 300;
   font-style: normal;
   line-height: 1.5;
@@ -131,17 +131,17 @@ $table-border-color: #dcdcdc;
   }
 }
 
-$font-subtitle: 13px;
-$font-desc: 14px;
-$font-body: 16px;
+$font-subtitle: {{settings.link_font_size}}px;
+$font-desc: {{settings.p_font_size}}px;
+$font-body: {{settings.body_font_size}}px;
 $font-header: 22px;
-$font-small: 18px;
-$font-price: 20px;
-$font-medium: 24px;
-$font-large: 32px;
-$font-extra: 36px;
-
-
+$font-small: {{settings.h4_font_size}}px;
+$font-price: {{settings.price_font_size}}px;
+$font-medium: {{settings.h3_font_size}}px;
+$font-large: {{settings.h2_font_size}}px;
+$font-extra: {{settings.h1_font_size}}px;
+$font-extra_small: {{settings.h5_font_size}}px;
+$font-span: {{settings.span_font_size}}px;
 
 $color-black: #000000;
 $color-darkgrey: #3D3D3D;
@@ -154,7 +154,7 @@ $color-lightred: rgba(216,216,216,0.17);
 $color-blue: #0F1626;
 $color-brown: #AB987A;
 $color-trans-white:rgba(255,255,255,0.38);
-
+$color-green: #47c1bf;
 html {
   scroll-behavior: smooth;
   body{
@@ -165,14 +165,14 @@ html {
   }
 }
 .promo-banner p{
-  color: white;
+  color: $color-white;
   text-transform: initial;
   @include respond-to("medium-down"){
-    font-size: 11px;
+    font-size: $font-span;
   }
 }
 .uppercase{
-  text-transform: uppercase;
+  text-transform: uppercase!important;
 }
 .capitalize{
   text-transform: capitalize;
@@ -237,7 +237,7 @@ html {
   top: 0;
 }
 .extra_small{
-  font-size: 11px;
+  font-size: {{settings.span_font_size}}px;
   @include font-MontRegular();
   text-transform: uppercase;
 }
@@ -337,7 +337,7 @@ a.button, .button, button, input[type="submit"], input[type="reset"], input[type
   }
   &.button-blue{
     background-color: $color-blue;
-    color: white;
+    color: $color-white;
     border-color: $color-blue;
   }
   &.button-white{
@@ -359,11 +359,11 @@ a.button, .button, button, input[type="submit"], input[type="reset"], input[type
     color: black;
   }
   &.highlight-false{
-    color: white;
+    color: $color-white;
     &:hover{
       border-width: 2px;
       background: transparent;
-      color: white;
+      color: $color-white;
     }
   }
 }
@@ -392,9 +392,9 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
 .stamped-product-reviews-badge{
   .stamped-badge{
     .stamped-badge-caption{
-      font-size: 14px;
+      font-size: $font-desc;
       span{
-        font-size: 14px;
+        font-size: $font-desc;
       }
     }
   }
@@ -416,6 +416,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
         }
         .toggle_content{
           display: block;
+          padding: 0 0 20px;
         }
     }
     .toggle_btn{
@@ -451,7 +452,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
         line-height: 24px;
         letter-spacing: 0.5px;
         @include font-LatoRegular();
-        font-size: 14px;
+        font-size: $font-extra_small;
       }
       ul{
         margin: 0;
@@ -574,7 +575,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
         }
         .price{
             white-space: nowrap;
-           font-size: 14px;
+           font-size: $font-extra_small;
            text-align: left;
            @include respond-to("medium-down"){
             width: 35%;
@@ -601,7 +602,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
       }
       .price{
           white-space: nowrap;
-         font-size: 14px;
+         font-size: $font-extra_small;
          text-align: left;
          @include respond-to("medium-down"){
           width: 35%;
@@ -640,7 +641,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
       }
     }
     p{
-      color: white;
+      color: $color-white;
       max-width: 600px;
       text-align: center;
       margin: auto;
@@ -771,7 +772,7 @@ header{
                     width: 50px;
                     padding: 0;
                     background: black;
-                    color: white;
+                    color: $color-white;
                     border-radius: 30px;
                     margin-right: 0;
                   }
@@ -804,7 +805,7 @@ header{
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: $color-white;
             background: red;
             border-radius: 50%;
             font-size: 10px;
@@ -832,7 +833,7 @@ header{
                 li{
                   a{
                     @include font-LatoRegular();
-                    font-size: 14px;
+                    font-size: $font-desc;
                   }
                 }
                 &.dropdown_title{
@@ -840,7 +841,10 @@ header{
                   padding: 0;
                   li{
                     a{
+                      cursor: auto;
+                      text-transform: uppercase;
                       font-size: $font-desc;
+                      color: $color-black!important;
                       @include font-MontSBold();
                     }
                   }
@@ -860,21 +864,22 @@ header{
             left: 0;
             margin: 0;
             transform: none;
-            color: white;
+            color: $color-white;
             strong{
               margin-bottom: 10px;
               display: block;
             }
             h3{
-              color: white;
+              color: $color-white;
+              text-transform: uppercase;
             }
             p {
               @include font-MontRegular();
-              color: white;
+              color: $color-white;
             }
             svg{
               g, path {
-                stroke: white;
+                stroke: $color-white;
               }
             }
             .review-stars{
@@ -882,8 +887,8 @@ header{
             }
             a.button{
               border-width: 2px;
-              border-color: white;
-              color: white;
+              border-color: $color-white;
+              color: $color-white;
               max-width: 160px;
               margin-bottom: 10px;
             }
@@ -912,7 +917,7 @@ header{
                     text-transform: uppercase;
                     text-align: left;
                     @include font-MontBold();
-                    font-size: 24px;
+                    font-size: $font-medium;
                     line-height: 29px;
                   }
                 }
@@ -933,7 +938,7 @@ header{
       position: relative;
       .caption {
         @include respond-to("small-down"){
-          background: #0F1626;
+          background: $color-blue;
           margin-top: 0!important;
         }
         .caption-content{
@@ -947,7 +952,7 @@ header{
           .pretext{
             p{
               margin-top: 20px;
-              color: white;
+              color: $color-white;
             }
           }
           .headline{
@@ -958,20 +963,20 @@ header{
             }
             @include respond-to("medium-down"){
               font-size: 22px;
-              color: white!important;
+              color: $color-white!important;
               letter-spacing: 0.17px;
             }
           }
           .subtitle{
             p{
-              color: white;
-              font-size: 32px;
+              color: $color-white;
+              font-size: $font-large;
               text-transform: none;
               @include respond-to("large-down"){
-                font-size: 24px;
+                font-size: $font-medium;
               }
               @include respond-to("medium-down"){
-                font-size: 16px;
+                font-size: $font-body;
               }
             }
           }
@@ -1003,7 +1008,7 @@ header{
             margin-right: 10px;
           }
           span{
-            color: white;
+            color: $color-white;
           }
         }
       }
@@ -1128,7 +1133,7 @@ header{
         z-index: -1;
         margin-right: -2px; /* !importanté */
         border-radius: inherit; /* !importanté */
-        background: linear-gradient(white, black, white)
+        background: linear-gradient($color-white, $color-black, $color-white)
       }
       .image-content{
         overflow: hidden;
@@ -1138,7 +1143,7 @@ header{
           top: 0;
           position: relative;
           left: 0px;
-          background: white;
+          background: $color-white;
           height: 100%;
           max-width: initial;
         }
@@ -1152,7 +1157,7 @@ header{
         text-align: center;
         padding-top:7px;
         background: #0c4896;
-        color:white;
+        color:$color-white;
         font-size:0.8em;
         margin-top:25px;
         margin-left:-20px;
@@ -1176,7 +1181,7 @@ header{
         width:40px;
         height:40px;
         margin-top:-3px;
-        background:white;
+        background:$color-white;
         color: black;
         border-radius: 25px;
         position:absolute;
@@ -1257,7 +1262,7 @@ header{
           }
         }
         .subtitle{
-          font-size: 14px;
+          font-size: $font-desc;
           line-height: 10px;
           color: black;
           p{
@@ -1289,7 +1294,7 @@ header{
 }
 
 .section-title{
-  font-size: 14px;
+  font-size: $font-desc;
   text-align: left;
   position: relative;
   width: 100%;
@@ -1301,7 +1306,7 @@ header{
   &.title-left{
     span{
       text-transform: uppercase;
-      background: white;
+      background: $color-white;
       z-index: 1000;
       position: relative;
       padding-right: 10px;
@@ -1325,7 +1330,7 @@ header{
     text-align: right;
     span{
       text-transform: uppercase;
-      background: white;
+      background: $color-white;
       z-index: 1000;
       position: relative;
       padding-left: 10px;
@@ -1354,20 +1359,28 @@ header{
     .logo-bar{
       padding: 0 20px;
       .logo-bar__item{
-        height: 50px;
+        height: 70px;
+        width: 20%;
+        max-width: initial;
         display: flex;
         align-items: center;
         margin: 0;
         @include respond-to("small-down"){
-          max-width: 40%;
+          max-width: 33%;
+          width: 100%;
           padding: 0 10px;
-          height: 45px;
+          height: 65px;
         }
         .image-element__wrap{
           width: 100%;
           img{
             width: auto;
+            min-width: 130px;
+            margin-left: 0;
             max-width: 100%;
+            @include respond-to("medium-down"){
+              min-width: 100px;
+            }
           }
         }
       }
@@ -1411,7 +1424,7 @@ header{
       position: absolute;
       bottom: 20px;
       left: 20px;
-      max-width: 300px;
+      max-width: 320px;
       text-align: left;
       @include respond-to("medium-down"){
         font-size: 20px;
@@ -1452,6 +1465,16 @@ header{
       position: absolute;
       bottom: -30px;
       margin-bottom: 0;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      &::after{
+        content: "..........";
+        font-size: 10px;
+        margin-left: 15px;
+        letter-spacing: 3px;
+      }
       @include respond-to("small-down"){
         display: none;
       }
@@ -1481,7 +1504,7 @@ header{
       @include respond-to("medium-down"){
         right: 0;
         transform: none;
-        font-size: 14px;
+        font-size: $font-desc;
         padding: 0 20px;
         line-height: 32px;
       }
@@ -1510,6 +1533,7 @@ header{
         padding: 20px;
       }
       .collection_title {
+        cursor: auto;
         font-size: $font-medium;
         &.title-large{
           font-size: $font-large;
@@ -1541,7 +1565,7 @@ header{
           
         }
         &.title-small {
-          font-size: 18px;
+          font-size: $font-small;
           line-height: 22px;
         }
       }
@@ -1591,10 +1615,12 @@ header{
         }
         &.text-list{
           p{
-            display: flex;
-            align-items: center;
+            padding-left: 20px;
+            position: relative;
             margin-top: 10px;
             &::before{
+              position: absolute;
+              left: 0;
               margin-right: 10px;
               content: " ";
               width: 7px;
@@ -1602,13 +1628,14 @@ header{
               display: table;
               background-color: $color-red;
               border-radius: 50%;
+              margin-top: 10px;
             }
           }
         }
         &.text-text{
           p{
             font-size: $font-body;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
             line-height: 24px;
             strong{
               margin-top: 10px;
@@ -1657,7 +1684,7 @@ header{
         }
         svg{
           #icons{
-            stroke: #AB987A;
+            stroke: $color-brown;
           }
         }
       }
@@ -1745,7 +1772,7 @@ header{
           p{
             &:first-of-type{
               display: contents;
-              font-size: 24px;
+              font-size: $font-medium;
               line-height: 29px;
               margin: 0;
               max-width: initial;
@@ -1755,7 +1782,7 @@ header{
                 display: block;
               }
             }
-            font-size: 18px;
+            font-size: $font-small;
             line-height: 27px;
             margin: 50px auto;
             margin-bottom: 20px;
@@ -1834,7 +1861,7 @@ header{
           p{
             @include font-LatoRegular();
             font-size: $font-desc;
-            color: white;
+            color: $color-white;
           }
         }
         .collection-info__caption {
@@ -1875,16 +1902,15 @@ header{
           padding: 0 5px;
           width: 120%;
           padding: 0 20px;
-          background: white;
+          background: $color-white;
           opacity: 0;
         }
         .title{
-          font-size: $font-header;
-          line-height: 22px;
-          
-          letter-spacing: 0.5px;
+          font-size: $font-medium;
+          line-height: 30px;
+          letter-spacing: 1px;
           margin-bottom: 20px;
-          @include font-LatoBold();
+          @include font-LatoRegular();
           text-transform: capitalize;
           @include respond-to("medium-down"){
             @include font-MontRegular();
@@ -1929,6 +1955,7 @@ header{
       align-items: center;
       justify-content: flex-start;
       width: 100%;
+      margin: 0 30px;
       margin-top: 60px;
       @include respond-to("medium-down"){
         margin-top: 0;
@@ -1950,9 +1977,12 @@ header{
           }
         }
       }
-      .previous{
+      .previous{  
         order: 2;
         margin-left: calc(50% - 285px);
+        @media screen and (max-width: 1500px){
+          margin-left: 15px;
+        }
         @include respond-to("medium-down"){
           margin-left: auto;
           display: none;
@@ -2000,7 +2030,7 @@ header{
         }
       }
       p{
-        color: white;
+        color: $color-white;
         margin: 0;
         @include respond-to("small-down"){
           font-size: 12px;
@@ -2042,6 +2072,24 @@ header{
         align-items: center;
         @include respond-to("medium-down"){
           flex-wrap: wrap;
+        }
+        position: relative;
+        padding-bottom: 50px;
+        p{
+          position: absolute;
+          width: 100%;
+          bottom: 0;
+          left: 10px;
+          margin: 0;
+          padding: 10px 20px;
+          
+          color: $color-white;
+          &.false{
+            background: $color-red;
+          }
+          &.success{
+            background: $color-green;
+          }
         }
         .input-row{
           margin: 0 10px;
@@ -2118,11 +2166,11 @@ header{
     p{
       width: 100%;
       text-align: center;
-      color: white;
+      color: $color-white;
       font-size: 12px;
       letter-spacing: 0.43px;
       a{
-        color: white;
+        color: $color-white;
         font-size: 12px;
       }
     }
@@ -2147,7 +2195,7 @@ header{
       z-index: 10;
       @include respond-to("medium-down"){
         position: initial;
-        background: #0F1626;
+        background: $color-blue;
         flex-wrap: nowrap;
         margin-top: 20px;
         justify-content: space-evenly;
@@ -2166,7 +2214,7 @@ header{
           font-size: $font-desc;
           @include font-MontRegular();
           @include respond-to("medium-down"){
-            font-size: 11px;
+            font-size: $font-span;
             line-height: 14px;
             text-align: left;
           }  
@@ -2210,7 +2258,7 @@ header{
     @include respond-to("medium-down"){
       display: none;
       position: fixed;
-      background: white;
+      background: $color-white;
       top: 0;
       z-index: 10000000;
       width: 100%;
@@ -2246,7 +2294,7 @@ header{
         border-bottom: 0;
         @include respond-to("medium-down"){
           margin-bottom: 30px;
-          background-color: white;
+          background-color: $color-white;
           & ~ .sidebar-block{
             margin-bottom: 10px;
             background-color: rgba(216 ,216, 216, 0.14);
@@ -2267,25 +2315,46 @@ header{
         .toggle_list{
           li{
             a{
-              display: flex;
-              align-items: center;
-              &::before{
-                content: " ";
-                width: 20px;
-                height: 20px;
-                border: 1px solid #979797;
-                display: table;
-                margin-right: 7px;
+              label{
                 display: flex;
                 align-items: center;
-                justify-content: center;
-              }
-              &.active{
-                padding-left: 0;
-                border-left: none;
                 &::before{
-                  content: "✓";
+                  content: " ";
+                  width: 20px;
+                  height: 20px;
+                  border: 1px solid #979797;
+                  display: table;
+                  margin-right: 7px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
                 }
+              }
+              
+              &.active{
+                  padding-left: 0;
+                  border-left: none;
+                label{
+                  &::before{
+                    content: " ";
+                    background: black;
+                    color: $color-white;
+                    border-color: $color-black;
+                  }
+                  &::after{
+                    content: " ";
+                    width: 4px;
+                    height: 9px;
+                    border: 3px solid white;
+                    border-top: none;
+                    border-left: none;
+                    position: absolute;
+                    transform: rotate(45deg);
+                    left: 8px;
+                    top: 3px;
+                  }
+                }
+                
               }
             }
           }
@@ -2392,7 +2461,7 @@ header{
       @include respond-to("medium-down"){
         padding: 0;
         margin-bottom: 50px;
-        background: rgba(216,216,216,0.17);
+        background: $color-lightred;
         padding-bottom: 20px;
       }
       .column{
@@ -2489,8 +2558,8 @@ header{
       display: flex;
       padding: 14px;
       border-radius: 50%;
-      background: #0F1626;
-      color: white;
+      background: $color-blue;
+      color: $color-white;
       justify-content: center;
       align-items: baseline;
       width: 50px;
@@ -2619,7 +2688,7 @@ header{
         justify-content: space-between;
         .title{
           @include font-LatoBold();
-          font-size: 16px;
+          font-size: $font-body;
           text-align: left;
           margin-right: 20px;
           @include respond-to("medium-down"){
@@ -2628,7 +2697,7 @@ header{
         }
         .price{
             white-space: nowrap;
-           font-size: 14px;
+           font-size: $font-extra_small;
            text-align: left;
            @include respond-to("medium-down"){
             width: 35%;
@@ -2653,8 +2722,8 @@ header{
     }
     .image{
       .gallery-wrap{                                                                                                                                                                  
-        &.gallery-thumbnails--bottom-thumbnails{q
-          .product_gallery{
+        &.gallery-thumbnails--bottom-thumbnails{
+          .product_gallery {
             .flickity-button{
               display: none;
             }
@@ -2751,6 +2820,10 @@ header{
           }
         }
       }
+      h4{
+        cursor: pointer;
+        pointer-events: all;
+      }
     }
     .info{
       position: sticky;
@@ -2772,6 +2845,7 @@ header{
             font-size: $font-price;
           }
         }
+        
         .custom_text{
           margin-top: 10px;
           font-size: $font-desc;
@@ -2784,7 +2858,7 @@ header{
           .swatch {
             .option_title{
               @include font-MontSBold();
-              font-size: 14px;
+              font-size: $font-desc;
               line-height: 18px;
             }
             input:checked+.swatch-element{
@@ -2810,7 +2884,7 @@ header{
               border-color: $color-dirtywhite;
               label{
                 @include font-LatoRegular();
-                font-size: 14px;
+                font-size: $font-desc;
                 letter-spacing: 0.4px;
                 text-transform: capitalize;
                 padding: 0 35px;
@@ -3027,13 +3101,13 @@ header{
           position: absolute;
           height: 100%;
           top: 0;
-          background: #AB987A;
+          background: $color-brown;
           border-radius: 30px;
         }
         span{
           letter-spacing: 1px;
-          font-size: 11px;
-          color: white;
+          font-size: $font-span;
+          color: $color-white;
           line-height: 20px;
           z-index: 1;
           position: relative;
@@ -3121,8 +3195,8 @@ header{
               }
               .stamped-reviews-author{
                 @include font-LatoBold();
-                font-size: 14px;
-                color: black;
+                font-size: $font-desc;
+                color: $color-black;
                 .stamped-verified-label{
                   display: none;
                 }
@@ -3136,6 +3210,13 @@ header{
         
       }
     }
+  }
+}
+
+.cart-section{
+  ul{
+    list-style: none;
+    padding: 0; 
   }
 }
 
@@ -3215,12 +3296,14 @@ header{
         }
         .info{
           .text-list{
-            max-width: 500px;
+           
             p{
+              line-height: 30px;
               display: flex;
               margin-top: 10px;
+              margin-bottom: 0;
               &::before{
-                margin-top: 8px;
+                margin-top: 12px;
                 margin-right: 10px;
                 content: " ";
                 width: 7px;
@@ -3243,11 +3326,11 @@ header{
           .collection_title{
             text-transform: unset;
             @include font-LatoRegular();
-            color: white;
+            color: $color-white;
           }
           
           p{
-            color: white;
+            color: $color-white;
           }
         }
       }
@@ -3260,8 +3343,61 @@ header{
     
     h2{
       @include font-LatoRegular();
-      font-size: 24px;
+      font-size: $font-medium;
       text-transform: capitalize;
+      &.light{
+        @include font-MontRegular();
+        margin-top: 30px;
+        margin-bottom: 5px;
+      }
+    }
+    h4{
+      &.light{
+        @include font-MontRegular();
+        font-size: $font-medium;
+        text-transform: capitalize;
+        margin-top: 30px;
+        margin-bottom: 5px;
+      }
+    }
+    p{
+      strong{
+        @include font-MontBold();
+        font-size: $font-body;
+      }
+    }
+    ol{
+      padding-left: 13px;
+    }
+    ul{
+      list-style: none;
+      padding-left: 13px;
+      li{
+        &::before{
+          content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+          color: $color-red; /* Change the color */
+          font-weight: bold; /* If you want it to be bold */
+          display: inline-block; /* Needed to add space between the bullet and the text */
+          width: 1em; /* Also needed for space (tweak if needed) */
+          margin-left: -1em;
+        }
+      }
+    }
+    table{
+      width: 100%!important;
+      td{
+        width: auto!important;
+        white-space: nowrap;
+        @include respond-to('medium-down'){
+          white-space: initial;
+        }
+        p, span{
+          white-space: nowrap;
+          @include respond-to('medium-down'){
+            white-space: initial;
+          }
+        }
+      }
     }
   }
   .block__image-text{
@@ -3280,7 +3416,15 @@ header{
   }
   &.layby-section {
     .block__image-text{
+      .featured-link--half{
+        background: #F9F9F9;
+        @include respond-to("medium-down"){
+          background: transparent;
+        }
+      }
+      background: #F9F9F9;
       @include respond-to("medium-down"){
+        background: transparent;
         .image-with-text-section{
           .info{
             .collection_title {
@@ -3298,15 +3442,39 @@ header{
       }
       
     }
+    .block__text-block{
+      .description-content{
+        max-width: initial;
+        margin: 100px auto;
+        @include respond-to("medium-down"){
+          margin: 0 auto;
+        }
+        .description-block{
+          padding: 0 20px;
+        }
+      }
+    }
   }
   &.affiliate-section{
     .block__text-content-block{
       .content_block_item{
         align-items: baseline;
+        .info{
+          .collection_title{
+            font-size: $font-medium;
+            @include font-MontRegular();
+          }
+        }
       }
     }
   }
   .shipping-template{
+    .header{
+      svg{
+        margin: 20px auto;
+        display: table;
+      }
+    }
     .block__image-overlay{
       .caption{
         margin-right: 60px;
@@ -3385,17 +3553,24 @@ header{
     }
   }
   .article{
-    padding: 0 20px;
+    padding: 0;
     margin-bottom: 20px;
+    @include respond-to("medium-down"){
+      padding: 0 20px;
+    }
     .image-element__wrap{
       max-height: 240px;
-      margin: 0 -20px;
-      width: calc(100% + 40px);
       max-width: initial;
       @include respond-to("small-down"){
         width: calc(100% + 80px);
         margin: 0 -40px;
         margin-bottom: 20px;
+      }
+      img{
+        height: 245px;
+        width: auto;
+        max-width: initial;
+        min-width: 100%;
       }
     }
     .article__title{
@@ -3432,7 +3607,7 @@ header{
       font-size: $font-desc;
       @include font-MontSBold();
       text-transform: uppercase;
-      text-decoration: underline;
+      border-bottom: 1px solid;
 
     }
   }
@@ -3444,7 +3619,7 @@ header{
     &::after{
       content: " ";
       width: 100%;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid $color-black;
       display: table;
     }
     span{
@@ -3465,12 +3640,12 @@ header{
       & ~ span.page { a{padding-left: 1rem;} }
       &.current{
         background: transparent;
-        color: black;
+        color: $color-black;
         border: none;
         position: relative;
         @include font-LatoBold();
-        color: black;
-        font-size: 16px;
+        color: $color-black;
+        font-size: $font-body;
         &::after{
           content: " ";
           border-bottom: 2px solid red;
@@ -3484,13 +3659,13 @@ header{
         border: none;
         margin: 0;
         @include font-LatoBold();
-        color: black;
+        color: $color-black;
         font-size: 16px;
       }
       &:hover{
         a{
           position: relative;
-          color: black;
+          color: $color-black;
           background: transparent;
           &::after{
             content: " ";
@@ -3511,7 +3686,7 @@ header{
       padding-bottom: 10px;
       margin-bottom: -4px;
       z-index: 10;
-      background: white;
+      background: $color-white;
       a{
         span{
           &::before{
@@ -3531,6 +3706,13 @@ header{
   }
 }
 .blog-post-section{
+  .page-banner{
+    .caption {
+      h2{
+        font-size: $font-large;
+      }
+    }
+  }
   .content{
     padding-top: 100px;
     @include respond-to("medium-down"){
@@ -3571,6 +3753,7 @@ header{
             &::before{
               font-size: $font-desc;
               font-weight: bolder;
+              text-shadow: 0px 0px 0px $color-black;
             }
           }
         }
@@ -3619,14 +3802,17 @@ header{
     .comment_title{
       margin-top: 0;
       margin-bottom: 10px;
+      text-transform: uppercase;
     }
     .comment_text{
       color: $color-midgrey;
+      @include font-MontRegular();
+      letter-spacing: 0.5px;
     }
     #comment_form{
       margin-top: 30px;
       padding-bottom: 50px;
-      border-bottom: 1px solid #BCBCBC;
+      border-bottom: 1px solid $color-lightgrey;
       label{
         @include font-LatoRegular();
         font-size: $font-desc;
@@ -3639,8 +3825,11 @@ header{
 .contact-section{
   .banner {
     .caption {
-      position: initial;
+      @include respond-to("medium-down"){
+        position: initial;
+      }
       .headline{
+        text-transform: uppercase;
         @include respond-to("medium-down"){
           font-size: 20px;
           @include font-MontBold();
@@ -3675,13 +3864,13 @@ header{
         position: relative;
         &::before{
           content: " ";
-          width: 5px;
-          height: 5px;
+          width: 8px;
+          height: 8px;
           background-color: $color-red;
           border-radius: 50%;
           display: table;
           position: absolute;
-          top: 10px;
+          top: 8px;
           left: 0;
         }
       }
@@ -3704,6 +3893,7 @@ header{
 
 .warranty-section{
   .banner{
+    max-height: initial;
     .caption{
       padding-bottom: 100px;
       border-bottom: 1px solid $color-brown;
@@ -3725,6 +3915,12 @@ header{
     }
   }
   .block__image-text{
+    .featured-link--half{
+      &:first-child{
+        max-width: 584px;
+      }
+      
+    }
     .headline {
       &.red_dot-true {
         @include respond-to("medium-down"){
@@ -3739,7 +3935,14 @@ header{
         justify-content: end;
         .image-item{
           width: 100%;
-          max-width: 400px;
+          max-width: initial;
+          .image-element__wrap{
+            padding: 0;
+            img{
+              max-width: 334px;
+              float: left;
+            }
+          }
           p{
             text-align: left;
           }
@@ -3761,7 +3964,7 @@ header{
         }
         .caption-content{
           max-width: 100%;
-          background: white;
+          background: $color-white;
           .headline{
             font-size: $font-large;
             line-height: 48px;
@@ -3780,7 +3983,7 @@ header{
             }
             @media screen and (max-width: 1180px) {
               p{
-                font-size: 14px;
+                font-size: $font-desc;
               }
             }
           }
@@ -3818,7 +4021,7 @@ header{
     
     h2{
       @include font-LatoRegular();
-      font-size: 24px;
+      font-size: $font-medium;
       text-transform: capitalize;
     }
   }
@@ -3866,6 +4069,9 @@ header{
             box-shadow: none;
             .ssw-instagram-media{
               padding: 0;
+              .ssw-item-backdrop{
+                inset: 0;
+              }
             }
           }
         }
@@ -3901,7 +4107,7 @@ header{
           .team-member__overlay{
             @include respond-to("medium-down"){
               display: block;
-              background-color: white;
+              background-color: $color-white;
               p{
                 color: $color-black;
               }
@@ -4006,13 +4212,13 @@ header{
       }
       .description{
         p{
-          font-size: 14px!important;
+          font-size: $font-desc!important;
           padding: 0 10px;
           @include respond-to("medium-down"){
             text-align: left!important;
           }
           strong{
-            font-size: 14px!important;
+            font-size: $font-desc!important;
             text-transform: unset!important;
           }
         }
@@ -4047,18 +4253,47 @@ header{
 .shipping-template{
   .header{
     .image-element__wrap{
-      max-width: 1000px;
+      max-width: 1023px;
       margin: 50px auto;
+    }
+    svg{
+      margin: 20px auto;
+      display: table;
     }
   }
   .block__image-overlay{
+    .image-element__wrap{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      max-width: initial;
+      @include respond-to("large-down"){
+        position: initial;
+      }
+      img{
+        min-width: 100%;
+        height: 100%;
+        width: auto;
+        @include respond-to("large-down"){
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
     .caption{
+      max-width: 1200px;
+      padding: 50px 20px;
+      position: relative;
+      transform: none;
+      @include respond-to("large-down"){
+        padding: 0;
+      }
       .caption-content{
         max-width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        @include respond-to("medium-down"){
+        @include respond-to("large-down"){
           flex-wrap: wrap;
           margin-top: -140px;
           z-index: 10;
@@ -4067,7 +4302,7 @@ header{
         div{
           &.icons{
             width: 40%;
-            @include respond-to("medium-down"){
+            @include respond-to("large-down"){
               display: flex;
               width: 100%;
               justify-content: space-evenly;
@@ -4076,25 +4311,24 @@ header{
             svg{
               margin: 10px 0;
               width: 50%;
-              @include respond-to("medium-down"){
+              @include respond-to("large-down"){
                 width: 60px;
               }
             }
           }
           
           &.info{
-            width: 60%;
-            max-width: 600px;
-            background-color: white;
+            width: 690px;
+            background-color: $color-white;
             padding: 40px;
-            @include respond-to("medium-down"){
+            @include respond-to("large-down"){
               width: 100%;
-              padding: 20px 0;
+              padding: 20px;
             }
             .description{
               text-align: left;
               h2{
-                font-size: 24px;
+                font-size: $font-medium;
                 line-height: 28px;
                 text-transform: uppercase;
                 &::before{
@@ -4105,13 +4339,13 @@ header{
                   margin-bottom: 20px;
                   border-radius: 50%;
                   background-color: $color-red;
-                  @include respond-to("medium-down"){
+                  @include respond-to("large-down"){
                     margin: auto;
                     margin-bottom: 20px;
                   }
                 }
-                @include respond-to("medium-down"){
-                  font-size: 18px ;
+                @include respond-to("large-down"){
+                  font-size: $font-small ;
                 }
               }
               p{
@@ -4121,23 +4355,24 @@ header{
                 list-style: none;
                 padding: 0;
                 column-count: 2;
-                @include respond-to("medium-down"){
+                @include respond-to("large-down"){
                   column-count: 1;
                 }
                 li{
                   width: 100%;
                   padding-left: 30px;
                   position: relative;
+                  padding-right: 30px;
                   &::before{
                     content: "";
-                    width: 5px;
-                    height: 5px;
+                    width: 10px;
+                    height: 10px;
                     display: table;
                     background-color: $color-red;
                     border-radius: 50%;
                     position: absolute;
-                    top: 10px;
-                    left: 10px;
+                    top: 5px;
+                    left: 0px;
                   }
                 }
               }
@@ -4162,14 +4397,41 @@ header{
       }
       ul{
         margin-top: 0;
-        
+        list-style: none;
+        padding: 0;
+        &.toggle-list{
+          li{
+            &::before{
+              content: none;
+            }
+          }
+          ul{
+            li{
+              padding-left: 0;
+            }
+          }
+        }
         li{
+          position: relative;
+          padding-left: 30px;
           margin-bottom: 0;
-          &::marker{
-            color: $color-red;
+          &::before{
+            content: "";
+            width: 10px;
+            height: 10px;
+            display: table;
+            background-color: $color-red;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            left: 0px;
           }
         }
       }
+    }
+    svg{
+      width: 100%;
+      height: auto;
     }
   }
 }
@@ -4200,6 +4462,16 @@ header{
       }
     }
   }
+  .block__image-text{
+    .info{
+      p{
+        strong{
+          font-size: 15px!important;
+          text-transform: unset!important;
+        }
+      }
+    }
+  }
   .page-content{
     p{
       max-width: 300px;
@@ -4219,9 +4491,9 @@ header{
   }
   p{
     @include font-LatoRegular();
-    font-size: 18px;
+    font-size: $font-small;
     strong{
-      font-size: 24px;
+      font-size: $font-medium;
     }
   }
   .button{
@@ -4267,6 +4539,10 @@ header{
         }
         label{
           text-transform: capitalize;
+          span{
+            color: $color-red;
+            margin-left: 5px;
+          }
         }
         .bottom-links{
           padding-top: 10px;
@@ -4296,7 +4572,7 @@ header{
             text-align: left;
           }
           h4{
-            font-size: 14px;
+            font-size: $font-extra_small;
           }
           p{
             text-align: left;
@@ -4321,7 +4597,7 @@ header{
         transform: translate(0, -50%);
         background: transparent;
         h1{
-          color: white;
+          color: $color-white;
           @include font-MontBold();
           font-size: 20px;
         }
@@ -4367,7 +4643,7 @@ header{
               font-size: $font-desc;
               padding: 10px;
               display: block;
-              font-size: 14px;
+              font-size: $font-desc;
               margin: 10px;
               text-align: left;
               color: $color-black;
@@ -4402,7 +4678,7 @@ header{
             a{
               @include font-LatoBold();
               @include respond-to("medium-down"){
-                color: white;
+                color: $color-white;
                 @include font-LatoRegular();
               }
             }
@@ -4414,7 +4690,7 @@ header{
       padding-bottom: 50px;
       border: none;
       h4{
-        border-bottom: 1px solid #F4F4F4;
+        border-bottom: 1px solid $color-dirtywhite;
         padding-bottom: 10px;
         @include respond-to("medium-down"){
           font-size: $font-small;
@@ -4431,7 +4707,7 @@ header{
         }
       }
       .heading{
-        border-bottom: 1px solid #F4F4F4;
+        border-bottom: 1px solid $color-dirtywhite;
         align-items: center;
         margin-bottom: 20px;
         cursor: pointer;
@@ -4466,7 +4742,7 @@ header{
           border-top: none!important;
           @include respond-to("medium-down"){
             border: none!important;
-            border-bottom: 1px solid #F4F4F4!important;
+            border-bottom: 1px solid $color-dirtywhite!important;
             padding-bottom: 20px!important;
           }
           th{
@@ -4506,7 +4782,7 @@ header{
         }
         thead{
           tr{
-            border-bottom-color: #F4F4F4;
+            border-bottom-color: $color-dirtywhite;
             th{
               text-transform: uppercase;
             
@@ -4515,7 +4791,7 @@ header{
         }
         tbody{
           tr{
-            border-bottom-color: #F4F4F4;
+            border-bottom-color: $color-dirtywhite;
             &:last-child{
               border-bottom: none!important;
             }
@@ -4572,7 +4848,7 @@ header{
               strong{
                 text-transform: uppercase;
                 @include font-MontSBold();
-                font-size: 14px;
+                font-size: $font-desc;
               }
               
             }
@@ -4584,5 +4860,22 @@ header{
       }
     }
     
+  }
+}
+
+.collection-list-section{
+  padding: 30px 0;
+}
+
+.stamped-product-reviews-badge{
+  .stamped-badge{
+    .stamped-starrating{
+      .stamped-fa{
+        &::before{
+          background: url('https://cdn.shopify.com/s/files/1/0120/5852/files/Star.svg?v=1607545746');
+          color: transparent!important;
+        }
+      }
+    }
   }
 }

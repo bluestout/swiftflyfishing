@@ -22,17 +22,7 @@
           {% if block.type == 'logo' %}
             <div class="text-align--{{block.settings.text_align}}">
               {% if block.settings.image %}
-                <img  alt="{{ block.settings.image.alt | escape }}"
-                      class="footer-logo lazyload {{ settings.image_loading_style }}"
-                      data-sizes="25vw"
-                      data-src="{{ block.settings.image | img_url: '2048x' }}"
-                      data-srcset=" {{ block.settings.image | img_url: '200x' }} 200w,
-                                    {{ block.settings.image | img_url: '300x' }} 300w,
-                                    {{ block.settings.image | img_url: '400x' }} 400w,
-                                    {{ block.settings.image | img_url: '500x' }} 500w,
-                                    {{ block.settings.image | img_url: '600x' }} 600w,
-                                    {{ block.settings.image | img_url: '1000x' }} 1000w"
-                   />
+                {% include 'icon-pack' with icon: 'logo' %}
               {% else %}
                 <div class="logo">{{ shop.name }}</div>
               {% endif %}
@@ -183,7 +173,6 @@
         {% if section.settings.display_designed_by %}
           {{ 'layout.general.designer_credits_html' | t }}
         {% endif %}
-        {{ powered_by_link | split: '" ' | join: '&ref=out-of-the-sandbox" ' | split: '">' | join: '&ref=out-of-the-sandbox">' }}
       </p>
 
       {% if section.settings.display_payment_methods %}

@@ -25,6 +25,8 @@
                             image: block.settings.image,
                             alt: block.settings.image.alt,
                             stretch_width: true,
+                            back_to_basics: true,
+                            inline_style: block.settings.inline_style,
                             additional_classes: 'medium-down--hide'
                     %}
                     {% render 'image-element',
@@ -208,6 +210,11 @@
           "type": "image_picker",
           "id": "mobile_image",
           "label": "Mobile image"
+        },
+        {
+          "type": "text",
+          "id": "inline_style",
+          "label": "Inline style"
         },
         {
           "type": "select",
