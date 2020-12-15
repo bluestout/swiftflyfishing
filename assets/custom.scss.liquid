@@ -55,32 +55,34 @@ $table-border-color: #dcdcdc;
 }
 
 @mixin font-MontRegular() {
-  font-family: {{settings.heading_title_font.family}}, {{settings.heading_title_font.fallback_families}};
+  font-family: {{settings.headline__font.family}}, {{settings.headline__font.fallback_families}};
   font-weight: 400;
 }
 
 @mixin font-MontBold() {
-  font-family: {{settings.heading_title_font.family}}, {{settings.heading_title_font.fallback_families}};
-  font-weight: 700;
+  font-family: {{settings.headline__font.family}}, {{settings.headline__font.fallback_families}};
+  font-weight: {{ settings.headline__font.weight }};
 }
 
 @mixin font-MontSBold() {
-  font-family: {{settings.heading_title_font.family}}, {{settings.heading_title_font.fallback_families}};
-  font-weight: 600;
+  font-family: {{settings.subline__font.family}}, {{settings.subline__font.fallback_families}};
+  font-weight: {{ settings.subline__font.weight }};
 }
 
 @mixin font-LatoBold() {
-  font-family: {{settings.paragraph_font.family}}, {{settings.paragraph_font.fallback_families}};
+  font-family: {{settings.regular__font.family}}, {{settings.regular__font.fallback_families}};
   font-weight: 700;
 }
 
 @mixin font-LatoRegular() {
-  font-family: {{settings.paragraph_font.family}}, {{settings.paragraph_font.fallback_families}};
-  font-weight: 400;
+  font-family: {{ settings.regular__font.family }}, {{ settings.regular__font.fallback_families }};
+  font-weight: {{ settings.regular__font.weight }};
+  font-style: {{ settings.regular__font.style }};
+  text-transform: {{ settings.regular_font_style }};
 }
 
 @mixin font-LatoLight() {
-  font-family: {{settings.paragraph_font.family}}, {{settings.paragraph_font.fallback_families}};
+  font-family: {{settings.regular__font.family}}, {{settings.regular__font.fallback_families}};
   font-weight: 300;
   font-style: normal;
   line-height: 1.5;
@@ -131,19 +133,23 @@ $table-border-color: #dcdcdc;
   }
 }
 
-$font-subtitle: {{settings.link_font_size}}px;
+
+
+
+$font-extra_small: {{settings.link_font_size}}px;
+$font-span: {{settings.span_font_size}}px;
+$font-small: {{settings.subline_font_size}}px;
 $font-desc: {{settings.p_font_size}}px;
-$font-body: {{settings.body_font_size}}px;
-$font-header: 22px;
-$font-small: {{settings.h4_font_size}}px;
+$font-body: {{settings.regular_font_size}}px;
 $font-price: {{settings.price_font_size}}px;
 $font-medium: {{settings.h3_font_size}}px;
-$font-large: {{settings.h2_font_size}}px;
+$font-large: {{settings.headline_font_size}}px;
+$font-subtitle: {{settings.link_font_size}}px;
+$font-header: 22px;
 $font-extra: {{settings.h1_font_size}}px;
-$font-extra_small: {{settings.h5_font_size}}px;
-$font-span: {{settings.span_font_size}}px;
 
-$color-black: #000000;
+
+$color-black: {{settings.regular_color}};
 $color-darkgrey: #3D3D3D;
 $color-midgrey: #848484;
 $color-lightgrey: #BCBCBC;
@@ -204,6 +210,7 @@ html {
     stroke: $color-blue;
   }
 }
+
 .border-brown{
   border-color: $color-brown!important  ;
 }
@@ -252,6 +259,9 @@ h2{
   font-size: $font-large; // 32
   line-height: 44px;
   margin: 15px 0;
+  color: {{settings.headline_color}};
+  text-transform: {{settings.headline_font_style}};
+  letter-spacing: {{settings.headline_letter_spacing}};
   @include respond-to("medium-down"){
     font-size: $font-small;
     line-height: 20px;
@@ -276,6 +286,7 @@ h4{
   @include font-MontSBold();
   font-size: $font-small; // 18
   line-height: 22px;
+  text-transform: {{settings.subline_font_style}};
   margin: 15px 0;
   @include respond-to("medium-down"){
     font-size: $font-desc;
@@ -318,8 +329,6 @@ a{
 }
 
 a.button, .button, button, input[type="submit"], input[type="reset"], input[type="button"], .action_button, a.action_button, input.action_button[type="submit"], input.action_button[type="button"], input.action_button[type="button"], button.shopify-payment-button__button.shopify-payment-button__button--unbranded{
-  @include font-MontSBold();
-  font-size: $font-desc;
   letter-spacing: 1.5px;
   @include respond-to("small-down"){
     width: 100%;
@@ -327,23 +336,25 @@ a.button, .button, button, input[type="submit"], input[type="reset"], input[type
   }
 
   &.button-black{
-    background: $color-black;
-    border-color: $color-black;
-    color: $color-white;
+    background: {{ settings.btn_color }};
+    border-color: {{ settings.btn_color }};
+    color: {{ settings.btn_text_color }};
     &:hover{
-      background-color: $color-red;
-      border-color: $color-red;
+      background-color: {{ settings.btn_hover_color }};
+      border-color: {{ settings.btn_hover_color }};
+      color: white;
     }
   }
   &.button-blue{
-    background-color: $color-blue;
+    background-color: {{ settings.blue_button_color }};
     color: $color-white;
-    border-color: $color-blue;
+    border-color: {{ settings.blue_button_color }};
   }
+
   &.button-white{
-    background: $color-white;
-    color: $color-black;
-    border-color: $color-white;
+    background: {{ settings.white_button_color }};
+    color: black;
+    border-color: {{ settings.white_button_color }};
     &:hover{
       border: 2px solid black;
     }
@@ -473,6 +484,9 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
     height: 100%;
     transform: none;
     position: relative;
+    path{
+      fill: {{ settings.arrow_color }}
+    }
   }
   .arrow{
     left: 0;
@@ -613,7 +627,9 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
     }
   }
 }
-
+.Rise-popup .Rise-popup-close-button{
+  width: auto;
+}
 .page-banner{
   display: block!important;
   .caption{
@@ -627,9 +643,12 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
     .icon{
       margin-bottom: 30px;
     }
+    h1.headline{
+      text-transform: uppercase;
+    }
     h1.headline, h2{
       @include font-MontBold();
-      font-size: 48px;
+      font-size: $font-extra;
       margin: 0;
       margin-bottom: 10px;
       letter-spacing: 0.4px;
@@ -833,7 +852,6 @@ header{
                 li{
                   a{
                     @include font-LatoRegular();
-                    font-size: $font-desc;
                   }
                 }
                 &.dropdown_title{
@@ -842,10 +860,11 @@ header{
                   li{
                     a{
                       cursor: auto;
-                      text-transform: uppercase;
-                      font-size: $font-desc;
+                      text-transform: {{settings.nav_font_style}};
+                      font-size: {{settings.nav_font_size}}px;
                       color: $color-black!important;
-                      @include font-MontSBold();
+                      font-family: {{ settings.nav__font.family }}, {{ settings.nav__font.fallback_families }};
+                      font-weight: {{ settings.nav__font.weight }};
                     }
                   }
                 }
@@ -864,22 +883,22 @@ header{
             left: 0;
             margin: 0;
             transform: none;
-            color: $color-white;
+            color: {{ settings.nav_color_home }};
             strong{
               margin-bottom: 10px;
               display: block;
             }
             h3{
-              color: $color-white;
+              color: {{ settings.nav_color_home }};
               text-transform: uppercase;
             }
             p {
               @include font-MontRegular();
-              color: $color-white;
+              color: {{ settings.nav_color_home }};
             }
             svg{
               g, path {
-                stroke: $color-white;
+                stroke: {{ settings.nav_color_home }};
               }
             }
             .review-stars{
@@ -887,8 +906,8 @@ header{
             }
             a.button{
               border-width: 2px;
-              border-color: $color-white;
-              color: $color-white;
+              border-color: {{ settings.nav_color_home }};
+              color: {{ settings.nav_color_home }};
               max-width: 160px;
               margin-bottom: 10px;
             }
@@ -957,7 +976,7 @@ header{
           }
           .headline{
             margin-top: 10px;
-            font-size: 65px;
+            font-size: {{settings.slideshow_headline_size}}px;
             @include respond-to("large-down"){
               font-size: 56px;
             }
@@ -969,8 +988,12 @@ header{
           }
           .subtitle{
             p{
+              font-family: {{ settings.slideshow_subtitle__font.family }}, {{ settings.slideshow_subtitle__font.fallback_families }};
+              font-weight: {{ settings.slideshow_subtitle__font.weight }};
+              font-style: {{ settings.slideshow_subtitle__font.style }};
+              text-transform: {{ settings.slideshow_subtitle_font_style }};
               color: $color-white;
-              font-size: $font-large;
+              font-size:  {{ settings.slideshow_subtitle_size }}px;
               text-transform: none;
               @include respond-to("large-down"){
                 font-size: $font-medium;
@@ -1108,6 +1131,9 @@ header{
       }
     }
     .bg_image{
+      &::selection {
+        background: transparent;
+      }
       margin-bottom: 3.7%;
       margin-top: 1px;
       max-width: 100%;
@@ -1138,7 +1164,13 @@ header{
       .image-content{
         overflow: hidden;
         height: 100%;
+        &::selection {
+          background: transparent;
+        }
         .hover_image{
+          &::selection {
+            background: transparent;
+          }
           width: auto;
           top: 0;
           position: relative;
@@ -1247,17 +1279,14 @@ header{
           text-transform: unset;
           &.style-large {
             font-size: $font-extra;
-            color: $color-trans-white;
             @include font-MontBold();
           }
           &.style-medium{
             font-size: $font-large;
-            color: $color-trans-white;
             @include font-LatoBold();
           }
           &.style-small{
             font-size: $font-body;
-            color: $color-trans-white;
             @include font-LatoRegular();
           }
         }
@@ -1433,6 +1462,7 @@ header{
         max-width: 300px;
         left: 50%;
         transform: translateX(-50%);
+        top: calc(50% - 30px);
       }
     }
     .image-element__wrap{
@@ -1537,6 +1567,9 @@ header{
         font-size: $font-medium;
         &.title-large{
           font-size: $font-large;
+          color: {{settings.headline_color}};
+          text-transform: {{settings.headline_font_style}};
+          letter-spacing: {{settings.headline_letter_spacing}};
         }
         @include respond-to("medium-down"){
           font-size: $font-small!important;
@@ -2043,8 +2076,8 @@ header{
 .newsletter-section{
   .newsletter_section{
     padding: 100px 0;
-    @include respond-to("smamll-down"){
-      padding: 50px 0;
+    @include respond-to("medium-down"){
+      padding: 20px 0;
     }
     .info{
       padding-right: 50px;
@@ -2055,14 +2088,14 @@ header{
         font-size: $font-small;
         @include font-MontSBold();
         line-height: 22px;
-        color: $color-white;
+        color: {{ settings.newsletter_section_color }};
       }
       .newsletter-text{
         p{
           font-size: $font-small;
           @include font-LatoRegular();
           line-height: 27px;
-          color: $color-white;
+          color: {{ settings.newsletter_section_color }};
         }
       }
     }
@@ -2072,12 +2105,13 @@ header{
         align-items: center;
         @include respond-to("medium-down"){
           flex-wrap: wrap;
+          padding-bottom: 0;
         }
         position: relative;
         padding-bottom: 50px;
         p{
           position: absolute;
-          width: 100%;
+          width: calc(100% - 13px);
           bottom: 0;
           left: 10px;
           margin: 0;
@@ -2320,9 +2354,9 @@ header{
                 align-items: center;
                 &::before{
                   content: " ";
-                  width: 20px;
-                  height: 20px;
-                  border: 1px solid #979797;
+                  width: 18px;
+                  height: 18px;
+                  border: 1px solid {{ settings.sidebar_nav_color }};
                   display: table;
                   margin-right: 7px;
                   display: flex;
@@ -3219,7 +3253,9 @@ header{
     padding: 0; 
   }
 }
-
+.stamped-widget-buttons{
+  display: block!important
+}
 .page-section{
   .block__text-block{
     .description-content{
@@ -3368,11 +3404,15 @@ header{
     }
     ol{
       padding-left: 13px;
+      li{
+        margin-bottom: 0;
+      }
     }
     ul{
       list-style: none;
       padding-left: 13px;
       li{
+        margin-bottom: 0;
         &::before{
           content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
           color: $color-red; /* Change the color */
@@ -3488,6 +3528,7 @@ header{
       }
     }
   }
+  
 }
 .featured-collection-section.featured-gear{
   margin-bottom: 50px;
@@ -3522,6 +3563,9 @@ header{
     .caption{
       .headline{
         font-size: $font-large;
+        color: {{settings.headline_color}};
+        text-transform: {{settings.headline_font_style}};
+        letter-spacing: {{settings.headline_letter_spacing}};
         @include respond-to("medium-down"){
           font-size: $font-body;
           @include font-LatoRegular();
@@ -3567,8 +3611,8 @@ header{
         margin-bottom: 20px;
       }
       img{
-        height: 245px;
-        width: auto;
+        height: auto;
+        width: 100%;
         max-width: initial;
         min-width: 100%;
       }
@@ -3710,6 +3754,9 @@ header{
     .caption {
       h2{
         font-size: $font-large;
+        color: {{settings.headline_color}};
+        text-transform: {{settings.headline_font_style}};
+        letter-spacing: {{settings.headline_letter_spacing}};
       }
     }
   }
@@ -3857,6 +3904,7 @@ header{
         @include respond-to("medium-down"){
           text-align: left;
           margin-bottom: 10px;
+          text-transform: none;
         }
       }
       p{
@@ -3893,7 +3941,7 @@ header{
 
 .warranty-section{
   .banner{
-    max-height: initial;
+    max-height: initial; 
     .caption{
       padding-bottom: 100px;
       border-bottom: 1px solid $color-brown;
@@ -3918,6 +3966,9 @@ header{
     .featured-link--half{
       &:first-child{
         max-width: 584px;
+        @include respond-to("medium-down"){
+          max-width: initial;
+        }
       }
       
     }
@@ -3967,7 +4018,10 @@ header{
           background: $color-white;
           .headline{
             font-size: $font-large;
+            color: {{settings.headline_color}};
             line-height: 48px;
+            text-transform: {{settings.headline_font_style}};
+            letter-spacing: {{settings.headline_letter_spacing}};
             &.red_dot-true {
               @include respond-to("medium-down"){
                 &::before{
@@ -4124,7 +4178,7 @@ header{
             display: none;
           }
           .team-member__details{
-            padding: 20px 40px;
+            padding: 20px;
             transform: none;
             top: auto;
             bottom: 15%;
@@ -4166,6 +4220,9 @@ header{
               font-family: auto;
               font-size: 30px;
             }
+          }
+          @media screen and (max-width: 330px){
+            top: 225px;
           }
         }
       }

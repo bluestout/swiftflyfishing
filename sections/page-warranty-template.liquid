@@ -198,6 +198,25 @@
           "default": "Your headline"
         },
         {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title size",
+          "options": [
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }
+          ]
+        },
+        {
           "type": "checkbox",
           "id": "red_dot_status",
           "label": "Red dot status"
@@ -319,6 +338,16 @@
           "type": "text",
           "id": "title",
           "label": "Heading"
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "label": "Opacity",
+          "unit": "%",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 100
         },
         {
           "type": "checkbox",

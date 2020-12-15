@@ -27,7 +27,9 @@
         <section class="featured-link--section featured-link--image section-{{ forloop.index }}">
           <div class="featured-link--half featured-link--image {% if block.settings.layout == false %}featured-link--margin{% endif %} image-crop--{{ block.settings.image_crop }}">
             <div class="featured-link--wrap">
-              <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
+              {% if block.settings.link != blank and block.settings.button_label == blank%}
+              <a href="{{ block.settings.link }}" title="{{ block.settings.title }}">
+              {% endif %}
                 {% if block.settings.image %}
                   {% include 'image-element', image: block.settings.image, alt: block.settings.image.alt, additional_classes: "medium-down--hide",back_to_basics: true %}
                   {% include 'image-element', image: block.settings.mobile_image, alt: block.settings.mobile_image.alt, additional_classes: "hide medium-down--show",back_to_basics: true %}
@@ -40,8 +42,9 @@
                 {% if block.settings.overlay_title != blank %}
                   <h1 class="title">{{block.settings.overlay_title}}</h1>
                 {% endif %}
-                
+              {% if block.settings.link != blank and block.settings.button_label == blank%}  
               </a>
+              {% endif %}
             </div>
           </div>
           <div class="featured-link--half">

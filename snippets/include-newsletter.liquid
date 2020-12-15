@@ -70,7 +70,7 @@
                   <p class="success"><em>{{ 'general.newsletter_form.success_text' | t }}</em></p>
                 {% elsif form.errors %}
                   {% for field in form.errors %}
-                    <p class="false"><em>{{ form.errors.messages[field] }}</em></p>
+                    <p class="false"><em>{{field}} {{ form.errors.messages[field] }}</em></p>
                   {% endfor %}
                 {% endif %}
 

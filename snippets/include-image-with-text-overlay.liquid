@@ -25,6 +25,7 @@
   {% assign mobile_text_color = block.settings.mobile_text_color %}
   {% assign icon = block.settings.icon %}
   {% assign position = block.settings.caption_position %}
+  {% assign opacity = block.settings.opacity %}
   {% assign display_status = block.settings.display_status %}
 {% else %}
   {% assign id = section.id %}
@@ -55,6 +56,7 @@
   {% assign icon = section.settings.icon %}
   {% assign position = section.settings.caption_position %}
   {% assign display_status = section.settings.display_status %}
+  {% assign opacity = section.settings.opacity %}
 {% endif %}
 
 {% assign mobile_crop = 'mobile-banner--crop-' | append: mobile_image_crop %}
@@ -131,7 +133,7 @@
           </div>
         {% endif %}
         {% if title != blank %}
-          <h1 class="headline red_dot-{{ block.settings.red_dot_status }} style-{{title_style}}" style="color: {{title_color}};">
+          <h1 class="headline red_dot-{{ block.settings.red_dot_status }} style-{{title_style}}" style="color: {{title_color}}; opacity: {{opacity | divided_by: 100.0}}">
             {{ title }}
           </h1>
         {% endif %}
