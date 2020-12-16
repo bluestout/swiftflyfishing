@@ -65,7 +65,7 @@
               {% unless item.product.has_only_default_variant or item.variant.title contains "Title" %}
                 <p class="meta">
                   {% for option in item.product.options %}
-                    <span class="label">{{ option }}:</span> <span>{{ item.variant.options[forloop.index0] }}</span><br />
+                    <span class="label">{{ option | remove_first: ':' }}:</span> <span>{{ item.variant.options[forloop.index0] }}</span><br />
                   {% endfor %}
                 </p>
               {% endunless %}
@@ -76,11 +76,11 @@
                     {% unless p.last == blank %}
                       {% if p.last contains '/uploads/' %}
                         <div>
-                          {{ p.first }}: <a class="lightbox" href="{{ p.last }}">{{ 'cart.general.uploaded_file' | t }}</a>
+                          {{ p.first }} : <a class="lightbox" href="{{ p.last }}">{{ 'cart.general.uploaded_file' | t }}</a>
                         </div>
                       {% else %}
                         <div>
-                          {{ p.first }}: {{ p.last }}
+                          {{ p.first }} : {{ p.last }}
                         </div>
                       {% endif %}
                     {% endunless %}

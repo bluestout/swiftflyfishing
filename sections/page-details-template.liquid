@@ -47,7 +47,9 @@
           <section class="featured-link--section featured-link--image section-{{ forloop.index }}">
             <div class="featured-link--half featured-link--image {% if block.settings.layout == false %}featured-link--margin{% endif %} image-crop--{{ block.settings.image_crop }}">
               <div class="featured-link--wrap">
-                <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
+                {% if block.settings.link != blank and block.settings.button_label == blank%}
+                <a href="{{ block.settings.link }}" title="{{ block.settings.title }}">
+                {% endif %}
                   {% if block.settings.image %}
                     {% render 'image-element',
                             image: block.settings.image,
@@ -57,7 +59,9 @@
                     {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
                     {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
                   {% endif %}
+                {% if block.settings.link != blank and block.settings.button_label != blank %}
                 </a>
+                {% endif %}
               </div>
             </div>
             <div class="featured-link--half">

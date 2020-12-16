@@ -247,6 +247,18 @@
       },
       {
         "type": "color",
+        "id": "blue_button_color",
+        "label": "Blue Buttons",
+        "default": "#0F1626"
+      },
+      {
+        "type": "color",
+        "id": "white_button_color",
+        "label": "White Buttons",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
         "id": "banner_button_color",
         "label": "Banner buttons",
         "default": "#ffffff"
@@ -708,112 +720,6 @@
     "settings": [
       {
         "type": "header",
-        "content": "General font size"
-      },
-      {
-        "type": "font_picker",
-        "id": "heading_title_font",
-        "label": "Heading title font",
-        "default": "open_sans_n4"
-      },
-      {
-        "type": "range",
-        "id": "h1_font_size",
-        "label": "h1 size",
-        "min": 20,
-        "max": 40,
-        "default": 36,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "h2_font_size",
-        "label": "h2 size",
-        "min": 10,
-        "max": 40,
-        "default": 32,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "h3_font_size",
-        "label": "h3 size",
-        "min": 10,
-        "max": 40,
-        "default": 24,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "h4_font_size",
-        "label": "h4 size",
-        "min": 10,
-        "max": 40,
-        "default": 18,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "h5_font_size",
-        "label": "h5 size",
-        "min": 10,
-        "max": 40,
-        "default": 14,
-        "unit": "px"
-      },
-      {
-        "type": "font_picker",
-        "id": "paragraph_font",
-        "label": "Paragraph font",
-        "default": "open_sans_n4"
-      },
-      {
-        "type": "range",
-        "id": "p_font_size",
-        "label": "description size",
-        "min": 10,
-        "max": 40,
-        "default": 14,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "body_font_size",
-        "label": "general font size",
-        "min": 10,
-        "max": 40,
-        "default": 16,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "link_font_size",
-        "label": "link font size",
-        "min": 10,
-        "max": 40,
-        "default": 13,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "span_font_size",
-        "label": "small font size",
-        "min": 10,
-        "max": 40,
-        "default": 11,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "price_font_size",
-        "label": "Price font size",
-        "min": 10,
-        "max": 40,
-        "default": 20,
-        "unit": "px"
-      },
-      {
-        "type": "header",
         "content": "Logo"
       },
       {
@@ -1048,6 +954,54 @@
       },
       {
         "type": "header",
+        "content": "Sub Headings"
+      },
+      {
+        "type": "font_picker",
+        "id": "subline__font",
+        "label": "Font",
+        "default": "open_sans_n4"
+      },
+      {
+        "type": "select",
+        "id": "subline_font_style",
+        "label": "Capitalization",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lowercase"
+          }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "range",
+        "id": "subline_font_size",
+        "label": "Base size",
+        "min": 10,
+        "max": 60,
+        "default": 24,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "subline_letter_spacing",
+        "label": "Letter spacing",
+        "min": 0,
+        "max": 6,
+        "default": 2,
+        "unit": "px"
+      },
+      {
+        "type": "header",
         "content": "Banner headings"
       },
       {
@@ -1080,7 +1034,7 @@
         "id": "slideshow_headline_size",
         "label": "Base size",
         "min": 20,
-        "max": 60,
+        "max": 70,
         "default": 56,
         "unit": "px"
       },
@@ -1155,6 +1109,28 @@
       },
       {
         "type": "header",
+        "content": "Page banner"
+      },
+      {
+        "type": "range",
+        "id": "h1_font_size",
+        "label": "heading size",
+        "min": 20,
+        "max": 40,
+        "default": 36,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "h3_font_size",
+        "label": "regular size",
+        "min": 10,
+        "max": 40,
+        "default": 24,
+        "unit": "px"
+      },
+      {
+        "type": "header",
         "content": "Regular text"
       },
       {
@@ -1190,6 +1166,42 @@
         "min": 12,
         "max": 20,
         "default": 15,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "p_font_size",
+        "label": "description size",
+        "min": 10,
+        "max": 40,
+        "default": 14,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "link_font_size",
+        "label": "link font size",
+        "min": 10,
+        "max": 40,
+        "default": 13,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "span_font_size",
+        "label": "small font size",
+        "min": 10,
+        "max": 40,
+        "default": 11,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "price_font_size",
+        "label": "Price font size",
+        "min": 10,
+        "max": 40,
+        "default": 20,
         "unit": "px"
       },
       {
