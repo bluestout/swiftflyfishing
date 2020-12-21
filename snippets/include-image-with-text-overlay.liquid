@@ -2,6 +2,11 @@
   {% assign id = block.id %}
   {% assign wide_display = block.settings.wide_display %}
   {% assign image = block.settings.image %}
+  {% if block.settings.mobile_image != blank %}
+    {% assign mobile_image = block.settings.mobile_image %}
+  {% else %}
+    {% assign mobile_image = block.settings.image %}
+  {% endif %}
   {% assign mobile_image = block.settings.mobile_image %}
   {% assign pretext = block.settings.pretext %}
   {% assign title = block.settings.title %}
@@ -31,7 +36,11 @@
   {% assign id = section.id %}
   {% assign wide_display = section.settings.wide_display %}
   {% assign image = section.settings.image %}
-  {% assign mobile_image = section.settings.mobile_image %}
+  {% if section.settings.mobile_image != blank %}
+    {% assign mobile_image = section.settings.mobile_image %}
+  {% else %}
+    {% assign mobile_image = section.settings.image %}
+  {% endif %}
   {% assign pretext = section.settings.pretext %}
   {% assign title = section.settings.title %}
   {% assign title = section.settings.title %}
@@ -94,7 +103,7 @@
 <div class="container">
   <div class="sixteen columns">
 {% endif %}
-<section id="banner-{{id}}" class="banner {{cls}} gallery-cell full-width--{{ wide_display }}">
+<section id="banner-{{id}}" class="banner {%if section.settings.promotion_banner%}promotion_banner{%endif%} {{cls}} gallery-cell full-width--{{ wide_display }}">
   {% if image != nil %}
     {% render 'image-element',
             image: image,

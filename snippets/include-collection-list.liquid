@@ -31,12 +31,22 @@
               {% if block.settings.image %}
                 {% assign collection_image = block.settings.image %}
                 {% assign collection_image_alt = block.settings.image.alt | escape %}
+                {% if block.settings.mobile_image != blank %}
+                  {% assign mobile_collection_image = block.settings.mobile_image %}
+                {% else %}
+                  {% assign mobile_collection_image = block.settings.image %}
+                {% endif %}
+                {% assign mobile_collection_image_alt = block.settings.mobile_image.alt | escape %}
               {% elsif collection.image != blank %}
                 {% assign collection_image = collection.image %}
                 {% assign collection_image_alt = collection.title | escape %}
+                {% assign mobile_collection_image = collection.image %}
+                {% assign mobile_collection_image_alt = collection.title | escape %}
               {% else collection.empty? == false %}
                 {% assign collection_image = collection.products.first.featured_image %}
                 {% assign collection_image_alt = collection.products.first.featured_image.alt | escape %}
+                {% assign mobile_collection_image = collection.products.first.featured_image %}
+                {% assign mobile_collection_image_alt = collection.products.first.featured_image.alt | escape %}
               {% endif %}
 
               <div class="gallery-cell 
@@ -59,7 +69,15 @@
                               image: collection_image.src,
                               alt: collection_image_alt,
                               object_fit: align_height,
-                              max_height: 500
+                              max_height: 500,
+                              additional_classes: "medium-down--hide"
+                      %}
+                      {% render 'image-element',
+                              image: mobile_collection_image.src,
+                              alt: mobile_collection_image_alt,
+                              object_fit: align_height,
+                              max_height: 500,
+                              additional_classes: "hide medium-down--show"
                       %}
                     </div>
                   {% else %}

@@ -32,7 +32,12 @@
               {% endif %}
                 {% if block.settings.image %}
                   {% include 'image-element', image: block.settings.image, alt: block.settings.image.alt, additional_classes: "medium-down--hide",back_to_basics: true %}
-                  {% include 'image-element', image: block.settings.mobile_image, alt: block.settings.mobile_image.alt, additional_classes: "hide medium-down--show",back_to_basics: true %}
+                  {% if block.settings.mobile_image != blank %}
+                    {% assign mobile_image = block.settings.mobile_image %}
+                  {% else %}
+                    {% assign mobile_image = block.settings.image %}
+                  {% endif %}
+                  {% include 'image-element', image: mobile_image, alt: mobile_image.alt, additional_classes: "hide medium-down--show",back_to_basics: true %}
                 {% elsif block.settings.svg != blank %}
                   {{ block.settings.svg }}
                 {% else %}

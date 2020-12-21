@@ -12,8 +12,13 @@
             progressive: true,
             additional_classes: "medium-down--hide"
     %}
+    {% if section.settings.mobile_image != blank %}
+      {% assign mobile_image = section.settings.mobile_image %}
+    {% else %}
+      {% assign mobile_image = section.settings.image %}
+    {% endif %}
     {% render 'image-element',
-            image: section.settings.mobile_image,
+            image: mobile_image,
             alt: section.settings.image.alt,
             stretch_width: true,
             progressive: true,

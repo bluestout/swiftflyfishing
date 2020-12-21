@@ -27,7 +27,7 @@
     {% endif %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.css">
-    <!-- Stylesheets for Turbo "6.0.7" -->
+    <!-- Stylesheets for Turbo "6.1.1" -->
     {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
     {{ 'custom.scss.css' | asset_url | stylesheet_tag }}
     
@@ -77,6 +77,7 @@
     {% render 'social-meta-info' %}
     {% if collection.previous_product %}<link rel="prev" href="{{ collection.previous_product }}">{% endif %}
     {% if collection.next_product %}<link rel="next" href="{{ collection.next_product }}">{% endif %}
+    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
   </head>
 
   {% if template contains "index" %}
@@ -198,7 +199,7 @@
       {% endif %}
     {% endif %}
 
-    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
+    
     {% if settings.show_multiple_currencies or settings.show_shipping_calculator %}
       <script type="text/javascript" src="/services/javascripts/currencies.js" data-no-instant></script>
     {% endif %}

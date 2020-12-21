@@ -144,7 +144,7 @@ quickshop: <boolean>
             product_gallery_nav--{{ section.settings.thumbnail_position }}
             product-{{ product.id }}-gallery-nav">
       {% if product.media.size > 1 %}
-        {% for media in product.media %}
+        {% for media in product.media limit: 4 %}
 
           {% if media.media_type contains 'video' %}
             {% assign thumbnail_badge = 'video-thumbnail' %}

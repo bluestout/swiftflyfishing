@@ -1,5 +1,5 @@
 /******************************************************************
-Theme Name: Turbo "6.0.7"
+Theme Name: Turbo "6.1.1"
 Theme URI: https://outofthesandbox.com/collections/turbo-theme
 Author: Out of the Sandbox (https://outofthesandbox.com)
 Description: Shopify Theme (https://www.shopify.com/&ref=out-of-the-sandbox)
@@ -1453,7 +1453,7 @@ $borderStyle: {{ settings.divider_style }};
   border-color: {{ settings.headline_border_color }};
   border-bottom-width: $borderWidth;
   border-bottom-style: $borderStyle;
-
+  
   &.no-margin {
     margin-bottom: 0px;
   }
@@ -1950,9 +1950,15 @@ li > a.url-deadlink {
   .social_icons {
     margin: 0;
     padding-left: 10px;
-
+    display: flex;
+    align-items: center;
     li {
       padding: 5px;
+      line-height: 0;
+      margin: 0;
+      a{
+        line-height: 0;
+      }
     }
   }
 
@@ -2303,6 +2309,9 @@ select.currencies,
   font-size: {{ settings.nav_font_size }}px;
   text-transform: {{ settings.nav_font_style }};
   color: {{ settings.nav_color }};
+  {% if settings.nav_shadow %}
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+  {% endif %}
   padding-top: 12px;
   padding-bottom: 12px;
   position: relative;
@@ -3831,6 +3840,7 @@ div.breadcrumb-collection {
 ================================================== */
 
 a.button,
+.btn,
 .button,
 button,
 input[type="submit"],
@@ -6784,7 +6794,7 @@ header.secondary_logo--true:not(.feature_image) {
 .featured_content h4,
 .featured_content h5,
 .featured_content h6 {
-  color: {{ settings.shop_home_page_content_text_color }};
+  color: {{ settings.shop_home_page_content_text_color }}!important;
 }
 
 .featured_content {
@@ -11904,7 +11914,7 @@ input[type="button"].highlight-false--dark {
   .collection_title {
     margin-bottom: 15px;
     display: block;
-    color: $image-with-text-color;
+    color: {{ settings.headline_color }};
     &.red_dot{
       &::before{
         content: " ";

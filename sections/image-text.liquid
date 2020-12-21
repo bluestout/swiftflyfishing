@@ -31,10 +31,17 @@
                             inline_style: block.settings.inline_style,
                             additional_classes: 'medium-down--hide'
                     %}
+                    {% if block.settings.mobile_image != blank %}
+                      {% assign mobile_image = block.settings.mobile_image %}
+                    {% else %}
+                      {% assign mobile_image = block.settings.image %}
+                    {% endif %}
+                    
                     {% render 'image-element',
-                      image: block.settings.mobile_image,
-                      alt: block.settings.mobile_image.alt,
+                      image: mobile_image,
+                      alt: mobile_image.alt,
                       stretch_width: true,
+                      back_to_basics: true,
                       additional_classes: 'hide medium-down--show'
                     %}
                   {% else %}
@@ -60,7 +67,7 @@
                   </div>
                 {% endif %}
                 {% if block.settings.button_label != blank %}
-                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button {% if block.settings.highlight_button_style %} highlight-false border-brown{% else %} button-black{%endif%}">
+                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button {% if block.settings.read_more %}read-more{% endif %} {% if block.settings.highlight_button_style %} highlight-false border-brown{% else %} button-black{%endif%}">
                     {{ block.settings.button_label }}
                   </a>
                 {% endif %}
@@ -341,6 +348,11 @@
           "type": "checkbox",
           "id": "highlight_button_style",
           "label": "Highlight button style"
+        },
+        {
+          "type": "checkbox",
+          "id": "read_more",
+          "label": "Mobile button"
         },
         {
           "type": "header",

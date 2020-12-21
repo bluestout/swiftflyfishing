@@ -27,7 +27,9 @@
                             image: block.settings.image,
                             alt: block.settings.image.alt,
                             stretch_width: true,
-                            additional_classes: 'mediumn-down--hide'
+                            back_to_basics: true,
+                            inline_style: block.settings.inline_style,
+                            additional_classes: 'medium-down--hide'
                     %}
                     {% if block.settings.mobile_image != blank %}
                       {% assign mobile_image = block.settings.mobile_image %}
@@ -38,7 +40,7 @@
                       image: mobile_image,
                       alt: mobile_image.alt,
                       stretch_width: true,
-                      additional_classes: 'hide mediumn-down--show'
+                      additional_classes: 'hide medium-down--show'
                     %}
                   {% else %}
                     {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
@@ -48,12 +50,11 @@
                 </a>
                 {% endif %}
               </div>
-              <a href="#video-popup" class="modal_btn video_btn">{% include 'icon-pack' with icon: 'play' %}</a>
               {% if block.settings.image_caption != blank %}
                 <p class="image-caption caption-{{block.settings.caption_position}}">{{block.settings.image_caption}}</p>
               {% endif %}
             </div>
-            <div class="featured-link--half block--{{ block.id }}">
+            <div class="featured-link--half text block--{{ block.id }}">
               <div class="info text-align--{{section.settings.frontpage_text_align}}">
                 <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="{%if block.settings.red_dot_status %}red_dot {% endif %}collection_title {%if block.settings.title_transform %} uppercase {% endif %} title-{{block.settings.title_size}}">
                   {{ block.settings.title }}
@@ -64,15 +65,10 @@
                   </div>
                 {% endif %}
                 {% if block.settings.button_label != blank %}
-                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button {% if block.settings.highlight_button_style %} highlight-false border-brown{% else %} button-black{%endif%}">
+                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button {% if block.settings.read_more %}read-more{% endif %} {% if block.settings.highlight_button_style %} highlight-false border-brown{% else %} button-black{%endif%}">
                     {{ block.settings.button_label }}
                   </a>
                 {% endif %}
-              </div>
-            </div>
-            <div id="video-popup" class="modal">
-              <div class="modal-content">
-                {% include 'include-video-popup' with type: "block" %}
               </div>
             </div>
           </section>
@@ -89,17 +85,6 @@
 {% assign bg_alpha = block.settings.bg_color | color_extract: 'alpha' %}
 
 <style>
-
-  {% for block in section.blocks %}
-    .block--{{ block.id }} {
-      background-color: {{ block.settings.bg_color }};
-    }
-
-    .block--{{ block.id }} .collection_title,
-    .block--{{ block.id }} p {
-      color: {{ block.settings.text_color }};
-    }
-  {% endfor %}
 
   {% if section.settings.frontpage_grid_style == false and section.settings.featured_links_per_row == '1' %}
       #shopify-section-{{ section.id }} .featured-link--half {
@@ -148,8 +133,8 @@
 
 {% schema %}
 {
-  "name": "Image with text(VIDEO)",
-  "class": "image-with-text-section video-popup",
+  "name": "Image with text",
+  "class": "image-with-text-section featured-promotion",
   "max_blocks": 16,
   "settings": [
     {
@@ -223,6 +208,11 @@
           "type": "image_picker",
           "id": "mobile_image",
           "label": "Mobile image"
+        },
+        {
+          "type": "text",
+          "id": "inline_style",
+          "label": "Inline style"
         },
         {
           "type": "select",
@@ -347,51 +337,24 @@
           "label": "Highlight button style"
         },
         {
-          "type": "header",
-          "content": "Colors"
-        },
-        {
-          "type": "color",
-          "id": "bg_color",
-          "label": "Background"
-        },
-        {
-          "type": "color",
-          "id": "text_color",
-          "label": "Text"
-        },
-        {
-          "type": "header",
-          "content": "video"
-        },
-        {
           "type": "checkbox",
-          "id": "video_status",
-          "label": "Show video"
-        },
-        {
-          "type": "video_url",
-          "id": "iframe_video",
-          "label": "Video link",
-          "accept": ["youtube", "vimeo"],
-          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
-        },
-        {
-          "type": "text",
-          "id": "html5_video",
-          "label": "HTML5 MP4/OGV File URL"
+          "id": "read_more",
+          "label": "Mobile button"
         }
       ]
     }
   ],
   "presets": [{
-    "name": "Image with text(video popup)",
-    "category": "Video",
+    "name": "Image with text (promotion)",
+    "category": "Image",
     "settings": {
       "featured_links_per_row": "1",
       "frontpage_text_align": "left"
     },
     "blocks": [
+      {
+        "type": "image"
+      },
       {
         "type": "image"
       }

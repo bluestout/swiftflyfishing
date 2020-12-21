@@ -34,7 +34,11 @@
     </div>    
     {% if section.settings.image %}
           {% assign image = section.settings.image %}
-          {% assign mobile_image = section.settings.mobile_image %}
+          {% if section.settings.mobile_image != blank %}
+            {% assign mobile_image = section.settings.mobile_image %}
+          {% else %}
+            {% assign mobile_image = section.settings.image %}
+          {% endif %}
         {%- elsif collection.image -%}
           {% assign image = collection.image %}
           {% assign mobile_image = collection.image %}

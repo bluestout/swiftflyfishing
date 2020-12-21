@@ -3,7 +3,7 @@
     "name": "theme_info",
     "theme_name": "Turbo",
     "theme_author": "Out of the Sandbox",
-    "theme_version": "6.0.7",
+    "theme_version": "6.1.1",
     "theme_documentation_url": "https:\/\/help.outofthesandbox.com\/",
     "theme_support_url": "https:\/\/help.outofthesandbox.com\/hc\/en-us\/requests\/new"
   },
@@ -1166,15 +1166,6 @@
         "min": 12,
         "max": 20,
         "default": 15,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "p_font_size",
-        "label": "description size",
-        "min": 10,
-        "max": 40,
-        "default": 14,
         "unit": "px"
       },
       {

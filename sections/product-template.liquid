@@ -153,7 +153,7 @@
                   <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;" onclick="$('.tabs li:nth-child(3) a').click()">{{ product.metafields.stamped.badge }}</span>
                 {% endif %}
                 <div class='custom_text'>Or, fish now pay later with up to 4 payments of  {{ wcp_v_price  | divided_by: 4 | money }} with Splitit.<br> Available at checkout. Interest free.</div>
-                {% include 'product-notify-me' %}
+                
               {% endif %}
               
             </div>
@@ -185,6 +185,10 @@
             {% unless collection_handles contains 'coming-soon' %}
               {% include 'product-form' with 'product' %}
             {% endunless %}
+            {%- comment -%}
+               {% include 'product-notify-me' %}
+            {%- endcomment -%}
+            
             <div class="icon-tags">
               <p class="icon-tag">
                 {% include 'icon-pack' with icon: 'guarantee' %}
@@ -1218,6 +1222,16 @@
           "type": "text",
           "id": "title",
           "label": "Heading"
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "label": "Opacity",
+          "unit": "%",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 100
         },
         {
           "type": "select",

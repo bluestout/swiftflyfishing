@@ -42,7 +42,18 @@
                   image: block.settings.image,
                   alt: block.settings.image.alt,
                   stretch_width: true,
-                  additional_classes: mobile_crop
+                  additional_classes: "medium-down--hide"
+          %}
+          {% if block.settings.mobile_image != blank %}
+            {% assign mobile_image = block.settings.mobile_image %}
+          {% else %}
+            {% assign mobile_image = block.settings.image %}
+          {% endif %}
+          {% render 'image-element',
+                  image: mobile_image,
+                  alt: mobile_image.alt,
+                  stretch_width: true,
+                  additional_classes: "medium-down--show hide"
           %}
         {% else %}
           {% capture i %}{% cycle "1", "2" %}{% endcapture %}
@@ -207,6 +218,11 @@
           "id": "image",
           "label": "Image",
           "info": "1600 x 1000px recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
         },
         {
           "type": "richtext",

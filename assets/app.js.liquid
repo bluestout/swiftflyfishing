@@ -1325,7 +1325,7 @@ $(document).ready(function () {
     $(document).scrollTop(position.top);
   })
   console.log(Shopify.theme_settings.cart_action);
-  if(Shopify.theme_settings.cart_action != 'redirect_cart') {
+  if(Shopify.theme_settings.cart_action == 'ajax') {
     $('.mini_cart').on('click', function (e) {
       e.preventDefault();
       $('.mini-cart-content').addClass('active');
@@ -1370,7 +1370,8 @@ function init  (){
     
     bar.addEventListener('mousedown', startSlide, false);	
     bar.addEventListener('mouseup', stopSlide, false);
-  
+    bar.addEventListener('touchstart', startSlide, false);	
+    bar.addEventListener('touchend', stopSlide, false);
     var set_perc = 0.5;
     slider.style.width = (set_perc * 100) + '%';
   }
@@ -1378,12 +1379,17 @@ function init  (){
 }
 
 function startSlide(event){
+  
   var set_perc = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2));	
   bar.addEventListener('mousemove', moveSlide, false);	
+  bar.addEventListener('touchmove', handleMove, false);
   slider.style.width = ((set_perc) * 100) + '%';	
 }
 
+
+
 function moveSlide(event){
+  
   var set_perc = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2));
   slider.style.width = ((set_perc) * 100) + '%';
 }
@@ -1391,6 +1397,13 @@ function moveSlide(event){
 function stopSlide(event){
   var set_perc = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2));
   bar.removeEventListener('mousemove', moveSlide, false);
+  bar.addEventListener('touchmove', handleMove, false);
   slider.style.width = ((set_perc) * 100) + '%';
 }
 
+function handleMove(evt) {
+  evt.preventDefault();
+  var touches = evt.changedTouches;
+  var set_perc = ((((touches[0].clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2));
+  slider.style.width = ((set_perc) * 100) + '%';
+}

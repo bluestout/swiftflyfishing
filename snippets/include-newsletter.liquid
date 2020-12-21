@@ -14,6 +14,11 @@
   {% assign display_last_name = section.settings.display_last_name %}
   {% assign newsletter_section_text_align = section.settings.newsletter_section_text_align %}
   {% assign image = section.settings.image %}
+  {% if section.settings.mobile_image != blank %}
+    {% assign mobile_image = section.settings.mobile_image %}
+  {% else %}
+    {% assign mobile_image = section.settings.image %}
+  {% endif %}
 {% endif %}
 
 {% if wide_display == false %}
@@ -22,20 +27,8 @@
 {% endif %}
       <div class="newsletter_section
                   {% if display_first_name and display_last_name %}newsletter-both-names--true {% else %}newsletter-both-names--false {% endif %}
-                  {% if image != nil %}newsletter-bgr-true{% endif %}
                   text-align--{{newsletter_section_text_align}}
-                  lazyload
-                  {{ settings.image_loading_style }}"
-            {% if image != nil %}
-              data-bgset="  {{ image | img_url: '2048x' }} 2048w,
-                            {{ image | img_url: '1600x' }} 1600w,
-                            {{ image | img_url: '1200x' }} 1200w,
-                            {{ image | img_url: '1000x' }} 1000w,
-                            {{ image | img_url: '800x' }} 800w,
-                            {{ image | img_url: '600x' }} 600w,
-                            {{ image | img_url: '400x' }} 400w"
-              data-sizes="100vw"
-            {% endif %}>
+                  ">
         <div class="container">
           <div class="sixteen columns section_form">
             <div class="column one-third medium-down--one-whole info">
@@ -101,3 +94,14 @@
   </div>
 </div>
 {% endif %}
+
+<style>
+  .newsletter_section{
+    background: url({{image | img_url: '2048x'}});
+  }
+  @media screen and (max-width:768px) {
+    .newsletter_section{
+      background: url({{mobile_image | img_url: '2048x'}});
+    }
+  }
+</style>

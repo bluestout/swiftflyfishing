@@ -8,11 +8,27 @@
 
 {% assign variant = product.selected_or_first_available_variant %}
 
-<div class="clearfix product_form init smart-payment-button--{{ show_payment_button }} {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %} product_form--{{ settings.product_form_style }}"
+
+
+{% assign inscription_pr_id = false %}
+{% if product.type == "Studio Built Fly Rod" %}
+{% assign inscription_pr_id = all_products["fly-rod-inscription"].variants.first.id %}
+{% assign inscription_pr_price = all_products["fly-rod-inscription"].price %}
+{% endif %}
+
+
+{% assign show_Multiple_Variants = false %}
+{% for tag in product.tags %}
+{% if tag contains 'Multiple_Variants' %}
+{% assign show_Multiple_Variants = true %}
+{% break %}
+{% endif %}
+{% endfor %}
+
+<div class="{% if show_Multiple_Variants %} show_Multiple_form {% endif %} clearfix product_form init smart-payment-button--{{ show_payment_button }} {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %} product_form--{{ settings.product_form_style }}"
       id="product-form-{{ product.id }}"
       data-product-form
-      data-options-size="{{ product.options.size }}"
-      data-money-format="{{ shop.money_format | strip_html }}"
+      data-money-format="{{ shop.money_with_currency_format }}"
       data-shop-currency="{{ shop.currency }}"
       data-select-id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}"
       data-enable-state="{% if template contains 'product' %}true{% else %}false{% endif %}"
@@ -22,13 +38,48 @@
       {% endif %}
       data-product-id="{{ product.id }}"
       >
-  {% form 'product', product %}
+  
+  {% capture form_id %}product_form_{{ product.id }}{% endcapture %}
 
+  <form method="post" action="/cart/add" id="{{form_id}}" accept-charset="UTF-8" class="shopify-product-form {% if inscription_pr_id != false %} js-add-to-cart-extra {% endif %}" enctype="multipart/form-data"  data-extra="{{inscription_pr_id}}" data-extraprice="{{inscription_pr_price}}">
+
+    {% if show_Multiple_Variants %}
+    <div class='Multiple_Variants_section'>
+      {% for variant in product.variants %}
+      <div class='variant_row' data-variant-id="{{variant.id}}">
+        <h5>{{ variant.title }}</h5>
+        <div class="variant-quantity-box product-quantity-box">
+          
+          {% if variant.available %}
+          <span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+          <input type="number" min="0" size="2" class="quantity" name="quantity" id="quantity" value="0" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+          <span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+          {% else %}
+          <p class='variant_soldout'>{{  'products.product.variant_soldout' | t  }}</p>
+          {% endif %}
+        </div>
+
+      </div>
+      {% endfor %}
+      
+  {% if product.available %}
+      <div class='Multiple_Variants_Button_wrapper'>
+        <button id="AddToCart-{{ section.id }}" type="button" name="add" class="ajax-submit action_button add_to_cart" data-label={{ add_to_cart_label | json }}>
+          <span class="text">{{  'products.product.add_to_cart' | t  }}</span>
+          <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+            <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+          </svg>
+        </button>
+      </div>
+      {% endif %}
+    </div>
+
+      {% else %} 
   {% if product.options.size > 1 %}
     <div class="select">
       <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id" class="multi_select">
         {% for v in product.variants %}
-          <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+          <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-sku="{{ v.sku }}" data-original-value="{{variant.price}}">{{ v.title }}</option>
         {% endfor %}
       </select>
     </div>
@@ -37,25 +88,31 @@
       <label>{{ product.options[0] }}</label>
       <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id">
         {% for v in product.variants %}
-          <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+          <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-sku="{{ v.sku }}"  data-original-value="{{variant.price}}">{{ v.title }}</option>
         {% endfor %}
       </select>
     </div>
   {% else %}
-    <input type="hidden" name="id" value="{{ variant.id }}" />
+     <div class="select">
+      <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id">
+          <option selected="selected" value="{{ variant.id }}" data-sku="{{ variant.sku }}" data-original-value="{{variant.price}}">{{ variant.title }}</option>
+      </select>
+    </div>
   {% endif %}
+   
 
   {% if settings.product_form_style == "swatches" and product.variants.size > 1 or settings.product_form_style == "swatches" and product.options[0] != "Title" %}
     <div class="swatch_options">
       {% for option in product.options %}
-        {% render 'product-swatch',
-                option: option,
-                product: product
-        %}
+        {% include 'product-swatch' with option %}
       {% endfor %}
     </div>
   {% endif %}
-
+       
+      {% endif %}
+      
+<div class=”Rise-custom-value-form-placeholder”></div>  
+      
   {% if product.available %}
     {% if settings.display_inventory_left %}
       <div class="items_left">
@@ -73,36 +130,167 @@
         {% endif %}
       </div>
     {% endif %}
+      
+<div class=”Rise-custom-value-form-placeholder”></div>  
+
+      
+      {% comment %}
+      Inscription system, currently active
+      {% endcomment %}
+
+      {% if section.settings.enable_product_inscription %}
+      {% assign inscriptionTypes = section.settings.inscription_types | strip | split:',' %}
+      {% assign showInscription = false %}
+
+      {% for iType in inscriptionTypes %}
+      {% assign singleType = iType | strip %}
+      {% if singleType == product.type %}
+      {% assign showInscription = true %}
+      {% break %}
+      {% endif %}
+      {% endfor %}
+
+      {% capture INSCRIPTION_FIELD %}
+      <div class="inscription-outer-wrapper">
+        <div class="product-inscription-wrapper-{{ product.id }} inscription-selector-wrapper animated hidden">
+          {% if section.settings.inscription_label != blank %}
+          <label for="product-inscription-{{ product.id }}">{{ section.settings.inscription_label }}</label>
+          {% endif %}
+          <input id="product-inscription-{{ product.id }}" type="text" name="properties[{{section.settings.inscription_name }}]" value="" placeholder="{{ section.settings.inscription_placeholder }}" {% if section.settings.inscription_size != 0 or section.settings.inscription_size != "0" %}maxlength="{{ section.settings.inscription_size }}" {% endif %}/>
+        </div>
+      </div>  
+      {% endcapture %}
+
+    {% unless show_Multiple_Variants %}
+      {% if showInscription %}
+      {% if section.settings.inscription_show_warning %}
+      {{ INSCRIPTION_FIELD | replace:'%1','hidden animated fadeInDown' }}
+      <a href="#" class="add-inscription-button action_button" data-rel=".product-inscription-wrapper-{{ product.id }}" data-text-add="{{ 'products.product.add_inscription' | t }}" data-text-remove="{{ 'products.product.remove_inscription' | t }}">
+        {{ 'products.product.add_inscription' | t }}
+      </a> 
+      {% else %}
+      {{ INSCRIPTION_FIELD }}
+      {% endif %}
+      {% endif %}
+	{% endunless %}
+      {% endif %}
+
+      {% unless show_Multiple_Variants %}
+    <div class="purchase-details {{customer.tags}}">
+      {% if settings.display_product_quantity %}
+        <div class="purchase-details__quantity product-quantity-box">
+          <label for="quantity">{{ 'products.product.quantity' | t }}</label>
+          <span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+          <input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+          <span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+        </div>
+      {% endif %}
+      <div class="purchase-details__buttons purchase-details__spb--{{ show_payment_button }}">
+        {% if settings.cart_action == 'reload_page' %}
+          <input type="hidden" name="return_to" value="back" />
+        {% elsif settings.cart_action == 'redirect_checkout' %}
+          <input type="hidden" name="return_to" value="/checkout" />
+        {% endif %}
+
+        {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
+        <button id="AddToCart-{{ section.id }}" type="{% if settings.cart_action == 'ajax' %}button{% else %}submit{% endif %}" name="add" class="{% if settings.cart_action == 'ajax' %} ajax-submit {% endif %}action_button add_to_cart {% if show_payment_button %} action_button--secondary {% endif %}" data-label={{ add_to_cart_label | json }}>
+          <span class="text">{{ add_to_cart_label }}</span>
+          <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+            <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+          </svg>
+        </button>
+ {% if product.url contains "epic-fly-fishing-giftcard" %}
+<style> #AddToCart-{{ section.id }} {display: none !important} </style>     
+{%endif%}
+        
+        {% if show_payment_button %}
+        {% unless customer.tags contains p_discount_tag or customer.tags contains v_discount_tag %}
+          {{ form | payment_button }}
+         {% endunless %}
+        {% endif %}
+      </div>
+    </div>
+    {% endunless %}
   {% endif %}
 
-  <div class="purchase-details">
-    {% if settings.display_product_quantity %}
-      <div class="purchase-details__quantity product-quantity-box">
-        <span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
-        <input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
-        <span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
-      </div>
-    {% endif %}
-    <div class="purchase-details__buttons purchase-details__spb--{{ show_payment_button }} {% if product.available == false %}product-is-unavailable{% endif %}">
-      {% if settings.cart_action == 'reload_page' %}
-        <input type="hidden" name="return_to" value="back" />
-      {% elsif settings.cart_action == 'redirect_checkout' %}
-        <input type="hidden" name="return_to" value="/checkout" />
+  {% if section.settings.enable_product_inscription and section.settings.inscription_show_warning %}
+   <script>
+    jQuery(function($) {             
+      /////////////////////////////////////
+      //  Inscription
+      /////////////////////////////////////
+      var inscriptionButton = $('.add-inscription-button');
+      if(inscriptionButton.length){
+        inscriptionButton.on('click',function(e){
+          e.preventDefault();
+          var t = $(this);
+
+          var rel = t.data('rel');
+          if(!rel){ return }
+
+          var inscriptionWrapper = $(rel).eq(0);
+          if(!inscriptionWrapper.length){ console.log('Wrapper not found');return }
+
+          var addText = t.data('text-add');
+          var removeText = t.data('text-remove');
+          var inscriptionField = inscriptionWrapper.find('input');
+          var extraPrice = t.closest("form").data("extraprice");
+          if(inscriptionWrapper.hasClass('hidden')){
+            inscriptionWrapper.removeClass('hidden');
+            inscriptionField.removeAttr('disabled');
+            t.text(removeText);
+
+            
+            $('.modal_price .current_price').each(function () {
+              var $this = $(this);
+              var span_money = $this.find('.money');
+              var orig_val =  +$('#product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}').find(':selected').attr('data-original-value');
+          	
+
+              if(span_money.length) {                 
+                var new_price = orig_val + extraPrice;                             
+              
+                $this.html('<span class="money">' + Shopify.formatMoney(new_price, $('body').data('money-format')) + '</span>');
+                {% if settings.show_multiple_currencies %}
+                convertCurrencies();     
+                {% endif %}
+              }
+            });
+
+          } else {
+            inscriptionWrapper.addClass('hidden');
+            inscriptionField.val('').attr('disabled','disabled');;
+            t.text(addText);
+	
+           $('.modal_price .current_price').each(function () {
+              var $this = $(this);
+             var span_money = $this.find('.money');             
+             var orig_val =  +$('#product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}').find(':selected').attr('data-original-value');
+               if(span_money.length ) {
+                           
+               $this.html('<span class="money">' + Shopify.formatMoney(orig_val, $('body').data('money-format')) + '</span>');
+               
+               {% if settings.show_multiple_currencies %}
+               	convertCurrencies();     
+               {% endif %}
+             }
+           });
+
+          }
+
+        });
+
+      }
+    });
+      </script>
       {% endif %}
 
-      {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
-      <button type="{% if settings.cart_action == 'ajax' %}button{% else %}submit{% endif %}" name="add" class="{% if settings.cart_action == 'ajax' %} ajax-submit {% endif %}action_button add_to_cart {% if show_payment_button %} action_button--secondary {% endif %} {% if product.available == false %}disabled{% endif %}" data-label={{ add_to_cart_label | json }}>
-        <span class="text">
-          {% if product.available %}{{ add_to_cart_label }}{% else %}{{ settings.sold_out_text }}{% endif %}
-        </span>
-        <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
-          <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
-        </svg>
-      </button>
-      {% if show_payment_button %}
-        {{ form | payment_button }}
-      {% endif %}
-    </div>
-  </div>
-{% endform %}
+      {% comment %}
+      {% form 'product', product %}
+
+      {% endform %}
+{% render 'zoorix-product-main' %}
+
+      {% endcomment %}
+  </form>
 </div>

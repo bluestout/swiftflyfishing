@@ -162,6 +162,8 @@
       "from": "from"
     },
     "product": {
+      "add_inscription": "add inscription",
+      "remove_inscription": "remove inscription",
       "sold_out": "Sold Out",
       "unavailable": "Unavailable",
       "quantity": "Qty",
