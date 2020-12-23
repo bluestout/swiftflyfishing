@@ -111,8 +111,9 @@
   <div class="dropdown_container" data-dropdown="mobile_menu">
     <div class="dropdown">
       <ul class="menu" id="mobile_menu">
-        {% render 'mobile-menu', menu: section.settings.main_linklist %}
-        {% render 'mobile-menu', menu: section.settings.main_linklist2 %}
+        {% render 'mobile-menu', menu: section.settings.mobile_main_menu, context: 'mobile_main_menu' %}
+        {% render 'mobile-menu', menu: section.settings.mobile_secondary_menu, context: 'secondary_menu' %}
+        <div class="featured_devider"></div>
         {% render 'mobile-menu', menu: section.settings.top_bar_menu, context: 'top_bar_menu' %}
         {% if section.settings.phone_number != blank %}
           <li><a href="tel:{{ section.settings.phone_number | replace: ' ', '' | replace: '+', '' | replace: '-', '' }}">{{ section.settings.phone_number }}</a></li>
@@ -128,7 +129,7 @@
             </li>
           {% else %}
             <li data-no-instant>
-              <a href="{{ routes.account_login_url }}" id="customer_login_link">{{ 'layout.customer.log_in' | t }}</a>
+              <a href="{{ routes.account_login_url }}" id="customer_login_link">Account</a>
             </li>
           {% endif %}
         {% endif %}
@@ -431,8 +432,18 @@
     },
     {
       "type": "link_list",
+      "id": "mobile_main_menu",
+      "label": "Mobile main Menu"
+    },
+    {
+      "type": "link_list",
       "id": "main_linklist2",
       "label": "Secondary menu"
+    },
+    {
+      "type": "link_list",
+      "id": "mobile_secondary_menu",
+      "label": "Mobile secondary menu"
     },
     {
       "type": "checkbox",

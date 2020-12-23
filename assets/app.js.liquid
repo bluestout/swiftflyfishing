@@ -1256,7 +1256,7 @@ $(document).ready(function () {
       arrowShape: arrow,
       adaptiveHeight: true
     });
-
+    
     $('.description-content').flickity({
       wrapAround: true,
       pageDots: true,
@@ -1352,7 +1352,7 @@ $(window).on('load', function () {
     arrowShape: arrow,
     on: {
       ready: function() {
-        $('.stamped-reviews-widget-desktop_visible').removeClass('visible-none');
+        $('.image #stamped-reviews-widget').css('opacity', 1);
       },
       change: function( index ) {
         console.log( 'Slide changed to' + index );
@@ -1363,33 +1363,73 @@ $(window).on('load', function () {
 
 function init  (){
   bar = document.getElementById('bar');
+  collection_bar = document.getElementById('collection-bar');
   if (bar != null) {
     
     slider = document.getElementById('slider');
   
-    
     bar.addEventListener('mousedown', startSlide, false);	
     bar.addEventListener('mouseup', stopSlide, false);
     bar.addEventListener('touchstart', startSlide, false);	
     bar.addEventListener('touchend', stopSlide, false);
+
+    var set_perc = 0.5;
+    slider.style.width = (set_perc * 100) + '%';
+  }
+
+  if (collection_bar) {
+    slider = document.getElementById('slider');
+
+    collection_bar.addEventListener('mousedown', collection_startSlide, false);	
+    collection_bar.addEventListener('mouseup', collection_stopSlide, false);
+    collection_bar.addEventListener('touchstart', collection_startSlide, false);	
+    collection_bar.addEventListener('touchend', collection_stopSlide, false);
+
     var set_perc = 0.5;
     slider.style.width = (set_perc * 100) + '%';
   }
   
 }
 
+function collection_startSlide(event){
+  var set_perc = ((((event.clientX - collection_bar.offsetLeft) / collection_bar.offsetWidth)).toFixed(2)) - 0.38;	
+  collection_bar.addEventListener('mousemove', collection_moveSlide, false);	
+  collection_bar.addEventListener('touchmove', collection_handleMove, false);
+  console.log(set_perc);
+  slider.style.width = ((set_perc) * 100) + '%';	
+}
+
+
+
+function collection_moveSlide(event){
+  var set_perc = ((((event.clientX - collection_bar.offsetLeft) / collection_bar.offsetWidth)).toFixed(2)) - 0.38;
+  console.log(set_perc);
+  slider.style.width = ((set_perc) * 100) + '%';
+}
+
+function collection_stopSlide(event){
+  var set_perc = ((((event.clientX - collection_bar.offsetLeft) / collection_bar.offsetWidth)).toFixed(2)) - 0.38;
+  collection_bar.removeEventListener('mousemove', collection_moveSlide, false);
+  collection_bar.addEventListener('touchmove', collection_handleMove, false);
+  slider.style.width = ((set_perc) * 100) + '%';
+}
+
+function collection_handleMove(evt) {
+  evt.preventDefault();
+  var touches = evt.changedTouches;
+  var set_perc = ((((touches[0].clientX - collection_bar.offsetLeft) / collection_bar.offsetWidth)).toFixed(2));
+  slider.style.width = ((set_perc) * 100) + '%';
+}
+
+
 function startSlide(event){
-  
   var set_perc = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2));	
   bar.addEventListener('mousemove', moveSlide, false);	
   bar.addEventListener('touchmove', handleMove, false);
   slider.style.width = ((set_perc) * 100) + '%';	
 }
 
-
-
 function moveSlide(event){
-  
   var set_perc = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2));
   slider.style.width = ((set_perc) * 100) + '%';
 }

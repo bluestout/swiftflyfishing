@@ -41,10 +41,9 @@
       </div>
       <div class="clear"></div>
     {% unless sidebar %} </div> {% endunless %}
-
     {% if related_products_style == 'slider' %}
       {% assign limit = related_products_limit %}
-      <div class="related-products related-products--slider js-related-products-slider container">
+      <div class="related-products related-products--slider container">
         {% if col and collections[col].all_products_count > 0 %}
           {% include 'product-slider', related_products: true, type: "page" %}
         {% endif %}

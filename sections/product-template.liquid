@@ -426,6 +426,9 @@
             <div class="image-text-overlay-slider">
               {{image-overly-slider}}
             </div>
+            <a href="#stamped-main-widget" class="action_button second_button highlight-{{ button2_highlight }} hide medium-down--show">
+              More reviews
+            </a>
             {% assign overlay_status = false %}
           {% endif %}
           
@@ -1312,6 +1315,12 @@
           "type": "checkbox",
           "id": "button2_highlight",
           "label": "Highlight second button"
+        },
+        {
+          "type": "checkbox",
+          "id": "more_review",
+          "label": "More review button",
+          "default": true
         },
         {
           "type": "select",

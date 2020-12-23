@@ -863,16 +863,6 @@ var productPage = {
       },
       afterShow: function(instance, slide) {
         var zoom = instance.$trigger.first().parents('.js-product-gallery').data('zoom');
-        if (zoom){
-          $('.fancybox-image')
-              .wrap('<span class="zoom-wrap" style="display:inline-block"></span>')
-              .css('display', 'block')
-              .parent()
-              .zoom({
-                touch: false,
-                magnify: 1
-          });
-        }
       },
       afterClose: function(instance, slide) {
         var $instanceGallery = instance.$trigger.first().parents('.js-product-gallery');

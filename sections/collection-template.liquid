@@ -147,14 +147,14 @@
       {% endif %}
     </div>
     <div class="hide medium-down--show">
-      <a class="button full-button button-blue sidebar-toggle-button">Filter</a>
+      <a class="button full-button button-blue sidebar-toggle-button">Filters</a>
     </div>
     <div class="sidebar animated fadeInRight">
       {% include 'sidebar' %}
     </div>
     <div class="content">
       <div class="sixteen columns">
-        {% include 'image-slider-block' %}
+        {% include 'image-slider-block', content: 'collection' %}
         <div class="description-content">
           {% for block in section.blocks %}
             {% if block.type == 'text-block' %}
@@ -231,6 +231,11 @@
       "label": "Show banner",
       "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/115009455768-How-to-add-a-Collection-Banner)",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "display_collection_title",
+      "label": "Show collection title"
     },
     {
       "type": "checkbox",

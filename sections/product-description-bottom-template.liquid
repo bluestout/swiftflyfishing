@@ -153,7 +153,7 @@
                   <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;" onclick="$('.tabs li:nth-child(3) a').click()">{{ product.metafields.stamped.badge }}</span>
                 {% endif %}
                 <div class='custom_text'>Or, fish now pay later with up to 4 payments of  {{ wcp_v_price  | divided_by: 4 | money }} with Splitit.<br> Available at checkout. Interest free.</div>
-                {% include 'product-notify-me' %}
+                
               {% endif %}
               
             </div>
@@ -416,6 +416,9 @@
             <div class="image-text-overlay-slider">
               {{image-overly-slider}}
             </div>
+            <a href="#stamped-main-widget" class="action_button second_button highlight-{{ button2_highlight }} hide medium-down--show">
+              More reviews
+            </a>
             {% assign overlay_status = false %}
           {% endif %}
           
@@ -1302,6 +1305,12 @@
           "type": "checkbox",
           "id": "button2_highlight",
           "label": "Highlight second button"
+        },
+        {
+          "type": "checkbox",
+          "id": "more_review",
+          "label": "More review button",
+          "default": true
         },
         {
           "type": "select",

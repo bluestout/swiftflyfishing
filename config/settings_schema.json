@@ -242,25 +242,19 @@
       {
         "type": "color",
         "id": "btn_color",
-        "label": "Buttons",
+        "label": "Primary Buttons",
         "default": "#000000"
       },
       {
         "type": "color",
         "id": "blue_button_color",
-        "label": "Blue Buttons",
+        "label": "Second Buttons",
         "default": "#0F1626"
       },
       {
         "type": "color",
         "id": "white_button_color",
-        "label": "White Buttons",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "banner_button_color",
-        "label": "Banner buttons",
+        "label": "Third Buttons",
         "default": "#ffffff"
       },
       {

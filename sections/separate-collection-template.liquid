@@ -160,7 +160,7 @@
       {% endif %}
     </div>
     <div class="hide medium-down--show">
-      <a class="button full-button button-blue sidebar-toggle-button">Filter</a>
+      <a class="button full-button button-blue sidebar-toggle-button">Filters</a>
     </div>
     
     <div class="sidebar animated fadeInRight">
@@ -168,7 +168,7 @@
     </div>
     <div class="content">
       <div class="sixteen columns">
-        {% include 'image-slider-block' %}
+        {% include 'image-slider-block', context: 'collection' %}
         <div class="description-content">
           {% for block in section.blocks %}
             {% if block.type == 'text-block' %}
@@ -185,7 +185,7 @@
           {% endfor %}
         </div>
         <ul class="toggle-list">
-          <li>
+          <li class="active">
             <a class="toggle_btn">Read more</a>
             <div class="toggle_content">
               <div class="discription-slider-content sixteen columns">

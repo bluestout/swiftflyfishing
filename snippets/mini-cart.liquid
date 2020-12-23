@@ -7,7 +7,12 @@
       {% assign progress = cart.total_price | times: 100 | divided_by: settings.cart_limit %}
       <div class="progress-bar" data-limit="{{settings.cart_limit}}">
         <div class="progress" style="width: {{progress}}%;"></div>
-        <span>Only {{ left_price | money }} away from FREE shipping!</span>
+        {% if left_price > 0 %}
+          <span>Only {{ left_price | money }} away from FREE shipping!</span>
+        {% else %}
+          <span>✓ Congratulations! You've earned a FREE SIPPING!</span>
+        {% endif %}
+        
       </div>
     </div>
   </div>
@@ -154,6 +159,7 @@
           {% else %}
             <button type="submit" class="button button-black full-button action_button add_to_cart">{% if settings.show_lock_icon and settings.go_to_checkout %}<span class="icon-lock"></span>{% endif %}{{ 'layout.general.go_to_cart' | t }} </button>
           {% endif %}
+          <p class=" message text-center">{% include 'icon-pack' with icon: 'guarantee' %}<em>30 Day Love it or Return it Guarantee</em></p>
         </li>
       </ul>
   </div>

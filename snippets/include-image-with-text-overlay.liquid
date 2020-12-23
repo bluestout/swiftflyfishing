@@ -74,18 +74,6 @@
 {% assign mobile_text_alpha = mobile_text_color | color_extract: 'alpha' %}
 
 {% comment %}Section specific CSS{% endcomment %}
-{% style %}
-  @media only screen and (max-width: 480px) {
-    #shopify-section-{{ id }} .pretext,
-    #shopify-section-{{ id }} .headline,
-    #shopify-section-{{ id }} .subtitle,
-    .block__{{ id }} .pretext,
-    .block__{{ id }} .headline,
-    .block__{{ id }} .subtitle {
-      color: {% if mobile_text_alpha != 0 %}{{ mobile_text_color}}{% endif %};
-    }
-  }
-{% endstyle %}
 
 {% if display_status != 'both' %}
   {% if display_status == 'desktop' %}
@@ -103,7 +91,20 @@
 <div class="container">
   <div class="sixteen columns">
 {% endif %}
-<section id="banner-{{id}}" class="banner {%if section.settings.promotion_banner%}promotion_banner{%endif%} {{cls}} gallery-cell full-width--{{ wide_display }}">
+<section id="banner-{{id}}" class="banner {%if section.settings.promotion_banner%}promotion_banner{%endif%} {{cls}} full-width--{{ wide_display }}">
+  {% style %}
+  @media only screen and (max-width: 480px) {
+    #shopify-section-{{ id }} .pretext,
+    #shopify-section-{{ id }} .headline,
+    #shopify-section-{{ id }} .subtitle,
+    .block__{{ id }} .pretext,
+    .block__{{ id }} .headline,
+    .block__{{ id }} .subtitle {
+      color: {% if mobile_text_alpha != 0 %}{{ mobile_text_color}}{% endif %};
+    }
+  }
+{% endstyle %}
+
   {% if image != nil %}
     {% render 'image-element',
             image: image,

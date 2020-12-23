@@ -6,7 +6,12 @@
     <h1>{{ section.settings.image_slider_title }}</h1>
     <h6>{{ section.settings.image_slider_desc }}</h6>
   </div>
-  <div id='bar'>
+  {% if context == 'collection' %}
+    <div id='collection-bar'>
+  {% else %}
+    <div id='bar'>
+  {% endif %}
+  
     {% for block in section.blocks %}
       {% if block.type == 'label' %}
         <div class="label-indicator align-{{block.settings.direction}}" style="left: {{block.settings.left_pos}}%; top: {{ block.settings.top_pos }}%;">
@@ -21,7 +26,7 @@
       <div class="image-content">
         <img class="hover_image" src="{{ section.settings.image_slider_hover_image | img_url: '2048x' }}">
       </div>
-      <div id="slider-button"></div>
+      <div id="slider-button">
       </div>
     </div>
   </div>

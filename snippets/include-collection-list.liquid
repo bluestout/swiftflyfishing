@@ -150,7 +150,7 @@
                     <span class="title">
                       {% if block.settings.title %}
                         {{ block.settings.title }}                        
-                      {% elsif collection != blank %}
+                      {% elsif collection.title != blank %}
                         {{ collection.title }}
                       {% else %}
                         {{ "homepage.onboarding.collection_title" | t }}
