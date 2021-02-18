@@ -48,7 +48,10 @@
                 </a>
                 {% endif %}
               </div>
-              <a href="#video-popup" class="modal_btn video_btn">{% include 'icon-pack' with icon: 'play' %}</a>
+              {% if block.settings.video_status %}
+                <a href="#video-popup" class="modal_btn video_btn">{% include 'icon-pack' with icon: 'play' %}</a>
+              {% endif %}
+              
               {% if block.settings.image_caption != blank %}
                 <p class="image-caption caption-{{block.settings.caption_position}}">{{block.settings.image_caption}}</p>
               {% endif %}
@@ -89,17 +92,6 @@
 {% assign bg_alpha = block.settings.bg_color | color_extract: 'alpha' %}
 
 <style>
-
-  {% for block in section.blocks %}
-    .block--{{ block.id }} {
-      background-color: {{ block.settings.bg_color }};
-    }
-
-    .block--{{ block.id }} .collection_title,
-    .block--{{ block.id }} p {
-      color: {{ block.settings.text_color }};
-    }
-  {% endfor %}
 
   {% if section.settings.frontpage_grid_style == false and section.settings.featured_links_per_row == '1' %}
       #shopify-section-{{ section.id }} .featured-link--half {

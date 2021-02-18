@@ -79,7 +79,7 @@
 
 <a name="pagecontent" id="pagecontent"></a>
 
-<div class="container full-width--true">
+<div class="container">
   {% paginate collection.products by section.settings.pagination_limit %}
     <div class="clearfix breadcrumb-collection">
       {% if section.settings.collection_breadcrumb %}
@@ -148,15 +148,9 @@
         </div>
       {% endif %}
     </div>
-    <div class="hide large-down--show">
-      <a class="button full-button button-blue button-center sidebar-toggle-button">Filters</a>
-    </div>
-    <div class="sidebar animated fadeInRight">
-      {% include 'sidebar' %}
-    </div>
-    <div class="content">
+    <div class="content none-section">
       {% if collection.description contains '<!-- split -->' %}
-        {% assign top_desc = collection.description | split: '<!-- split -->' | first %}
+        {% assign top_desc = collection.description | split: '<!--split-->' | first %}
       {% else %}
         {% assign top_desc = collection.description %}
       {% endif %}
@@ -187,9 +181,6 @@
           {{heading}}
         </div>
         {% endif %}
-        
-        
-        {% include 'image-slider-block', context: 'collection' %}
         {{num_contents}}
         {% if description contains '<!--block-->' %}
         {% assign description_blocks = description | split: '<!--block-->' %}
@@ -199,7 +190,7 @@
               <div class="discription-slider-content sixteen columns">
                 <div class="description-slider">
                   {% for desc in description_blocks %}
-                      {% if description_blocks.size  == 1 %}
+                      {% if description_blocks.size == 1 %}
                         <div class="one-whole description-item column gallery-cell">
                           {{ desc }}
                         </div>
@@ -208,6 +199,7 @@
                         {{ desc }}
                       </div>
                       {% endif %}
+                      
                   {% endfor %}
                 </div>
               </div>
@@ -215,9 +207,9 @@
             <a class="toggle_btn"><span class="more">Read More</span><span class="less">Read Less</span></a>
           </li>
         </ul>
-        {% endif %}
+        {% endif %} 
         
-        {% if collection.products.size == 0 %}
+        {% if collection.products.size == 0 %} 
           <div class="section clearfix collection-matrix">
             <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
           </div>
@@ -259,7 +251,7 @@
 
 {
   "name": "Collection",
-  "class": "collection-template-section",
+  "class": "collection-template-section none-collection",
   "settings": [
     {
       "type": "header",
@@ -344,46 +336,7 @@
       "label": "Show breadcrumb links",
       "default": true
     },
-    {
-      "type": "header",
-      "content": "image slider block"
-    },
-    {
-      "type": "text",
-      "id": "image_slider_title",
-      "label": "Title",
-      "default": "MEET THE LEGEND"
-    },
-    {
-      "type": "richtext",
-      "id": "image_slider_desc",
-      "label": "Description"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_slider_bg_image",
-      "label": "Bacground image"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_slider_hover_image",
-      "label": "Hover image"
-    },
-    {
-      "type": "header",
-      "content": "sidebar"
-    },
-    {
-      "type": "checkbox",
-      "id": "collection_tags",
-      "label": "Enable filtering by product tag"
-    },
-    {
-      "type": "checkbox",
-      "id": "collection_sort",
-      "label": "Enable collection sorting"
-    },
-    {
+    { 
       "type": "header",
       "content": "Products"
     },
@@ -404,208 +357,6 @@
       "max": 50,
       "step": 1,
       "default": 48
-    },
-    {
-      "type": "header",
-      "content": "Sidebar"
-    },
-    {
-      "type": "paragraph",
-      "content": "Create a sidebar by adding content blocks."
-    },
-    {
-      "type": "checkbox",
-      "id": "toggle",
-      "label": "Toggle sidebar content",
-      "default": false
-    }
-  ],
-  "blocks": [
-    {
-      "type": "text-block",
-      "name": "Text block",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title"
-        },
-        {
-          "type": "richtext",
-          "id": "description",
-          "label": "Description"
-        },
-        {
-          "type": "checkbox",
-          "id": "list_style",
-          "label": "List style status"
-        }
-      ]
-    },
-    {
-      "type": "label",
-      "name": "Label",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "TItle"
-        },
-        {
-          "type": "text",
-          "id": "left_pos",
-          "label": "Left Position"
-        },
-        {
-          "type": "text",
-          "id": "top_pos",
-          "label": "Top position"
-        },
-        {
-          "type": "select",
-          "id": "direction",
-          "label": "Label directoin",
-          "options": [
-            {
-              "value": "top",
-              "label": "Top"
-            },
-            {
-              "value": "bottom",
-              "label": "Bottom"
-            }
-          ]
-        },
-        {
-          "type": "select",
-          "id": "position",
-          "label": "Label Position",
-          "options": [
-            {
-              "value": "background",
-              "label": "background"
-            },
-            {
-              "value": "slider",
-              "label": "slider"
-            }
-          ]
-        },
-        {
-          "type": "checkbox",
-          "id": "pointer_status",
-          "label": "Hide pointer"
-        }
-      ]
-    },
-    {
-      "type": "filter_by_collection",
-      "name": "Collection list",
-      "limit": 1
-    },
-    {
-      "type": "menu",
-      "name": "Menu",
-      "settings": [
-        {
-          "type": "link_list",
-          "id": "custom_menu_linklist",
-          "label": "Menu"
-        }
-      ]
-    },
-    {
-      "type": "page",
-      "name": "Page",
-      "settings": [
-        {
-          "type": "page",
-          "id": "content_page",
-          "label": "Page"
-        }
-      ]
-    },
-    {
-      "type": "recently_viewed",
-      "name": "Recently viewed products",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "To test the recently viewed products, view your online store outside of the Editor and visit multiple product pages. [Learn more](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115008765228)"
-        },
-        {
-          "type": "text",
-          "id": "sidebar_rv_title",
-          "label": "Title",
-          "default": "Recently Viewed"
-        },
-        {
-          "type": "range",
-          "id": "sidebar_rv_per",
-          "label": "Products limit",
-          "min": 1,
-          "max": 4,
-          "step": 1,
-          "default": 3
-        }
-      ]
-    },
-    {
-      "type": "filter",
-      "name": "Tag filter",
-      "limit": 5,
-      "settings": [
-        {
-          "type": "text",
-          "id": "filter_name",
-          "label": "Title"
-        },
-        {
-          "type": "textarea",
-          "id": "filter_tags",
-          "label": "Filter tags",
-          "info": "Add a comma-separated list of product tags. Only the tags found in the collection will be displayed as filters. [Learn more](https://help.outofthesandbox.com/hc/en-us/articles/115008642047)"
-        },
-        {
-          "type": "checkbox",
-          "id": "enable_filter_swatches",
-          "label": "Display color swatches"
-        }
-      ]
-    },
-    {
-      "type": "filter_by_tag",
-      "name": "Tag list",
-      "limit": 1
-    },
-    {
-      "type": "text",
-      "name": "Text",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Heading",
-          "default": "Heading"
-        },
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "Text",
-          "default": "<p>Text area can be used for special announcements or general information.</p>"
-        }
-      ]
-    },
-    {
-      "type": "filter_by_type",
-      "name": "Type list",
-      "limit": 1
-    },
-    {
-      "type": "filter_by_vendor",
-      "name": "Vendor list",
-      "limit": 1
     }
   ]
 }

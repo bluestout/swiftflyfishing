@@ -9,6 +9,7 @@
   {% assign height = section.settings.collection_height %}
   {% assign align_height = section.settings.align_height %}
 {% endif %}
+{% assign prev_next_button = section.settings.previous_next_button %}
 {% assign blocks = section.blocks %}  
 {% assign collections_per_row = section.settings.frontpage_collections_per_row %}
 <div class="container">
@@ -19,10 +20,16 @@
           {{ section.settings.title }}
         </h5>
       </div>
+      <div class="heading medium-down--hide ">
+        <h2 class="uppercase text-center">
+          {{ section.settings.title }}
+        </h2>
+        <div class="feature_divider"></div>
+      </div>
     {% endif %}
     <div class="sixteen columns">
       <div class="section list-collection-wrapper">
-        <div class="list-collections clearfix equal-columns--outside-trim equal-columns--clear">
+        <div class="list-collections clearfix equal-columns--outside-trim equal-columns--clear" data-prevnext="{{prev_next_button}}">
           {% for block in blocks %}
             {% if block.type == 'collection' %}
               {% assign feature_collection = block.settings.feature_collection %}
@@ -69,7 +76,7 @@
                               image: collection_image.src,
                               alt: collection_image_alt,
                               object_fit: align_height,
-                              max_height: 500,
+                              max_height: height,
                               additional_classes: "medium-down--hide"
                       %}
                       {% render 'image-element',
@@ -123,7 +130,7 @@
                     <div class="collection-description__caption medium-down--hide {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
                       {{ block.settings.description }}
                     </div>
-                  {% else %}
+                  {% elsif block.settings.description_status == false %}
                     <div class="collection-info__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
                       <span class="title">
                         {% if block.settings.title != blank %}
@@ -146,9 +153,9 @@
                   
                 </div>
                 {% if block.settings.description_status %}
-                  <div class="collection-info__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
+                  <h2 class="collection-info__caption {% if settings.thumbnail_hover_enabled %}hidden{% endif %}">
                     <span class="title">
-                      {% if block.settings.title %}
+                      {% if block.settings.title != blank %}
                         {{ block.settings.title }}                        
                       {% elsif collection.title != blank %}
                         {{ collection.title }}
@@ -163,7 +170,7 @@
                       {{ block.settings.description }}
                     </div>
                     
-                  </div>
+                  </h2>
                 {% endif %}
                   
               </div>

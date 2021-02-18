@@ -1,5 +1,5 @@
 /******************************************************************
-Theme Name: Turbo "6.1.1"
+Theme Name: Turbo "6.1.2"
 Theme URI: https://outofthesandbox.com/collections/turbo-theme
 Author: Out of the Sandbox (https://outofthesandbox.com)
 Description: Shopify Theme (https://www.shopify.com/&ref=out-of-the-sandbox)
@@ -1863,6 +1863,8 @@ li > a.url-deadlink {
 
 #mobile_menu {
   margin: 10px 20px;
+  max-height: calc(100vh - 183px);
+  overflow-y: auto;
   li {
     padding-right: 0;
     display: block;
@@ -2253,7 +2255,7 @@ $cart--icon-width: 70px;
   }
 
   &.search-enabled--true .nav--right {
-    width: calc(45% - #{$search--box-width + 20px}); // includes 20px to account for padding on search container
+    width: calc(65% - #{$search--box-width + 20px}); // includes 20px to account for padding on search container
   }
 
   .nav {
@@ -2274,14 +2276,7 @@ $cart--icon-width: 70px;
 }
 
 .search-container {
-  width: 100%;
-  max-width: $search--box-width;
   padding-left: 20px;
-
-  .search-link {
-    display: none;
-  }
-
   input {
     z-index: 29;
   }
@@ -2934,7 +2929,7 @@ input[type="submit"].guest_button, input[type="button"].guest_button {
   bottom: 0;
   left: 0;
 
-  @include respond-to('medium-down') {
+  @include respond-to('large-down') {
     position: relative;
     bottom: initial; // reset default bottom positioning
   }
@@ -7179,7 +7174,7 @@ a.tag {
     {% if settings.thumbnail_hover_enabled == false %}
       display: block;
     {% endif %}
-    margin-top: 20px;
+    margin-top: 0px;
     @include respond-to('medium-down'){
       display: block;
     }
@@ -7351,6 +7346,7 @@ a.tag {
 .thumbnail {
 
   .price span.money {
+    white-space: nowrap;
     color: {{ settings.link_color }};
     &:hover {
       color: {{ settings.link_hover_color }};
@@ -7436,7 +7432,6 @@ a.tag {
 
 .thumbnail .sold-out,
 .thumbnail .coming-soon {
-  opacity: 0.5;
   color: {{ settings.regular_color }};
   line-height: 0;
 }
@@ -8744,7 +8739,7 @@ $promoBannerHeight: 30px;
   }
 }
 
-$topMenuHeight: 80px;
+$topMenuHeight: 60px;
 
 {% if settings.header_background == false %}
 
@@ -8759,6 +8754,7 @@ $topMenuHeight: 80px;
     .page-banner + #pagecontent {
       padding-bottom: 0;
     }
+
   }
 
   .index-sections .under-menu:nth-child(1) {
@@ -8784,7 +8780,6 @@ $topMenuHeight: 80px;
   .mobile_nav-fixed--false {
     #pagecontent {
       display: block;
-      padding-bottom: $topMenuHeight;
     }
     //page banner is visible
     .page-banner {
@@ -8806,8 +8801,14 @@ $topMenuHeight: 80px;
   .page-banner .under-menu:nth-child(1) {
     margin-top: 0;
   }
+  .promo-banner--show{
+    #pagecontent {
+      padding-bottom: calc(#{$topMenuHeight} + #{$promoBannerHeight});
+      display: block;
+    }
+  }
   #pagecontent {
-    padding-bottom: calc(#{$topMenuHeight} + #{$promoBannerHeight});
+    padding-bottom: calc(#{$topMenuHeight});
     display: block;
   }
   //recalculate values if promo banner is visible
@@ -9314,7 +9315,7 @@ h3.quick-shop__title a {
   margin: 0 auto 40px;
   .gallery-cell {
     display: inline-block;
-    margin-right: 8px;
+    margin-right: 5px;
     text-align: center;
     padding: 0;
     margin-bottom: 0;
@@ -12542,7 +12543,7 @@ $delay: 0;
   content: '';
   position: absolute;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.25);
   top: 0;
   bottom: 0;
   left: 0;

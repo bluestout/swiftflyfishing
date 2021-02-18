@@ -9,7 +9,7 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {% include 'wcp_variant' with current_variant %}
 <a name="pagecontent" id="pagecontent"></a>
-
+{% assign product_original = product %}
 <div class="main content product-name--{{ product.handle }}">
   <div class="sixteen columns">
     {% if collection.previous_product or collection.next_product or section.settings.product_breadcrumb %}
@@ -80,9 +80,7 @@
             
              <!-- Product review carousel-->
             {{enable_shopify_review}}
-            <div class='stamped-reviews-widget-desktop_visible visible-none'>
-              <div id="stamped-reviews-widget" data-widget-type="full-page" data-product-image="false" data-take="5" data-limit-words="50" data-fill-empty="false" data-random="false"></div>
-            </div>
+            <div id="stamped-reviews-widget" data-widget-type="carousel" data-auto-play="true" data-style-color-title="#ffffff" data-limit-words="30" data-min-rating="5"></div>
             <h4 class="uppercase text-center" onclick="$('.tabs li:nth-child(3) a').click()">MORE REVIEWS</h4>
           </div>
 
@@ -114,7 +112,7 @@
                 <span itemprop="sku">{{ variant.sku }}</span>
               </p>
             {% endif %}
-            <h3 class="product_name uppercase" itemprop="name">{{ product.title }}</h3>
+            <h1 class="product_name uppercase" itemprop="name">{{ product.title }}</h1>
             <div class="price-info">
               {% if collection_handles contains 'coming-soon' %}
                 <p class="modal_price">{{ 'collections.general.coming_soon' | t }}</p>
@@ -150,10 +148,16 @@
                   {% endif %}
                 </p>
                 {% if section.settings.enable_shopify_product_badges and settings.enable_shopify_review_comments %}
-                  <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;" onclick="$('.tabs li:nth-child(3) a').click()">{{ product.metafields.stamped.badge }}</span>
+                <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product_original.id }}" data-product-sku="{{ product_original.handle }}" style="display: inline-block;" onclick="$('.tabs li:nth-child(3) a').click()">{{ product_original.metafields.stamped.badge }}</span>
                 {% endif %}
-                <div class='custom_text'>Or, fish now pay later with up to 4 payments of  {{ wcp_v_price  | divided_by: 4 | money }} with Splitit.<br> Available at checkout. Interest free.</div>
-
+                {% if product.description contains '<!--info-->' %}
+                  <div class='custom_text'>
+                    {{ product.description | split: '<!--info-->' | first }}
+                    {% assign product_description = product.description | split: '<!--info-->' | last %}
+                  </div>
+                {% else %}
+                  {% assign product_description = product.description %}
+                {% endif %}
               {% endif %}
               
             </div>
@@ -175,9 +179,9 @@
             
 
             {% if section.settings.product_description_position == "top" %}
-              {% if product.description != blank %}
+              {% if product_description != blank %}
                <div class="description" itemprop="description">
-                 {{ product.description | split: '<!-- split -->' | first }}
+                 {{ product_description | split: '<!-- split -->' | first }}
                </div>
              {% endif %}
             {% endif %}
@@ -186,39 +190,54 @@
               {% include 'product-form' with 'product' %}
             {% endunless %}
 
-            {% if product.description != blank %}
+            {% include 'product-notify-me' %}
+
+            
+            <div class="icon-tags">
+              <p class="icon-tag">
+                {% include 'icon-pack' with icon: 'guarantee' %}
+                30 Day Love it or Return it Guarantee
+              </p>
+              {% if product.tags contains 'Fly Rod' %}
+                <p class="icon-tag">
+                  {% include 'icon-pack' with icon: 'warranty' %}
+                  Lifetime Warranty
+                </p>
+              {% endif %}
+            </div>
+            {% if product_description != blank %}
               <ul class="toggle-list">
                 <li>
                   <a class="toggle_btn">Description</a>
-                  <div class="toggle_content">
-                    {% if product.description contains "split" %}
-                      {% assign description_parts = product.description | split: '<!-- split -->' %}
+                  <div class="toggle_content animated fadeIn">
+                    {% if product_description contains "split" %}
+                      {% assign description_parts = product_description | split: '<!-- split -->' %}
                       {{ description_parts[0] }}
                     {% else %}
-                      {{product.description}}
+                      {{product_description}}
                     {% endif %}
                   </div>
                 </li>
-                {% if product.description contains "split" %}
-                  {% assign description_parts = product.description | split: '<!-- split -->' %}
-                  
+                {% if product_description contains "split" %}
+                  {% assign description_parts = product_description | split: '<!-- split -->' %}
+                   
                   {% if description_parts[1] != blank %}
                     <li>
                       <a class="toggle_btn">Specs</a>
-                        <div class="toggle_content">
+                        <div class="toggle_content animated fadeIn">
                           {{ description_parts[1] }}
                         </div>
                     </li> 
                   {% endif %}
                 {% endif %}
 
-                {% if product.description contains "split" %}
-                  {% assign description_parts = product.description | split: '<!-- split -->' %}
+                {% if product_description contains "split" %}
+                  {% assign description_parts = product_description | split: '<!-- split -->' %}
                   
                   {% if description_parts[2] != blank %}
                   <li>
                     <a class="toggle_btn">Benefits</a>
-                    <div class="toggle_content">
+                    <div class="toggle_content animated fadeIn">
                       {{ description_parts[2] }}
                     </div>
                   </li> 
@@ -226,10 +245,7 @@
                 {% endif %}       
                 
               </ul>    
-            {% endif %}    
-            
-
-
+            {% endif %}
             {% if section.settings.enable_reviews_in_description %}
               {% include 'include-reviews', type: 'block' %}
             {% endif %}
@@ -340,9 +356,11 @@
                 </div>
                 <div class="featured-link--half">
                   <div class="info text-align--{{block.settings.frontpage_text_align}}">
-                    <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="collection_title">
-                      {{ block.settings.title }}
-                    </a>
+                    <h2>
+                      <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="{%if block.settings.red_dot_status %}red_dot {% endif %}collection_title uppercase">
+                        {{ block.settings.title }}
+                      </a>
+                    </h2>
                     {% if block.settings.text != blank %}
                       <div class="description">{{ block.settings.text }}</div>
                     {% endif %}
@@ -399,8 +417,9 @@
 
           {% elsif block.type == 'product_reviews' %}
             <!-- Reviews -->
-            <div class="container">
+            <div id="product-review" class="container">
               {% include 'include-reviews', type: 'block' %}
+              <a class="review-sticky-button" href="#product-review">Product Reviews</a>
             </div>
 
           {% elsif block.type == 'divider' %}
@@ -549,6 +568,11 @@
     {
       "type": "header",
       "content": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_status",
+      "label": "Payment description status"
     },
     {
       "type": "checkbox",
@@ -1162,6 +1186,11 @@
           "default": "Your headline"
         },
         {
+          "type": "checkbox",
+          "id": "red_dot_status",
+          "label": "Red dot status"
+        },
+        { 
           "type": "richtext",
           "id": "text",
           "label": "Text",

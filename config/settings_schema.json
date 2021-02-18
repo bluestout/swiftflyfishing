@@ -3,7 +3,7 @@
     "name": "theme_info",
     "theme_name": "Turbo",
     "theme_author": "Out of the Sandbox",
-    "theme_version": "6.1.1",
+    "theme_version": "6.1.2",
     "theme_documentation_url": "https:\/\/help.outofthesandbox.com\/",
     "theme_support_url": "https:\/\/help.outofthesandbox.com\/hc\/en-us\/requests\/new"
   },
@@ -1106,21 +1106,52 @@
         "content": "Page banner"
       },
       {
+        "type": "font_picker",
+        "id": "page_banner__font",
+        "label": "Heading Font",
+        "default": "open_sans_n4"
+      },
+      {
         "type": "range",
-        "id": "h1_font_size",
-        "label": "heading size",
+        "id": "large_heading_font_size",
+        "label": "Large size",
         "min": 20,
-        "max": 40,
+        "max": 50,
         "default": 36,
         "unit": "px"
       },
       {
+        "type": "font_picker",
+        "id": "page_banner__regular_font",
+        "label": "Regular Font",
+        "default": "open_sans_n4"
+      },
+      {
         "type": "range",
-        "id": "h3_font_size",
-        "label": "regular size",
+        "id": "small_heading_font_size",
+        "label": "Regular font size",
         "min": 10,
         "max": 40,
-        "default": 24,
+        "default": 18,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Label text"
+      },
+      {
+        "type": "font_picker",
+        "id": "label__font",
+        "label": "Font",
+        "default": "open_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "Label_font_size",
+        "label": "Label font size",
+        "min": 10,
+        "max": 40,
+        "default": 13,
         "unit": "px"
       },
       {
@@ -1160,15 +1191,6 @@
         "min": 12,
         "max": 20,
         "default": 15,
-        "unit": "px"
-      },
-      {
-        "type": "range",
-        "id": "link_font_size",
-        "label": "link font size",
-        "min": 10,
-        "max": 40,
-        "default": 13,
         "unit": "px"
       },
       {
@@ -1344,6 +1366,11 @@
         "type": "checkbox",
         "id": "display_vendor",
         "label": "Show vendor"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_orign_price",
+        "label": "hide Price"
       },
       {
         "type": "checkbox",
