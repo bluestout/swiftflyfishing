@@ -2,6 +2,11 @@
 <!DOCTYPE html>
 <html lang="{{ shop.locale }}">
   <head>
+
+    <meta name="p:domain_verify" content="1390804ce36bd5a2570b32b39886177d"/>
+    <meta name="google-site-verification" content="0LDU4EwtFJAg9U2MR4B061MLXo3YhzQmwg7CR4anbSw" />
+    {% include 'dynamic-remarketing' %}
+
     <meta charset="utf-8">
     <meta http-equiv="cleartype" content="on">
     <meta name="robots" content="index,follow">
@@ -78,6 +83,9 @@
     {% if collection.previous_product %}<link rel="prev" href="{{ collection.previous_product }}">{% endif %}
     {% if collection.next_product %}<link rel="next" href="{{ collection.next_product }}">{% endif %}
     <script src="{{ 'jquery.min.js' | asset_url }}"></script>
+
+    {% render 'zoorix-cart-items' %}
+
   </head>
 
   {% if template contains "index" %}
@@ -331,6 +339,9 @@
         }
       });
     </script>
+    <!-- **BEGIN** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
+    {% render 'hextom_fsb_main', product: product, customer: customer %}
+    <!-- **END** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
   </body>
 </html>
 {% endcapture %}
