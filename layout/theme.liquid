@@ -273,9 +273,8 @@
     {% if settings.show_multiple_currencies or settings.show_multiple_currencies_shopify %}   
       {% include 'ip_stack' %}
     {% endif %}
-    {%- comment -%}
-      {% include 'wholesale-all-in-one' %}
-    {%- endcomment -%}
+    
+    {% include 'wholesale-all-in-one' %}
     
     {% if mlveda_code_flag == true %}
       {% if template != 'cart' %}
@@ -345,8 +344,6 @@
     {% render 'hextom_fsb_main', product: product, customer: customer %}
     <!-- **END** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
 
-    {% include 'wholesale-all-in-one' %}
-    
   </body>
 </html>
 {% endcapture %}
