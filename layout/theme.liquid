@@ -182,6 +182,8 @@
       <div class="main">
     {% endunless %}
 
+    {%include 'waio_conditions'%}
+
       {{ content_for_layout }}
     </div>
 
@@ -342,6 +344,9 @@
     <!-- **BEGIN** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
     {% render 'hextom_fsb_main', product: product, customer: customer %}
     <!-- **END** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
+
+    {% include 'wholesale-all-in-one' %}
+    
   </body>
 </html>
 {% endcapture %}
