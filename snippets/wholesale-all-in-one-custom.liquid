@@ -6,7 +6,7 @@
   => Write liquid, jquery and javascript code only
   => See documentation at https://docs.google.com/document/d/19DAJWPtnmNbPV7i-3jysb9h8BAs6poxU4u0EBqUqkRw
 {% endcomment %}
-//console.log("file wholesale-all-in-one-custom.liquid is working");
+console.log("file wholesale-all-in-one-custom.liquid is working");
 if(WholesaleAIO.settings.enable_app){
   {% if template.name == 'product'%}
   setTimeout(function(){
@@ -36,11 +36,11 @@ if(WholesaleAIO.settings.enable_app){
       });
       if($('.sale_banner_product.win').length > 0){
         $('.sale_banner_product').css('display','none')
-        $('.sale_banner_product.win').css('display','inline-block')
+        $('.sale_banner_product.win').css('display','flex')
         var labe_lngth = $('.sale_banner_product.win').length;
         if (labe_lngth >=1){
           $('.sale_banner_product.win').css("display", "none");
-          $('.sale_banner_product.win:nth-child(2)').css("display", "inline-block");
+          $('.sale_banner_product.win:nth-child(2)').css("display", "flex");
         }
       }
       if($('.custom_text').length < 1){
@@ -196,11 +196,11 @@ WholesaleAllInOne.variantCallBack = function(variant, selector, product){
       });
             if($('.sale_banner_product.win').length > 0){
         $('.sale_banner_product').css('display','none')
-        $('.sale_banner_product.win').css('display','inline-block')
+        $('.sale_banner_product.win').css('display','flex')
         var labe_lngth = $('.sale_banner_product.win').length;
         if (labe_lngth >=1){
           $('.sale_banner_product.win').css("display", "none");
-          $('.sale_banner_product.win:nth-child(2)').css("display", "inline-block");
+          $('.sale_banner_product.win:nth-child(2)').css("display", "flex");
         }
       }
        if($('.custom_text').length < 1){

@@ -2370,9 +2370,6 @@ a.close{
     }
     &[data-prevnext="true"]{
       .flickity-button{
-        @include respond-to("small-down"){
-          display: block!important;
-        }
       }
       .flickity-page-dots{
         @include respond-to("small-down"){
@@ -3166,6 +3163,15 @@ a.close{
         position: initial;
         width: auto;
         transform: none;
+        padding-top: 50px;
+        min-width: 87px;
+        &::before{
+          content: "More Info";
+          position: absolute;
+          font-weight: 400;
+          margin-bottom: 50px;
+          color: black;
+        }
       }
     
       .description-item{
@@ -3175,6 +3181,7 @@ a.close{
         min-height: 100%;
         text-align: left!important;
         margin-left: 0;
+        width: calc(50% - 10px);
         
         h2, h3{
           &:first-child{
